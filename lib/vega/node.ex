@@ -12,6 +12,13 @@ defmodule Vega.Node do
     field :type, :string
 
     belongs_to :user, Vega.User
+    has_many :posts, Vega.Post
+    has_many :bookmarks, Vega.Bookmark
+    has_many :images, Vega.Image
+    has_many :comments, Vega.Comment
+    has_many :fields, Vega.MetaField
+
+    many_to_many :tags, Vega.Tag, join_through: Vega.NodeTag
   end
 
   @doc false
