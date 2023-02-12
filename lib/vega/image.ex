@@ -20,8 +20,28 @@ defmodule Vega.Image do
   @doc false
   def changeset(image, attrs) do
     image
-    |> cast(attrs, [:description, :thumb_width, :thumb_height, :width, :height, :ext, :rhash, :version, :modified])
-    |> validate_required([:description, :thumb_width, :thumb_height, :width, :height, :ext, :rhash, :version, :modified])
+    |> cast(attrs, [
+      :description,
+      :thumb_width,
+      :thumb_height,
+      :width,
+      :height,
+      :ext,
+      :rhash,
+      :version,
+      :modified
+    ])
+    |> validate_required([
+      :description,
+      :thumb_width,
+      :thumb_height,
+      :width,
+      :height,
+      :ext,
+      :rhash,
+      :version,
+      :modified
+    ])
     |> foreign_key_constraint(:user_id)
     |> foreign_key_constraint(:node_id)
   end

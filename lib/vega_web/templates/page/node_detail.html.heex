@@ -1,0 +1,12 @@
+<h2><%= @node.title %></h2>
+<p>Author: <%= @node.user.fullname %></p>
+<p><%= @node.created %></p>
+
+<hr />
+<%= if length(@node.tags) > 0 do %>
+<ul>Tags
+<%= for tag <- @node.tags do %>
+<li><%= tag.name %></li>
+   <% end %>
+</ul>
+<% end %>

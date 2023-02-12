@@ -18,7 +18,15 @@ defmodule Vega.Comment do
   def changeset(comment, attrs) do
     comment
     |> cast(attrs, [:body, :reply_to, :created, :status, :author_email, :author_name, :author_url])
-    |> validate_required([:body, :reply_to, :created, :status, :author_email, :author_name, :author_url])
+    |> validate_required([
+      :body,
+      :reply_to,
+      :created,
+      :status,
+      :author_email,
+      :author_name,
+      :author_url
+    ])
     |> foreign_key_constraint(:node_id)
   end
 end

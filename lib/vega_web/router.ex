@@ -18,6 +18,8 @@ defmodule VegaWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    get "/users/:username/:type/:year/:month/:day/:slug", PageController, :node_detail
   end
 
   # Other scopes may use custom stacks.

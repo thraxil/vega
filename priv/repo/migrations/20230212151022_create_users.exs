@@ -8,6 +8,7 @@ defmodule Vega.Repo.Migrations.CreateUsers do
       add :fullname, :string
       add :bio, :text, default: ""
     end
+
     create unique_index(:users, [:username])
   end
 end
