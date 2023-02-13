@@ -70,23 +70,13 @@ defmodule Vega.Site do
   end
 
   def get_tag!(slug) do
-    # User > Post > Comment
-    #   user = Blog.Repo.one from user in Blog.User,
-    # where: user.id == ^user_id,
-    # left_join: posts in assoc(user, :posts),
-    # left_join: comments in assoc(posts, :comments),
-    # preload: [posts: {posts, comments: comments}]
-    tag =
-      Repo.one!(
-        from tag in Tag,
-          where: tag.slug == ^slug,
-          left_join: nodes in assoc(tag, :nodes),
-          left_join: user in assoc(nodes, :user),
-          preload: [nodes: {nodes, user: user}]
-      )
-
-    tag
-    # Repo.get_by!(Tag, slug: slug) |> Repo.preload(:nodes)
+    Repo.one!(
+      from tag in Tag,
+        where: tag.slug == ^slug,
+        left_join: nodes in assoc(tag, :nodes),
+        left_join: user in assoc(nodes, :user),
+        preload: [nodes: {nodes, user: user}]
+    )
   end
 
   def list_tags() do
