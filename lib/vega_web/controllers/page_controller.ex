@@ -25,4 +25,9 @@ defmodule VegaWeb.PageController do
       content: content
     )
   end
+
+  def tag_detail(conn, %{"slug" => slug}) do
+    tag = Site.get_tag!(slug)
+    render(conn, "tag_detail.html", tag: tag)
+  end
 end

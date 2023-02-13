@@ -12,6 +12,7 @@ defmodule Vega.Site do
   alias Vega.Post
   alias Vega.Image
   alias Vega.Bookmark
+  alias Vega.Tag
 
   def get_user!(username) do
     Repo.get_by(User, username: username)
@@ -66,5 +67,25 @@ defmodule Vega.Site do
 
   def get_node_content!(node = %Node{:type => "bookmark"}) do
     _get_node_c!(node, Bookmark)
+  end
+
+  def get_tag!(slug) do
+    # User > Post > Comment
+    #   user = Blog.Repo.one from user in Blog.User,
+    # where: user.id == ^user_id,
+    # left_join: posts in assoc(user, :posts),
+    # left_join: comments in assoc(posts, :comments),
+    # preload: [posts: {posts, comments: comments}]
+    tag =
+      Repo.one!(
+        from tag in Tag,
+          where: tag.slug == ^slug,
+          left_join: nodes in assoc(tag, :nodes),
+          left_join: user in assoc(nodes, :user),
+          preload: [nodes: {nodes, user: user}]
+      )
+
+    tag
+    # Repo.get_by!(Tag, slug: slug) |> Repo.preload(:nodes)
   end
 end

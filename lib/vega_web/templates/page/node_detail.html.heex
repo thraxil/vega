@@ -29,7 +29,7 @@
 <%= if length(@node.tags) > 0 do %>
 <ul>Tags
 <%= for tag <- @node.tags do %>
-<li><%= tag.name %></li>
+<li><%= link(tag.name, to: Routes.page_path(@conn, :tag_detail, tag.slug)) %></li>
    <% end %>
 </ul>
 <% end %>

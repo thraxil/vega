@@ -1,0 +1,10 @@
+<h2>Tag: <%= @tag.name %></h2>
+
+<table>
+  <%= for node <- @tag.nodes do %>
+      <tr>
+        <th><%= link(node.title, to: node_path(node)) %></th>
+        <td>by <%= link(node.user.fullname, to: user_path(node.user)) %></td><td><%= node.created %></td>
+      </tr>
+      <% end %>
+</table>

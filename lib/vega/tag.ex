@@ -5,6 +5,8 @@ defmodule Vega.Tag do
   schema "abraxas_tag" do
     field :name, :string
     field :slug, :string
+
+    many_to_many :nodes, Vega.Node, join_through: Vega.NodeTag
   end
 
   @doc false

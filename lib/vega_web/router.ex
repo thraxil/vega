@@ -19,6 +19,8 @@ defmodule VegaWeb.Router do
 
     get "/", PageController, :index
 
+    get "/tags/:slug", PageController, :tag_detail
+
     get "/users/:username/:type/:year/:month/:day/:slug", PageController, :node_detail
   end
 
