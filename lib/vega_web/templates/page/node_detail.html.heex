@@ -3,7 +3,7 @@
 <p><%= @node.created %></p>
 
 <%= if @node.type == "post" do %>
-<%= raw @content.body %>
+<%= raw Earmark.as_html!(@content.body) %>
 <% end %>
 
 <%= if @node.type == "image" do %>
@@ -16,12 +16,12 @@
 <% else %>
 <p>[missing]</p>
 <% end %>
-<%= raw @content.description %>
+<%= raw Earmark.as_html!(@content.description) %>
 <% end %>
 
 <%= if @node.type == "bookmark" do %>
 <p><%= link(@node.title, to: @content.url) %></p>
-<%= raw @content.description %>
+<%= raw Earmark.as_html!(@content.description) %>
 <% end %>
 
 
