@@ -7,6 +7,15 @@
 <% end %>
 
 <%= if @node.type == "image" do %>
+<%= if @content.rhash && @content.ext do %>
+<%= img_tag("https://d2f33fmhbh7cs9.cloudfront.net/image/" <>
+    @content.rhash <> "/960w/" <> to_string(@node.id) <> "." <>
+    @content.ext,
+    title: @node.title
+    ) %>
+<% else %>
+<p>[missing]</p>
+<% end %>
 <%= raw @content.description %>
 <% end %>
 
