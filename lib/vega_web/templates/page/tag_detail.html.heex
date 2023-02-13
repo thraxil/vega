@@ -1,4 +1,4 @@
-<h2>Tag: <%= @tag.name %></h2>
+<h2><%= link("Tag", to: Routes.page_path(@conn, :tag_index)) %>: <%= @tag.name %></h2>
 
 <table>
   <%= for node <- @tag.nodes do %>
