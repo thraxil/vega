@@ -41,8 +41,7 @@
 
 <%= for comment <- @node.comments do %>
     <div class="comment">
-      <p><i><%= comment.created %></i></p>
-      <p><b><%= comment.author_name %></b></p>
+      <p><i><%= comment.created %></i> - <b><%= comment.author_name %></b></p>
       <%= raw Earmark.as_html!(comment.body) %>
     </div>
 <% end %>
