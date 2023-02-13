@@ -2,6 +2,19 @@
 <p>Author: <%= @node.user.fullname %></p>
 <p><%= @node.created %></p>
 
+<%= if @node.type == "post" do %>
+<%= raw @content.body %>
+<% end %>
+
+<%= if @node.type == "image" do %>
+<%= raw @content.description %>
+<% end %>
+
+<%= if @node.type == "bookmark" do %>
+<%= raw @content.url %>
+<% end %>
+
+
 <hr />
 <%= if length(@node.tags) > 0 do %>
 <ul>Tags

@@ -9,6 +9,9 @@ defmodule Vega.Site do
 
   alias Vega.User
   alias Vega.Node
+  alias Vega.Post
+  alias Vega.Image
+  alias Vega.Bookmark
 
   def get_user!(username) do
     Repo.get_by(User, username: username)
@@ -42,5 +45,26 @@ defmodule Vega.Site do
     |> Repo.preload(:comments)
     |> Repo.preload(:tags)
     |> Repo.preload(:fields)
+  end
+
+  defp _get_node_c!(node, c) do
+    q =
+      from p in c,
+        where: p.node_id == ^node.id,
+        order_by: [desc: :version]
+
+    Repo.one!(q)
+  end
+
+  def get_node_content!(node = %Node{:type => "post"}) do
+    _get_node_c!(node, Post)
+  end
+
+  def get_node_content!(node = %Node{:type => "image"}) do
+    _get_node_c!(node, Image)
+  end
+
+  def get_node_content!(node = %Node{:type => "bookmark"}) do
+    _get_node_c!(node, Bookmark)
   end
 end

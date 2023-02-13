@@ -17,6 +17,12 @@ defmodule VegaWeb.PageController do
     user = Site.get_user!(username)
     type = String.replace_suffix(type, "s", "")
     node = Site.get_node!(user, type, year, month, day, slug)
-    render(conn, "node_detail.html", user: user, node: node)
+    content = Site.get_node_content!(node)
+
+    render(conn, "node_detail.html",
+      user: user,
+      node: node,
+      content: content
+    )
   end
 end
