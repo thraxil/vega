@@ -30,4 +30,9 @@ defmodule VegaWeb.PageController do
     tag = Site.get_tag!(slug)
     render(conn, "tag_detail.html", tag: tag)
   end
+
+  def tag_index(conn, _params) do
+    tags = Site.list_tags()
+    render(conn, "tag_index.html", tags: tags)
+  end
 end

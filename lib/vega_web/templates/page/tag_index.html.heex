@@ -1,0 +1,10 @@
+<h2>Tags</h2>
+
+<ul>
+  <%= for tag <- @tags do %>
+      <li>
+        <%= link(tag.name, to: Routes.page_path(@conn, :tag_detail,
+            tag.slug)) %>
+        </li>
+      <% end %>
+</ul>

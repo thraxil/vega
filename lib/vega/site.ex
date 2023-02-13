@@ -88,4 +88,8 @@ defmodule Vega.Site do
     tag
     # Repo.get_by!(Tag, slug: slug) |> Repo.preload(:nodes)
   end
+
+  def list_tags() do
+    Repo.all(from t in Tag, order_by: [asc: t.name])
+  end
 end
