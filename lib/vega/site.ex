@@ -52,7 +52,8 @@ defmodule Vega.Site do
     q =
       from p in c,
         where: p.node_id == ^node.id,
-        order_by: [desc: :version]
+        order_by: [desc: :version],
+        limit: 1
 
     Repo.one!(q)
   end
