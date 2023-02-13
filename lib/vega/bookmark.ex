@@ -21,5 +21,8 @@ defmodule Vega.Bookmark do
     |> validate_required([:description, :url, :via_name, :via_url, :version, :modified])
     |> foreign_key_constraint(:user_id)
     |> foreign_key_constraint(:node_id)
+    |> validate_length(:url, max: 255)
+    |> validate_length(:via_name, max: 255)
+    |> validate_length(:via_url, max: 255)
   end
 end

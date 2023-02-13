@@ -15,5 +15,7 @@ defmodule Vega.MetaField do
     |> cast(attrs, [:field_name, :field_value])
     |> validate_required([:field_name, :field_value])
     |> foreign_key_constraint(:node_id)
+    |> validate_length(:field_name, max: 255)
+    |> unique_constraint([:field_name, :node])
   end
 end

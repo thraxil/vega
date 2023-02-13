@@ -19,5 +19,6 @@ defmodule Vega.User do
     user
     |> cast(attrs, [:username, :email, :fullname, :bio])
     |> validate_required([:username, :email, :fullname, :bio])
+    |> unique_constraint(:username)
   end
 end

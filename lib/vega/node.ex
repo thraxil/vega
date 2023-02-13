@@ -27,5 +27,9 @@ defmodule Vega.Node do
     |> cast(attrs, [:slug, :title, :status, :type, :comments_allowed, :created, :modified])
     |> validate_required([:slug, :title, :status, :type, :comments_allowed, :created, :modified])
     |> foreign_key_constraint(:user_id)
+    |> validate_length(:status, max: 7)
+    |> validate_length(:type, max: 8)
+    |> validate_length(:title, max: 255)
+    |> validate_length(:slug, max: 255)
   end
 end

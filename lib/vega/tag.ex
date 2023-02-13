@@ -12,5 +12,9 @@ defmodule Vega.Tag do
     tag
     |> cast(attrs, [:name, :slug])
     |> validate_required([:name, :slug])
+    |> validate_length(:name, max: 255)
+    |> validate_length(:slug, max: 255)
+    |> unique_constraint(:name)
+    |> unique_constraint(:slug)
   end
 end
