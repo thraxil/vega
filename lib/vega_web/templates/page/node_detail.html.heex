@@ -27,9 +27,24 @@
 
 <hr />
 <%= if length(@node.tags) > 0 do %>
-<ul>Tags
+<h3>Tags</h3>
+<ul>
 <%= for tag <- @node.tags do %>
 <li><%= link(tag.name, to: Routes.page_path(@conn, :tag_detail, tag.slug)) %></li>
    <% end %>
 </ul>
+<% end %>
+
+<hr />
+<%= if length(@node.comments) > 0 do %>
+<h3>Comments</h3>
+
+<%= for comment <- @node.comments do %>
+    <div class="comment">
+      <p><i><%= comment.created %></i></p>
+      <p><b><%= comment.author_name %></b></p>
+      <%= raw Earmark.as_html!(comment.body) %>
+    </div>
+<% end %>
+
 <% end %>
