@@ -20,7 +20,8 @@
 <% end %>
 
 <%= if @node.type == "bookmark" do %>
-<%= raw @content.url %>
+<p><%= link(@node.title, to: @content.url) %></p>
+<%= raw @content.description %>
 <% end %>
 
 
