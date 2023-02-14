@@ -27,6 +27,11 @@ defmodule VegaWeb.Router do
     get "/users/:username/:type", PageController, :user_type_index
     get "/users/:username/:type/:year", PageController, :user_type_year_index
     get "/users/:username/:type/:year/:month", PageController, :user_type_year_month_index
+
+    get "/users/:username/:type/:year/:month/:day",
+        PageController,
+        :user_type_year_month_day_index
+
     get "/users/:username/:type/:year/:month/:day/:slug", PageController, :node_detail
   end
 

@@ -112,6 +112,27 @@ defmodule VegaWeb.PageController do
     )
   end
 
+  def user_type_year_month_day_index(conn, %{
+        "username" => username,
+        "type" => type,
+        "year" => year,
+        "month" => month,
+        "day" => day
+      }) do
+    user = Site.get_user!(username)
+    type = String.replace_suffix(type, "s", "")
+    nodes = Site.user_type_year_month_day(user, type, year, month, day)
+
+    render(conn, "user_type_year_month_day_index.html",
+      user: user,
+      type: type,
+      year: year,
+      month: month,
+      day: day,
+      nodes: nodes
+    )
+  end
+
   def user_index(conn, _params) do
     users = Site.list_users()
     render(conn, "user_index.html", users: users)

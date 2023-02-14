@@ -5,19 +5,14 @@
   /
   <%= link(@year, to: Routes.page_path(@conn, :user_type_year_index, @user.username, @type <> "s", @year)) %>
   /
-  <%= @month %>
+  <%= link(@month, to: Routes.page_path(@conn, :user_type_year_month_index, @user.username, @type <> "s", @year, @month)) %>
+  /
+  <%= @day %>
 </h2>
 
+
 <ul>
-  <%= for d <- @days do %>
-      <li><%= link(trunc(d.day),
-              to: Routes.page_path(@conn,
-              :user_type_year_month_day_index,
-              @user.username,
-              @type <> "s",
-              @year,
-              @month,
-              trunc(d.day))) %>
-       (<%= d.count %>)</li>
-  <% end %>
+<%= for node <- @nodes do %>
+<li><%= link(node.title, to: node_path(node)) %></li>
+<% end %>
 </ul>

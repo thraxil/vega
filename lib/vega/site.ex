@@ -226,4 +226,23 @@ defmodule Vega.Site do
         order_by: [asc: fragment("day")]
     )
   end
+
+  def user_type_year_month_day(user, type, year, month, day) do
+    year = String.to_integer(year)
+    month = String.to_integer(month)
+    day = String.to_integer(day)
+
+    Repo.all(
+      from n in Node,
+        where:
+          n.user_id == ^user.id and
+            n.type == ^type and
+            n.status == "Publish" and
+            fragment("date_part('YEAR', ?)", n.created) == ^year and
+            fragment("date_part('MONTH', ?)", n.created) == ^month and
+            fragment("date_part('DAY', ?)", n.created) == ^day,
+        order_by: n.created
+    )
+    |> Repo.preload(:user)
+  end
 end
