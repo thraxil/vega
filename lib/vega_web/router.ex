@@ -15,6 +15,11 @@ defmodule VegaWeb.Router do
   end
 
   scope "/", VegaWeb do
+    get "/feeds/main/", RssController, :index
+    get "/users/:username/feeds/main/", RssController, :user_index
+  end
+
+  scope "/", VegaWeb do
     pipe_through :browser
 
     get "/", PageController, :index
@@ -33,10 +38,6 @@ defmodule VegaWeb.Router do
         :user_type_year_month_day_index
 
     get "/users/:username/:type/:year/:month/:day/:slug", PageController, :node_detail
-  end
-
-  scope "/", VegaWeb do
-    get "/feeds/main/", RssController, :index
   end
 
   # Other scopes may use custom stacks.
