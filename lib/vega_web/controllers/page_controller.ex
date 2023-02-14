@@ -34,5 +34,9 @@ defmodule VegaWeb.PageController do
   def tag_index(conn, _params) do
     tags = Site.list_tags()
     render(conn, "tag_index.html", tags: tags)
+
+  def user_detail(conn, %{"username" => username}) do
+    user = Site.get_user!(username)
+    render(conn, "user_detail.html", user: user)
   end
 end
