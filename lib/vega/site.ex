@@ -18,6 +18,10 @@ defmodule Vega.Site do
     Repo.get_by(User, username: username)
   end
 
+  def list_users() do
+    Repo.all(from u in User, order_by: [asc: u.fullname])
+  end
+
   defp created_str(year, month, day) do
     (year |> Integer.to_string() |> String.pad_leading(4, "0")) <>
       "-" <>

@@ -40,4 +40,9 @@ defmodule VegaWeb.PageController do
     user = Site.get_user!(username)
     render(conn, "user_detail.html", user: user)
   end
+
+  def user_index(conn, _params) do
+    users = Site.list_users()
+    render(conn, "user_index.html", users: users)
+  end
 end
