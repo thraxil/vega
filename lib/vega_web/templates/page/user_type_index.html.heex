@@ -1,4 +1,10 @@
-<h2><%= link(@user.fullname, to: Routes.page_path(@conn, :user_detail, @user.username)) %> / <%= @type %>s</h2>
+<h2>
+// <%= link("thraxil.org", to: Routes.page_path(@conn, :index)) %>
+  /
+  <%= link("users", to: Routes.page_path(@conn, :user_index)) %>
+  /
+<%= link(@user.fullname, to: Routes.page_path(@conn, :user_detail, @user.username)) %> / <%= @type %>s
+</h2>
 
 <ul>
   <%= for y <- @years do %>

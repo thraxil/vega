@@ -1,4 +1,4 @@
-<h1>Thraxil</h1>
+<h2>// <%= link("thraxil.org", to: Routes.page_path(@conn, :index)) %></h2>
 <%= for node <- @nodes do %>
 <h2><%= link(node.title, to: node_path(node)) %></h2>
 

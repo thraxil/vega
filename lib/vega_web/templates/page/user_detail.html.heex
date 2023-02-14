@@ -1,4 +1,10 @@
-<h2>User: <%= @user.fullname %></h2>
+<h2>
+  // <%= link("thraxil.org", to: Routes.page_path(@conn, :index)) %>
+  /
+  <%= link("users", to: Routes.page_path(@conn, :user_index)) %>
+  /
+  <%= @user.username %>
+</h2>
 
 <p><%= raw Earmark.as_html!(@user.bio) %></p>
 

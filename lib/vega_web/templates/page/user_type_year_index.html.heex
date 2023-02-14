@@ -1,5 +1,9 @@
 <h2>
-  <%= link(@user.fullname, to: Routes.page_path(@conn, :user_detail, @user.username)) %>
+  // <%= link("thraxil.org", to: Routes.page_path(@conn, :index)) %>
+  /
+  <%= link("users", to: Routes.page_path(@conn, :user_index)) %>
+  /
+  <%= link(@user.username, to: Routes.page_path(@conn, :user_detail, @user.username)) %>
   /
   <%= link(@type <> "s", to: Routes.page_path(@conn, :user_type_index, @user.username, @type <> "s")) %>
   /
