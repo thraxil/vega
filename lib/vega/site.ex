@@ -100,12 +100,18 @@ defmodule Vega.Site do
   end
 
   def count_posts() do
-    Repo.aggregate(Node, :count, :id)
-
     Repo.one(
       from n in Node,
         select: count(n.id),
         where: n.type == "post" and n.status == "Publish"
+    )
+  end
+
+  def user_count_posts(user) do
+    Repo.one(
+      from n in Node,
+        select: count(n.id),
+        where: n.user_id == ^user.id and n.type == "post" and n.status == "Publish"
     )
   end
 
@@ -126,6 +132,40 @@ defmodule Vega.Site do
         on: last.max_version_id == p.id,
         join: n in assoc(p, :node),
         join: u in assoc(n, :user),
+        where: n.type == "post" and n.status == "Publish",
+        order_by: [desc: n.created],
+        limit: ^per_page,
+        offset: ^offset,
+        select: %{
+          id: n.id,
+          type: n.type,
+          slug: n.slug,
+          title: n.title,
+          created: n.created,
+          user: u,
+          body: p.body
+        }
+    )
+  end
+
+  def user_newest_posts(user, per_page \\ 10, page \\ 1) do
+    offset = per_page * (page - 1)
+
+    post_versions =
+      from p in Post,
+        group_by: p.node_id,
+        select: %{
+          node_id: p.node_id,
+          max_version_id: max(p.id)
+        }
+
+    Repo.all(
+      from p in Post,
+        join: last in subquery(post_versions),
+        on: last.max_version_id == p.id,
+        join: n in assoc(p, :node),
+        join: u in assoc(n, :user),
+        where: n.user_id == ^user.id and n.type == "post" and n.status == "Publish",
         order_by: [desc: n.created],
         limit: ^per_page,
         offset: ^offset,

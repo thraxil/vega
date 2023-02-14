@@ -56,7 +56,27 @@ defmodule VegaWeb.PageController do
 
   def user_detail(conn, %{"username" => username}) do
     user = Site.get_user!(username)
-    render(conn, "user_detail.html", user: user)
+
+    posts_per_page = 10
+    defaults = %{"page" => "1"}
+    params = Map.merge(defaults, conn.query_params)
+    {page, _} = Integer.parse(params["page"])
+    posts_count = Site.user_count_posts(user)
+    max_page = div(posts_count, posts_per_page) + 1
+    nodes = Site.user_newest_posts(user, posts_per_page, min(page, max_page))
+    has_next = page * posts_per_page <= posts_count
+
+    render(
+      conn,
+      "user_detail.html",
+      user: user,
+      nodes: nodes,
+      page: min(page, max_page),
+      prev_page: max(page - 1, 1),
+      has_prev: page > 1,
+      next_page: page + 1,
+      has_next: has_next
+    )
   end
 
   def user_index(conn, _params) do
