@@ -87,4 +87,57 @@ defmodule Vega.Site do
   def list_tags() do
     Repo.all(from t in Tag, order_by: [asc: t.name])
   end
+
+  def newest_nodes() do
+    Repo.all(
+      from n in Node,
+        where: n.type == "post" and n.status == "Publish",
+        order_by: [desc: n.created],
+        limit: 10
+    )
+    |> Repo.preload(:user)
+    |> Repo.preload(:comments)
+  end
+
+  def count_posts() do
+    Repo.aggregate(Node, :count, :id)
+
+    Repo.one(
+      from n in Node,
+        select: count(n.id),
+        where: n.type == "post" and n.status == "Publish"
+    )
+  end
+
+  def newest_posts(per_page \\ 10, page \\ 1) do
+    offset = per_page * (page - 1)
+
+    post_versions =
+      from p in Post,
+        group_by: p.node_id,
+        select: %{
+          node_id: p.node_id,
+          max_version_id: max(p.id)
+        }
+
+    Repo.all(
+      from p in Post,
+        join: last in subquery(post_versions),
+        on: last.max_version_id == p.id,
+        join: n in assoc(p, :node),
+        join: u in assoc(n, :user),
+        order_by: [desc: n.created],
+        limit: ^per_page,
+        offset: ^offset,
+        select: %{
+          id: n.id,
+          type: n.type,
+          slug: n.slug,
+          title: n.title,
+          created: n.created,
+          user: u,
+          body: p.body
+        }
+    )
+  end
 end
