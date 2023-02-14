@@ -8,6 +8,12 @@
 
 <ul>
   <%= for m <- @months do %>
-      <li><%= trunc(m.month) %> (<%= m.count %>)</li>
+      <li><%= link(trunc(m.month),
+              to: Routes.page_path(@conn,
+              :user_type_year_month_index,
+              @user.username,
+              @type <> "s",
+              @year,
+              trunc(m.month))) %> (<%= m.count %>)</li>
   <% end %>
 </ul>
