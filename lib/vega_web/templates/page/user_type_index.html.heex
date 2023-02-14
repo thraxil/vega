@@ -2,6 +2,10 @@
 
 <ul>
   <%= for y <- @years do %>
-      <li><%= trunc(y.year) %> (<%= y.count %>)</li>
+      <li>
+        <%= link(trunc(y.year),
+            to: Routes.page_path(@conn,
+            :user_type_year_index, @user.username, @type <> "s", trunc(y.year))) %>
+        (<%= y.count %>)</li>
   <% end %>
 </ul>

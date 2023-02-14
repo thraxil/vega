@@ -186,4 +186,23 @@ defmodule Vega.Site do
         order_by: [desc: fragment("year")]
     )
   end
+
+  def user_type_year_months(user, type, year) do
+    year = String.to_integer(year)
+
+    Repo.all(
+      from n in Node,
+        where:
+          n.user_id == ^user.id and
+            n.type == ^type and
+            n.status == "Publish" and
+            fragment("date_part('YEAR', ?)", n.created) == ^year,
+        group_by: [fragment("month")],
+        select: %{
+          month: fragment("date_part('MONTH', ?) as month", n.created),
+          count: count(n.id)
+        },
+        order_by: [asc: fragment("month")]
+    )
+  end
 end
