@@ -40,6 +40,11 @@ defmodule VegaWeb.PageController do
     render(conn, "node_detail.html",
       user: user,
       node: node,
+      type: type,
+      year: year,
+      month: month,
+      day: day,
+      slug: slug,
       content: content
     )
   end
