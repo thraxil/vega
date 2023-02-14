@@ -1,0 +1,7 @@
+<h2><%= link(@user.fullname, to: Routes.page_path(@conn, :user_detail, @user.username)) %> / <%= @type %>s</h2>
+
+<ul>
+  <%= for y <- @years do %>
+      <li><%= trunc(y.year) %> (<%= y.count %>)</li>
+  <% end %>
+</ul>

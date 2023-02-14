@@ -173,4 +173,17 @@ defmodule Vega.Site do
         }
     )
   end
+
+  def user_type_years(user, type) do
+    Repo.all(
+      from n in Node,
+        where: n.user_id == ^user.id and n.type == ^type and n.status == "Publish",
+        group_by: [fragment("year")],
+        select: %{
+          year: fragment("date_part('YEAR', ?) as year", n.created),
+          count: count(n.id)
+        },
+        order_by: [desc: fragment("year")]
+    )
+  end
 end
