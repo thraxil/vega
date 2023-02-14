@@ -115,20 +115,21 @@ defmodule Vega.Site do
     )
   end
 
+  defp post_versions_q() do
+    from p in Post,
+      group_by: p.node_id,
+      select: %{
+        node_id: p.node_id,
+        max_version_id: max(p.id)
+      }
+  end
+
   def newest_posts(per_page \\ 10, page \\ 1) do
     offset = per_page * (page - 1)
 
-    post_versions =
-      from p in Post,
-        group_by: p.node_id,
-        select: %{
-          node_id: p.node_id,
-          max_version_id: max(p.id)
-        }
-
     Repo.all(
       from p in Post,
-        join: last in subquery(post_versions),
+        join: last in subquery(post_versions_q()),
         on: last.max_version_id == p.id,
         join: n in assoc(p, :node),
         join: u in assoc(n, :user),
@@ -151,17 +152,9 @@ defmodule Vega.Site do
   def user_newest_posts(user, per_page \\ 10, page \\ 1) do
     offset = per_page * (page - 1)
 
-    post_versions =
-      from p in Post,
-        group_by: p.node_id,
-        select: %{
-          node_id: p.node_id,
-          max_version_id: max(p.id)
-        }
-
     Repo.all(
       from p in Post,
-        join: last in subquery(post_versions),
+        join: last in subquery(post_versions_q()),
         on: last.max_version_id == p.id,
         join: n in assoc(p, :node),
         join: u in assoc(n, :user),
