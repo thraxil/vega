@@ -1,24 +1,26 @@
-<h2>
-  // <%= link("thraxil.org", to: Routes.page_path(@conn, :index)) %>
-  /
-  <%= link("users", to: Routes.page_path(@conn, :user_index)) %>
-  /
-  <%= link(@user.username, to: Routes.page_path(@conn, :user_detail, @user.username)) %>
-  /
-  <%= link(@type <> "s", to: Routes.page_path(@conn, :user_type_index, @user.username, @type <> "s")) %>
-  /
-  <%= link(@year, to: Routes.page_path(@conn, :user_type_year_index, @user.username, @type <> "s", @year)) %>
-  /
-  <%= link(@month, to: Routes.page_path(@conn, :user_type_year_month_index, @user.username, @type <> "s", @year, @month)) %>
-  /
-  <%= link(@day, to: Routes.page_path(@conn, :user_type_year_month_day_index, @user.username, @type <> "s", @year, @month, @day)) %>
-</h2>
+<div class="breadcrumbs">
+  <ul>
 
+  <li>// <%= link("thraxil.org", to: Routes.page_path(@conn, :index)) %></li>
+  <li>
+  <%= link("users", to: Routes.page_path(@conn, :user_index)) %></li>
+  <li>
+  <%= link(@user.username, to: Routes.page_path(@conn, :user_detail, @user.username)) %></li>
+  <li>
+  <%= link(@type <> "s", to: Routes.page_path(@conn, :user_type_index, @user.username, @type <> "s")) %></li>
+  <li>
+  <%= link(@year, to: Routes.page_path(@conn, :user_type_year_index, @user.username, @type <> "s", @year)) %></li>
+  <li>
+  <%= link(@month, to: Routes.page_path(@conn, :user_type_year_month_index, @user.username, @type <> "s", @year, @month)) %></li>
+  <li>
+  <%= link(@day, to: Routes.page_path(@conn, :user_type_year_month_day_index, @user.username, @type <> "s", @year, @month, @day)) %></li>
+  </ul>
+</div>
 
-<h2><%= @node.title %></h2>
-<p>Author: <%= link(@node.user.fullname, to:
-        Routes.page_path(@conn, :user_detail, @node.user.username)) %></p>
-<p><%= @node.created %></p>
+    <article class="prose my-10 shadow-md">
+<h2 class="bg-slate-400 my-0"><%= @node.title %></h2>
+<p class="bg-slate-100 my-0">By <%= link(@node.user.fullname, to: Routes.page_path(@conn, :user_detail, @node.user.username)) %>
+<%= @node.created %></p>
 
 <%= if @node.type == "post" do %>
 <%= raw Earmark.as_html!(@content.body) %>
@@ -42,18 +44,15 @@
 <%= raw Earmark.as_html!(@content.description) %>
 <% end %>
 
-
-<hr />
 <%= if length(@node.tags) > 0 do %>
-<h3>Tags</h3>
-<ul>
+<p>Tags: 
 <%= for tag <- @node.tags do %>
-<li><%= link(tag.name, to: Routes.page_path(@conn, :tag_detail, tag.slug)) %></li>
+<%= link(tag.name, to: Routes.page_path(@conn, :tag_detail, tag.slug),
+    class: "badge") %>
    <% end %>
-</ul>
+</p>
 <% end %>
 
-<hr />
 <%= if length(@node.comments) > 0 do %>
 <h3>Comments</h3>
 
@@ -65,3 +64,4 @@
 <% end %>
 
 <% end %>
+</article>
