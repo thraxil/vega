@@ -19,7 +19,7 @@
 
 <p>Author: <%= link(node.user.fullname, to:
         Routes.page_path(@conn, :user_detail, node.user.username)) %></p>
-<p><%= node.created %></p>
+<p><%= dformat(node.created) %></p>
 <%= raw Earmark.as_html!(node.body) %>
 
 <% end %>

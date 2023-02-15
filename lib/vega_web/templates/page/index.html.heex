@@ -5,12 +5,12 @@
 </div>
 
 <%= for node <- @nodes do %>
-    <article class="prose my-10 shadow-md">
+    <article class="prose my-10 shadow-md prose-lg">
 <h2 class="bg-slate-400 my-0"><%= link(node.title, to: node_path(node),
                              class: "no-underline") %></h2>
 
 <p class="bg-slate-100 my-0">By <%= link(node.user.fullname, to:
-        Routes.page_path(@conn, :user_detail, node.user.username)) %> <%= node.created %></p>
+        Routes.page_path(@conn, :user_detail, node.user.username)) %> <%= dformat(node.created) %></p>
 <%= raw Earmark.as_html!(node.body) %>
 </article>
 <% end %>

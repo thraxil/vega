@@ -17,10 +17,10 @@
   </ul>
 </div>
 
-    <article class="prose my-10 shadow-md">
+    <article class="prose my-10 shadow-md prose-lg">
 <h2 class="bg-slate-400 my-0"><%= @node.title %></h2>
 <p class="bg-slate-100 my-0">By <%= link(@node.user.fullname, to: Routes.page_path(@conn, :user_detail, @node.user.username)) %>
-<%= @node.created %></p>
+<%= dformat(@node.created) %></p>
 
 <%= if @node.type == "post" do %>
 <%= raw Earmark.as_html!(@content.body) %>
