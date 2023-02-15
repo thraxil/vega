@@ -142,4 +142,12 @@ defmodule VegaWeb.PageController do
     users = Site.list_users()
     render(conn, "user_index.html", users: users)
   end
+
+  def search_results(conn, _params) do
+    defaults = %{"q" => ""}
+    params = Map.merge(defaults, conn.query_params)
+    q = params["q"]
+    nodes = Site.search(q)
+    render(conn, "search_results.html", nodes: nodes, q: q)
+  end
 end

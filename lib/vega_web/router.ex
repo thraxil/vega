@@ -23,6 +23,7 @@ defmodule VegaWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/search", PageController, :search_results
 
     get "/tags/", PageController, :tag_index
     get "/tags/:slug", PageController, :tag_detail

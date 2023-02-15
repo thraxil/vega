@@ -245,4 +245,50 @@ defmodule Vega.Site do
     )
     |> Repo.preload(:user)
   end
+
+  def search(q) do
+    q = "%" <> q <> "%"
+
+    # any nodes with a match in the title
+    title_matches =
+      Repo.all(
+        from n in Node,
+          where: ilike(n.title, ^q),
+          order_by: [desc: n.created]
+      )
+
+    # individually search posts, images, and bookmarks
+    post_matches =
+      Repo.all(
+        from p in Post,
+          where: ilike(p.body, ^q)
+      )
+      |> Repo.preload(:node)
+
+    bookmark_matches =
+      Repo.all(
+        from b in Bookmark,
+          where: ilike(b.description, ^q)
+      )
+      |> Repo.preload(:node)
+
+    image_matches =
+      Repo.all(
+        from i in Image,
+          where: ilike(i.description, ^q)
+      )
+      |> Repo.preload(:node)
+
+    # merge them all back together, pulling out the node for each post/image/bookmark
+    combined =
+      title_matches ++
+        Enum.map(post_matches ++ bookmark_matches ++ image_matches, fn p -> p.node end)
+
+    # remove duplicates, sort (outside the database: boo), and preload
+    combined
+    |> Enum.uniq()
+    |> Enum.sort(&(to_string(&1.created) >= to_string(&2.created)))
+    |> Repo.preload(:user)
+    |> Repo.preload(:tags)
+  end
 end
