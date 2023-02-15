@@ -10,6 +10,7 @@ buildEnv {
     beam.packages.erlangR25.elixir_1_14
     flyctl
     git
+    nodejs
     postgresql
   ];
 }
