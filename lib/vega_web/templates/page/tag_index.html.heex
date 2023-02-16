@@ -1,10 +1,16 @@
-<h2>// <%= link("thraxil.org", to: Routes.page_path(@conn, :index)) %> / tags</h2>
+<div class="breadcrumbs">
+  <ul>
 
-<ul>
+  <li>// <%= link("thraxil.org", to: Routes.page_path(@conn, :index)) %></li>
+  <li>tags</li>
+  </ul>
+</div>
+
+<div class="prose">
+
   <%= for tag <- @tags do %>
-      <li>
         <%= link(tag.name, to: Routes.page_path(@conn, :tag_detail,
-            tag.slug)) %>
-        </li>
+            tag.slug), class: "badge") %>
       <% end %>
-</ul>
+
+</div>
