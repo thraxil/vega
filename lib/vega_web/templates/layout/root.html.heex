@@ -11,20 +11,31 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
     <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   </head>
-  <body class="bg-base-100">
-    <div class="navbar pb-40 bg-fixed bg-base-300 bg-cover bg-no-repeat justify-end bg-[url('https://d2f33fmhbh7cs9.cloudfront.net/image/9609db34f70c50de62c9d1a5de645c57defbae3e/960w/1075.jpg')]">
+  <body class="bg-base-100 antialiased">
+
+    <nav class="w-full top-0 flex flex-row items-center
+                justify-between lg:px-10 
+                font-display text-lg
+                xl:text-xl pb-40 bg-fixed bg-base-300 bg-cover bg-no-repeat justify-end bg-[url('https://d2f33fmhbh7cs9.cloudfront.net/image/9609db34f70c50de62c9d1a5de645c57defbae3e/960w/1075.jpg')]">
+      <div>
+        <%= link("thraxil.org", to: Routes.page_path(@conn, :index), class: "hidden") %>
+      </div>
+
+      <div class="flex flex-row gap-x-6 text-gray-100 ">
     <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
     <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %>
     <% end %>
-    <div class="justify-end">
     <form action="/search" method="get">
      <input type="text" name="q" class="input-xs"
      /><input type="submit" value="search" class="btn input-xs btn-xs"/>
     </form>
-    </div>
-    </div>
+        
+
+      </div>
+    </nav>
+    
     <div class="container mx-auto">
-      <%= @inner_content %>
+        <%= @inner_content %>
       </div>
   </body>
 </html>
