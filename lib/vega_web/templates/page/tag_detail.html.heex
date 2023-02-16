@@ -1,11 +1,20 @@
-<h2>// <%= link("thraxil.org", to: Routes.page_path(@conn, :index)) %> /<%= link("tag", to: Routes.page_path(@conn, :tag_index)) %> / <%= @tag.name %></h2>
+<div class="breadcrumbs">
+  <ul>
 
-<table>
+  <li>// <%= link("thraxil.org", to: Routes.page_path(@conn, :index)) %></li>
+  <li><%= link("tags", to: Routes.page_path(@conn, :tag_index)) %></li>
+  <li><%= @tag.name %></li>
+  </ul>
+</div>
+
+<div class="prose">
+<ul>
   <%= for node <- @tag.nodes do %>
-      <tr>
-        <th><%= link(node.title, to: node_path(node)) %></th>
-        <td>by <%= link(node.user.fullname, to:
-        Routes.page_path(@conn, :user_detail, node.user.username)) %></td><td><%= node.created %></td>
-      </tr>
+<li>
+        <%= link(node.title, to: node_path(node)) %>
+        by <%= link(node.user.fullname, to:
+        Routes.page_path(@conn, :user_detail, node.user.username)) %> <%= dformat(node.created) %>
+</li>
       <% end %>
-</table>
+</ul>
+</div>
