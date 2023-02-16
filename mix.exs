@@ -53,7 +53,14 @@ defmodule Vega.MixProject do
       {:atomex, "0.3.0"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:sentry, "~> 8.0"},
-      {:hackney, "~> 1.8"}
+      {:hackney, "~> 1.8"},
+      {:certifi, "~> 2.8"},
+      {:opentelemetry_exporter, "~> 1.0"},
+      {:opentelemetry, "~> 1.0"},
+      {:opentelemetry_api, "~> 1.0"},
+      {:opentelemetry_ecto, "~> 1.0"},
+      {:opentelemetry_phoenix, "~> 1.0"},
+      {:honeylixir, "~> 0.8.1"}
     ]
   end
 
@@ -72,7 +79,8 @@ defmodule Vega.MixProject do
       "assets.deploy": [
         "tailwind default --minify",
         "esbuild default --minify",
-        "phx.digest"]
+        "phx.digest"
+      ]
     ]
   end
 end

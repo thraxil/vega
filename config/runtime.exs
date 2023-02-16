@@ -63,6 +63,18 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  config :opentelemetry,
+    span_processor: :batch,
+    exporter: :otlp
+
+  config :opentelemetry_exporter,
+    otlp_protocol: :http_protobuf,
+    otlp_endpoint: "https://api.honeycomb.io:443",
+    otlp_headers: [
+      {"x-honeycomb-team", System.get_env("HONEYCOMB_WRITEKEY")},
+      {"x-honeycomb-dataset", System.get_env("FLY_APP_NAME")}
+    ]
+
   # ## Configuring the mailer
   #
   # In production you need to configure the mailer to use a different adapter.
