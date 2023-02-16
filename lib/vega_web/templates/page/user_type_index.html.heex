@@ -11,13 +11,14 @@
   </ul>
 </div>
 
-<div class="prose">
+<div class="prose text-slate-900">
 <ul>
   <%= for y <- @years do %>
       <li>
         <%= link(trunc(y.year),
             to: Routes.page_path(@conn,
-            :user_type_year_index, @user.username, @type <> "s", trunc(y.year))) %>
+            :user_type_year_index, @user.username, @type <> "s",
+            trunc(y.year)), class: "text-slate-900") %>
         (<%= y.count %>)</li>
   <% end %>
 </ul>

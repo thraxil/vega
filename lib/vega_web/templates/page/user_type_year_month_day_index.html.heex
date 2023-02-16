@@ -17,10 +17,10 @@
   </ul>
 </div>
 
-<article class="prose">
+<article class="prose text-slate-900">
 <ul>
 <%= for node <- @nodes do %>
-<li><%= link(node.title, to: node_path(node)) %> by
+<li><%= link(node.title, to: node_path(node), class: "text-slate-900") %> by
   <%= node.user.username %>
   -
   <%= dformat(node.created) %>

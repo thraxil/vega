@@ -1,10 +1,14 @@
 <h2>Search Results for: "<%= @q %>"</h2>
 <%= for node <- @nodes do %>
 
-    <article class="prose shadow-md my-10">
-<h2 class="bg-slate-300 my-0"><%= link(node.title, to: node_path(node)) %></h2>
+    <article class="prose shadow-md my-10 text-slate-900">
+<h2 class="bg-slate-300 my-0"><%= link(node.title, to:
+                                  node_path(node), class: "text-slate-900") %></h2>
 
-<p class="bg-slate-100 my-0">By <%= link(node.user.fullname, to: Routes.page_path(@conn, :user_detail, node.user.username)) %> <%= dformat(node.created) %></p>
+<p class="bg-slate-100 my-0">By <%= link(node.user.fullname, to:
+                                    Routes.page_path(@conn,
+                                    :user_detail, node.user.username),
+                                    class: "text-slate-900") %> <%= dformat(node.created) %></p>
 <p>Tags: <%= for tag <- node.tags do %> <%= link(tag.name, to:
                                            Routes.page_path(@conn,
                                            :tag_detail, tag.slug),

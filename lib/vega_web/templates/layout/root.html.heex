@@ -11,7 +11,7 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
     <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   </head>
-  <body class="bg-base-100 antialiased">
+  <body class="bg-slate-50 text-slate-900 antialiased">
 
     <nav class="w-full top-0 flex flex-row items-center
                 justify-between lg:px-10 
@@ -26,7 +26,7 @@
     <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %>
     <% end %>
     <form action="/search" method="get">
-     <input type="text" name="q" class="input-xs"
+     <input type="text" name="q" class="input-xs text-slate-900"
      /><input type="submit" value="search" class="btn input-xs btn-xs"/>
     </form>
         

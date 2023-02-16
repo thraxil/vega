@@ -13,7 +13,7 @@
   </ul>
 </div>
 
-<div class="prose">
+<div class="prose text-slate-900">
 <ul>
   <%= for m <- @months do %>
       <li><%= link(trunc(m.month),
@@ -22,7 +22,7 @@
               @user.username,
               @type <> "s",
               @year,
-              trunc(m.month))) %> (<%= m.count %>)</li>
+              trunc(m.month)), class: "text-slate-900") %> (<%= m.count %>)</li>
   <% end %>
 </ul>
 </div>
