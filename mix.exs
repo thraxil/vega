@@ -51,7 +51,9 @@ defmodule Vega.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:earmark, "~> 1.4.36"},
       {:atomex, "0.3.0"},
-      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev}
+      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
+      {:sentry, "~> 8.0"},
+      {:hackney, "~> 1.8"}
     ]
   end
 
