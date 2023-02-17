@@ -63,10 +63,6 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
-  config :opentelemetry,
-    span_processor: :batch,
-    exporter: :otlp
-
   config :opentelemetry_exporter,
     otlp_protocol: :http_protobuf,
     otlp_endpoint: "https://api.honeycomb.io:443",
@@ -74,6 +70,10 @@ if config_env() == :prod do
       {"x-honeycomb-team", System.get_env("HONEYCOMB_WRITEKEY")},
       {"x-honeycomb-dataset", System.get_env("FLY_APP_NAME")}
     ]
+
+  config :opentelemetry,
+    span_processor: :batch,
+    exporter: :otlp
 
   # ## Configuring the mailer
   #

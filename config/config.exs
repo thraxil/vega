@@ -68,11 +68,6 @@ config :sentry,
   },
   included_environments: [:prod]
 
-config :honeylixir,
-  dataset: "vega",
-  team_writekey: System.get_env("HONEYCOMB_WRITEKEY"),
-  service_name: :my_application
-
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
