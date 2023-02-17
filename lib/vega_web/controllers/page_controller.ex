@@ -14,7 +14,7 @@ defmodule VegaWeb.PageController do
       nodes = Site.newest_posts(posts_per_page, min(page, max_page))
       has_next = page * posts_per_page <= posts_count
 
-      Tracer.with_span("render") do
+      Tracer.with_span "render" do
         render(
           conn,
           "index.html",
@@ -65,7 +65,7 @@ defmodule VegaWeb.PageController do
   end
 
   def user_detail(conn, %{"username" => username}) do
-    user = Site.get_user!(username)
+    user = Site.get_user!(username) 
 
     posts_per_page = 10
     defaults = %{"page" => "1"}
