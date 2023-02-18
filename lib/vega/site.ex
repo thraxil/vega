@@ -46,7 +46,7 @@ defmodule Vega.Site do
             n.status == "Publish" and
             fragment("?::date", n.created) == ^created
 
-    Repo.one!(q)
+    Repo.one!(first(q))
     |> Repo.preload(:user)
     |> Repo.preload(:comments)
     |> Repo.preload(:tags)
