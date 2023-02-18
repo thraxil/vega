@@ -25,15 +25,15 @@
     <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
     <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %>
     <% end %>
-    <form action="/search" method="get">
-     <input type="text" name="q" class="input-xs text-slate-900"
-     /><input type="submit" value="search" class="btn input-xs btn-xs"/>
-    </form>
-        
-
-      </div>
+    <div>
+      <form action="/search" method="get">
+        <input type="text" name="q" class="input-xs text-slate-900" /><input type="submit" value="search" class="btn input-xs btn-xs"/>
+      </form>
       <%= render "_user_menu.html", assigns %>
+    </div>
+      </div>
     </nav>
+
     
     <div class="container mx-auto">
         <%= @inner_content %>

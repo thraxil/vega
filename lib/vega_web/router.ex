@@ -83,8 +83,9 @@ defmodule VegaWeb.Router do
   scope "/", VegaWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
-    get "/auth_users/register", UserRegistrationController, :new
-    post "/auth_users/register", UserRegistrationController, :create
+    # only one user on the site, so we disable registration now
+    # get "/auth_users/register", UserRegistrationController, :new
+    # post "/auth_users/register", UserRegistrationController, :create
     get "/auth_users/log_in", UserSessionController, :new
     post "/auth_users/log_in", UserSessionController, :create
     get "/auth_users/reset_password", UserResetPasswordController, :new
