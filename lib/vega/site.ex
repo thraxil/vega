@@ -30,6 +30,42 @@ defmodule Vega.Site do
       "-" <> (day |> Integer.to_string() |> String.pad_leading(2, "0"))
   end
 
+  def get_node_by_id!(node_id) do
+    Repo.get!(Node, node_id)
+  end
+
+  def update_node(node, node_params) do
+    IO.inspect(node_add_post(node, node_params["body"]))
+    node_params = Map.put(node_params, "modified", DateTime.utc_now())
+
+    node
+    |> Node.changeset(node_params)
+    |> Repo.update()
+  end
+
+  def node_post_count(node) do
+    Repo.one(
+      from p in Post,
+        select: count(p.id),
+        where: p.node_id == ^node.id
+    )
+  end
+
+  def node_add_post(node, body) do
+    next_version = node_post_count(node) + 1
+    user = Repo.get(User, node.user_id)
+
+    %Post{}
+    |> Post.changeset(%{
+      "modified" => DateTime.utc_now(),
+      "body" => body,
+      "version" => next_version
+    })
+    |> Ecto.Changeset.put_assoc(:node, node)
+    |> Ecto.Changeset.put_assoc(:user, user)
+    |> Repo.insert()
+  end
+
   def get_node!(user, type, year, month, day, slug) do
     created = %Date{
       year: String.to_integer(year),
@@ -301,5 +337,9 @@ defmodule Vega.Site do
     |> Enum.sort(&(to_string(&1.created) >= to_string(&2.created)))
     |> Repo.preload(:user)
     |> Repo.preload(:tags)
+  end
+
+  def node_changeset(node) do
+    Node.changeset(node)
   end
 end

@@ -54,6 +54,44 @@ defmodule VegaWeb.PageController do
     )
   end
 
+  def edit_node(conn, %{"id" => node_id, "node" => node_params} = params) do
+    node = Site.get_node_by_id!(node_id)
+    IO.inspect(node_params)
+
+    case Site.update_node(node, node_params) do
+      {:ok, node} ->
+        conn
+        |> put_flash(:info, "updated")
+        |> redirect(to: Routes.page_path(conn, :show_node, node_id))
+
+      {:error, changeset} ->
+        type = node.type
+        content = Site.get_node_content!(node)
+
+        render(conn, "show_node.html",
+          changeset: changeset,
+          node: node,
+          type: type,
+          content: content
+        )
+    end
+  end
+
+  def show_node(conn, %{"id" => node_id}) do
+    node = Site.get_node_by_id!(node_id)
+    type = node.type
+    content = Site.get_node_content!(node)
+
+    node_changeset = Site.node_changeset(node)
+
+    render(conn, "show_node.html",
+      changeset: node_changeset,
+      node: node,
+      type: type,
+      content: content
+    )
+  end
+
   def tag_detail(conn, %{"slug" => slug}) do
     tag = Site.get_tag!(slug)
     render(conn, "tag_detail.html", tag: tag)
@@ -65,7 +103,7 @@ defmodule VegaWeb.PageController do
   end
 
   def user_detail(conn, %{"username" => username}) do
-    user = Site.get_user!(username) 
+    user = Site.get_user!(username)
 
     posts_per_page = 10
     defaults = %{"page" => "1"}

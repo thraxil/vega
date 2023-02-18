@@ -22,7 +22,7 @@ defmodule Vega.Node do
   end
 
   @doc false
-  def changeset(node, attrs) do
+  def changeset(node, attrs \\ %{}) do
     node
     |> cast(attrs, [:slug, :title, :status, :type, :comments_allowed, :created, :modified])
     |> validate_required([:slug, :title, :status, :type, :comments_allowed, :created, :modified])

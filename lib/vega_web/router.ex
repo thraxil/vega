@@ -44,6 +44,12 @@ defmodule VegaWeb.Router do
     get "/users/:username/:type/:year/:month/:day/:slug", PageController, :node_detail
   end
 
+  scope "/", VegaWeb do
+    pipe_through [:browser, :require_authenticated_user]
+    get "/node/:id/edit", PageController, :show_node
+    put "/node/:id/edit", PageController, :edit_node
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", VegaWeb do
   #   pipe_through :api
