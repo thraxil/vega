@@ -1,6 +1,8 @@
 defmodule VegaWeb.Router do
   use VegaWeb, :router
 
+  import VegaWeb.UserAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,7 @@ defmodule VegaWeb.Router do
     plug :put_root_layout, {VegaWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
   end
 
   pipeline :api do
@@ -73,5 +76,38 @@ defmodule VegaWeb.Router do
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
+  end
+
+  ## Authentication routes
+
+  scope "/", VegaWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    get "/auth_users/register", UserRegistrationController, :new
+    post "/auth_users/register", UserRegistrationController, :create
+    get "/auth_users/log_in", UserSessionController, :new
+    post "/auth_users/log_in", UserSessionController, :create
+    get "/auth_users/reset_password", UserResetPasswordController, :new
+    post "/auth_users/reset_password", UserResetPasswordController, :create
+    get "/auth_users/reset_password/:token", UserResetPasswordController, :edit
+    put "/auth_users/reset_password/:token", UserResetPasswordController, :update
+  end
+
+  scope "/", VegaWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    get "/auth_users/settings", UserSettingsController, :edit
+    put "/auth_users/settings", UserSettingsController, :update
+    get "/auth_users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+  end
+
+  scope "/", VegaWeb do
+    pipe_through [:browser]
+
+    delete "/auth_users/log_out", UserSessionController, :delete
+    get "/auth_users/confirm", UserConfirmationController, :new
+    post "/auth_users/confirm", UserConfirmationController, :create
+    get "/auth_users/confirm/:token", UserConfirmationController, :edit
+    post "/auth_users/confirm/:token", UserConfirmationController, :update
   end
 end
