@@ -10,7 +10,6 @@ defmodule Vega.Bookmark do
     field :via_name, :string
     field :via_url, :string
 
-    belongs_to :user, Vega.User
     belongs_to :node, Vega.Node
   end
 
@@ -19,7 +18,6 @@ defmodule Vega.Bookmark do
     bookmark
     |> cast(attrs, [:description, :url, :via_name, :via_url, :version, :modified])
     |> validate_required([:description, :url, :via_name, :via_url, :version, :modified])
-    |> foreign_key_constraint(:user_id)
     |> foreign_key_constraint(:node_id)
     |> validate_length(:url, max: 255)
     |> validate_length(:via_name, max: 255)
