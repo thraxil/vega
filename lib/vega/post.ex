@@ -4,6 +4,7 @@ defmodule Vega.Post do
 
   schema "post" do
     field :body, :string
+    field :body_html, :string
     field :modified, :naive_datetime
     field :version, :integer
 
@@ -16,5 +17,12 @@ defmodule Vega.Post do
     |> cast(attrs, [:body, :version, :modified])
     |> validate_required([:body, :version, :modified])
     |> foreign_key_constraint(:node_id)
+    |> gen_body_html
   end
+
+  defp gen_body_html(%{valid?: true, changes: %{body: body}} = changeset) do
+    put_change(changeset, :body_html, Earmark.as_html!(body))
+  end
+
+  defp gen_body_html(changeset), do: changeset
 end

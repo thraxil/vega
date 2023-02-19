@@ -39,7 +39,10 @@ defmodule Vega.Site do
 
     node
     |> Node.changeset(node_params)
-    |> Repo.update()
+    |> Repo.update!()
+    |> node_add_post(node_params["body"])
+
+    {:ok, node}
   end
 
   def node_post_count(node) do
