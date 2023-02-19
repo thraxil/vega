@@ -1,0 +1,12 @@
+<%= form_for @changeset, Routes.page_path(@conn, :create_post), fn f -> %>
+<label class="label">title</label>
+<%= text_input f, :title, placeholder: "title", class: "form-control", size: 100 %>
+<%= error_tag f, :title %>
+
+<%= textarea f, :body, class: "form-control textarea",
+    cols: 120, rows: 15 %>
+
+<%= text_input f, :node_tags, placeholder: "tags", class: "form-control", size: 100 %>
+
+<%= submit "Save", class: "btn btn-primary" %>
+<% end %>

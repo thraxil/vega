@@ -46,6 +46,8 @@ defmodule VegaWeb.Router do
 
   scope "/", VegaWeb do
     pipe_through [:browser, :require_authenticated_user]
+    get "/node/", PageController, :new_post
+    post "/node/", PageController, :create_post
     get "/node/:id/edit", PageController, :show_node
     put "/node/:id/edit", PageController, :edit_node
   end

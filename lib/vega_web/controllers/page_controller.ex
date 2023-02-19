@@ -54,11 +54,28 @@ defmodule VegaWeb.PageController do
     )
   end
 
-  def edit_node(conn, %{"id" => node_id, "node" => node_params} = params) do
+  def new_post(conn, _params) do
+    changeset = Site.node_create_changeset()
+    render(conn, "new_post.html", changeset: changeset)
+  end
+
+  def create_post(conn, %{"node" => node_params}) do
+    IO.inspect(node_params)
+
+    case Site.add_post(node_params["title"], node_params["body"], node_params["node_tags"]) do
+      {:ok, node} ->
+        redirect(conn, to: Routes.page_path(conn, :show_node, node.id))
+
+      {:error, changeset} ->
+        render(conn, "new_post.html", changeset: changeset)
+    end
+  end
+
+  def edit_node(conn, %{"id" => node_id, "node" => node_params}) do
     node = Site.get_node_by_id!(node_id)
 
     case Site.update_node(node, node_params) do
-      {:ok, node} ->
+      {:ok, _node} ->
         conn
         |> put_flash(:info, "updated")
         |> redirect(to: Routes.page_path(conn, :show_node, node_id))

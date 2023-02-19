@@ -18,7 +18,7 @@ defmodule Vega.Node do
     has_many :comments, Vega.Comment
     has_many :fields, Vega.MetaField
 
-    many_to_many :tags, Vega.Tag, join_through: Vega.NodeTag
+    many_to_many :tags, Vega.Tag, join_through: Vega.NodeTag, on_replace: :delete
   end
 
   @doc false
@@ -31,5 +31,28 @@ defmodule Vega.Node do
     |> validate_length(:type, max: 8)
     |> validate_length(:title, max: 255)
     |> validate_length(:slug, max: 255)
+  end
+
+  defp slugify(str) do
+    str
+    |> String.downcase()
+    |> String.replace(~r/[^\w-]+/u, "-")
+  end
+
+  def parse_tags(tags) do
+    IO.inspect("parse_tags")
+
+    IO.inspect(tags)
+    |> String.split(" ")
+    |> Enum.map(&String.trim/1)
+    |> Enum.map(&String.downcase/1)
+    |> Enum.reject(&(&1 == ""))
+    |> Enum.uniq()
+    |> Enum.map(fn s ->
+      %{
+        :name => String.downcase(s),
+        :slug => slugify(String.downcase(s))
+      }
+    end)
   end
 end

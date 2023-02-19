@@ -63,6 +63,43 @@ defmodule Vega.Site do
     |> Repo.insert()
   end
 
+  def node_add_tags(node, tags) do
+    IO.inspect("node_add_tags()")
+    IO.inspect(tags)
+
+    tags =
+      Node.parse_tags(tags)
+      |> Enum.map(fn t ->
+        IO.inspect(t)
+        get_or_insert_tag(t)
+      end)
+
+    IO.inspect(tags)
+
+    node
+    |> Repo.preload(:tags)
+    |> Node.changeset(%{})
+    |> Ecto.Changeset.put_assoc(:tags, tags)
+    |> Repo.insert()
+  end
+
+  def get_or_insert_tag(t) do
+    %{:name => name, :slug => slug} = t
+    IO.inspect("get_or_insert_tag()")
+    IO.inspect(name)
+
+    Repo.get_by(Tag, slug: slug) ||
+      Repo.insert!(%Tag{name: name, slug: slug})
+  end
+
+  # defp get_or_insert_tag(name, slug) do
+  #   Repo.insert!(
+  #     %Vega.Tag{name: name, slug: slug},
+  #     on_conflict: [set: [name: name, slug: slug]],
+  #     conflict_target: [:name, :slug]
+  #   )
+  # end
+
   def get_node!(user, type, year, month, day, slug) do
     created = %Date{
       year: String.to_integer(year),
@@ -338,5 +375,51 @@ defmodule Vega.Site do
 
   def node_changeset(node) do
     Node.changeset(node)
+  end
+
+  def node_create_changeset() do
+    node_changeset(%Node{})
+  end
+
+  defp slugify(str) do
+    str
+    |> String.downcase()
+    |> String.replace(~r/[^\w-]+/u, "-")
+  end
+
+  defp get_default_user() do
+    # hard-coded to `anders`, the only user
+    # that is still allowed to create posts
+    # TODO: make this work for tests
+    Repo.get_by!(User, username: "anders")
+  end
+
+  def add_post(title, body, tags) do
+    now = DateTime.utc_now()
+    user = get_default_user()
+
+    node_params = %{
+      :title => title,
+      :created => now,
+      :modified => now,
+      :slug => slugify(title)
+    }
+
+    node = %Node{
+      :type => "post",
+      :status => "Publish",
+      :comments_allowed => false
+    }
+
+    {:ok, node} =
+      node
+      |> Node.changeset(node_params)
+      |> Ecto.Changeset.put_assoc(:user, user)
+      |> Repo.insert()
+
+    node_add_post(node, body)
+    # node_add_tags(node, tags)
+
+    {:ok, node}
   end
 end
