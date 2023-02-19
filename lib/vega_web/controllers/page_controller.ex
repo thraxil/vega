@@ -60,8 +60,6 @@ defmodule VegaWeb.PageController do
   end
 
   def create_post(conn, %{"node" => node_params}) do
-    IO.inspect(node_params)
-
     case Site.add_post(node_params["title"], node_params["body"], node_params["node_tags"]) do
       {:ok, node} ->
         redirect(conn, to: Routes.page_path(conn, :show_node, node.id))

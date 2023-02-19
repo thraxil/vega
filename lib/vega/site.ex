@@ -64,29 +64,21 @@ defmodule Vega.Site do
   end
 
   def node_add_tags(node, tags) do
-    IO.inspect("node_add_tags()")
-    IO.inspect(tags)
-
     tags =
       Node.parse_tags(tags)
       |> Enum.map(fn t ->
-        IO.inspect(t)
         get_or_insert_tag(t)
       end)
-
-    IO.inspect(tags)
 
     node
     |> Repo.preload(:tags)
     |> Node.changeset(%{})
     |> Ecto.Changeset.put_assoc(:tags, tags)
-    |> Repo.insert()
+    |> Repo.update()
   end
 
   def get_or_insert_tag(t) do
     %{:name => name, :slug => slug} = t
-    IO.inspect("get_or_insert_tag()")
-    IO.inspect(name)
 
     Repo.get_by(Tag, slug: slug) ||
       Repo.insert!(%Tag{name: name, slug: slug})
@@ -418,7 +410,7 @@ defmodule Vega.Site do
       |> Repo.insert()
 
     node_add_post(node, body)
-    # node_add_tags(node, tags)
+    node_add_tags(node, tags)
 
     {:ok, node}
   end
