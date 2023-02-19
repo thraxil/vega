@@ -35,7 +35,6 @@ defmodule Vega.Site do
   end
 
   def update_node(node, node_params) do
-    IO.inspect(node_add_post(node, node_params["body"]))
     node_params = Map.put(node_params, "modified", DateTime.utc_now())
 
     node
@@ -53,7 +52,6 @@ defmodule Vega.Site do
 
   def node_add_post(node, body) do
     next_version = node_post_count(node) + 1
-    user = Repo.get(User, node.user_id)
 
     %Post{}
     |> Post.changeset(%{
@@ -62,7 +60,6 @@ defmodule Vega.Site do
       "version" => next_version
     })
     |> Ecto.Changeset.put_assoc(:node, node)
-    |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
   end
 

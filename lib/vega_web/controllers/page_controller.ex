@@ -56,7 +56,6 @@ defmodule VegaWeb.PageController do
 
   def edit_node(conn, %{"id" => node_id, "node" => node_params} = params) do
     node = Site.get_node_by_id!(node_id)
-    IO.inspect(node_params)
 
     case Site.update_node(node, node_params) do
       {:ok, node} ->

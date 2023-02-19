@@ -7,7 +7,6 @@ defmodule Vega.Post do
     field :modified, :naive_datetime
     field :version, :integer
 
-    belongs_to :user, Vega.User
     belongs_to :node, Vega.Node
   end
 
@@ -16,7 +15,6 @@ defmodule Vega.Post do
     post
     |> cast(attrs, [:body, :version, :modified])
     |> validate_required([:body, :version, :modified])
-    |> foreign_key_constraint(:user_id)
     |> foreign_key_constraint(:node_id)
   end
 end
