@@ -13,7 +13,6 @@ defmodule Vega.Image do
     field :version, :integer
     field :width, :integer
 
-    belongs_to :user, Vega.User
     belongs_to :node, Vega.Node
   end
 
@@ -42,7 +41,6 @@ defmodule Vega.Image do
       :version,
       :modified
     ])
-    |> foreign_key_constraint(:user_id)
     |> foreign_key_constraint(:node_id)
   end
 end
