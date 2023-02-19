@@ -50,7 +50,6 @@ defmodule VegaWeb.Router do
     post "/node/", PageController, :create_post
     get "/node/:id/edit", PageController, :show_node
     put "/node/:id/edit", PageController, :edit_node
-    get "/tmp_post_migrate", PageController, :tmp_migrate_post_html
   end
 
   # Other scopes may use custom stacks.

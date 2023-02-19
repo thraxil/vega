@@ -216,7 +216,7 @@ defmodule Vega.Site do
           created: n.created,
           user: u,
           body: p.body,
-          body_html: p.body_html,
+          body_html: p.body_html
         }
     )
   end
@@ -246,7 +246,7 @@ defmodule Vega.Site do
             created: n.created,
             user: u,
             body: p.body,
-            body_html: p.body_html,            
+            body_html: p.body_html
           }
       )
     end
@@ -418,16 +418,5 @@ defmodule Vega.Site do
     node_add_tags(node, tags)
 
     {:ok, node}
-  end
-
-  def migrate_all_post_html() do
-    Repo.all(
-      from p in Post,
-        where: p.body_html == ""
-    )
-    |> Enum.map(fn p ->
-      # force an update by adding a space to the end
-      p |> Post.changeset(%{body: p.body <> " "}) |> Repo.update()
-    end)
   end
 end
