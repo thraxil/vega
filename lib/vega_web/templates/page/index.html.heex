@@ -12,7 +12,7 @@
 <p class="bg-slate-100 my-0">By <%= link(node.user.fullname, to:
         Routes.page_path(@conn, :user_detail, node.user.username),
         class: "text-slate-900") %> <%= dformat(node.created) %></p>
-<%= raw Earmark.as_html!(node.body) %>
+<%= raw node.body_html %>
 </article>
 <% end %>
 

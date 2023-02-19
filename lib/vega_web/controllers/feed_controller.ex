@@ -36,7 +36,7 @@ defmodule VegaWeb.RssController do
     )
     |> Entry.link(VegaWeb.PageView.node_path(node))
     |> Entry.author(@author)
-    |> Entry.content(Earmark.as_html!(node.body), type: "html")
+    |> Entry.content(node.body_html, type: "html")
     |> Entry.build()
   end
 

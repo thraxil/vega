@@ -215,7 +215,8 @@ defmodule Vega.Site do
           title: n.title,
           created: n.created,
           user: u,
-          body: p.body
+          body: p.body,
+          body_html: p.body_html,
         }
     )
   end
@@ -244,7 +245,8 @@ defmodule Vega.Site do
             title: n.title,
             created: n.created,
             user: u,
-            body: p.body
+            body: p.body,
+            body_html: p.body_html,            
           }
       )
     end

@@ -31,7 +31,7 @@
 <%= dformat(@node.created) %></p>
 
 <%= if @node.type == "post" do %>
-<%= raw Earmark.as_html!(@content.body) %>
+<%= raw @content.body_html %>
 <% end %>
 
 <%= if @node.type == "image" do %>
