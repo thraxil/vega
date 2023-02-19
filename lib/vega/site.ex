@@ -417,4 +417,15 @@ defmodule Vega.Site do
 
     {:ok, node}
   end
+
+  def migrate_all_post_html() do
+    Repo.all(
+      from p in Post,
+        where: p.body_html == ""
+    )
+    |> Enum.map(fn p ->
+      # force an update by adding a space to the end
+      p |> Post.changeset(%{body: p.body <> " "}) |> Repo.update()
+    end)
+  end
 end

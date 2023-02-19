@@ -207,4 +207,9 @@ defmodule VegaWeb.PageController do
     nodes = Site.search(q)
     render(conn, "search_results.html", nodes: nodes, q: q)
   end
+
+  def tmp_migrate_post_html(conn, _params) do
+    Site.migrate_all_post_html()
+    redirect(conn, to: "/")
+  end
 end
