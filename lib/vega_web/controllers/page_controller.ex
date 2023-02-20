@@ -144,18 +144,26 @@ defmodule VegaWeb.PageController do
     )
   end
 
-  def user_type_index(conn, %{"username" => username, "type" => type}) do
+  defp _user_type_index(conn, %{"username" => username, "type" => type}) do
     user = Site.get_user!(username)
-    type = String.replace_suffix(type, "s", "")
+    years = Site.user_type_years(user, type)
+    render(conn, "user_type_index.html", user: user, type: type, years: years)
+  end
 
-    case type do
-      _t when type in ["post", "bookmark", "image"] ->
-        years = Site.user_type_years(user, type)
-        render(conn, "user_type_index.html", user: user, type: type, years: years)
+  def user_type_index(conn, %{"username" => username, "type" => "posts"}) do
+    _user_type_index(conn, %{"username" => username, "type" => "post"})
+  end
 
-      _ ->
-        conn |> send_resp(:not_found, "invalid type") |> halt()
-    end
+  def user_type_index(conn, %{"username" => username, "type" => "images"}) do
+    _user_type_index(conn, %{"username" => username, "type" => "image"})
+  end
+
+  def user_type_index(conn, %{"username" => username, "type" => "bookmarks"}) do
+    _user_type_index(conn, %{"username" => username, "type" => "bookmark"})
+  end
+
+  def user_type_index(conn, %{"type" => _}) do
+    conn |> send_resp(:not_found, "invalid type") |> halt()
   end
 
   def user_type_year_index(conn, %{"username" => username, "type" => type, "year" => year}) do
