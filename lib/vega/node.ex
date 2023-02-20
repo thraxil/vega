@@ -40,9 +40,7 @@ defmodule Vega.Node do
   end
 
   def parse_tags(tags) do
-    IO.inspect("parse_tags")
-
-    IO.inspect(tags)
+    tags
     |> String.split(" ")
     |> Enum.map(&String.trim/1)
     |> Enum.map(&String.downcase/1)

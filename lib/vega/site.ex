@@ -15,6 +15,12 @@ defmodule Vega.Site do
   alias Vega.Bookmark
   alias Vega.Tag
 
+  def user_create(attrs \\ %{}) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert()
+  end
+
   def get_user!(username) do
     Repo.get_by!(User, username: username)
   end
