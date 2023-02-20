@@ -13,6 +13,7 @@
 <p>Sorry, only posts can currently be edited</p>
 <% end %>
 
+<%= text_input f, :tags, placeholder: "tags", value: @node_tags, class: "form-control", size: 100 %>
 
 <%= submit "Save", class: "btn btn-primary" %>
 <% end %>

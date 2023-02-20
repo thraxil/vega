@@ -42,6 +42,8 @@ defmodule Vega.Site do
     |> Repo.update!()
     |> node_add_post(node_params["body"])
 
+    node_add_tags(node, node_params["tags"])
+
     {:ok, node}
   end
 
@@ -372,6 +374,14 @@ defmodule Vega.Site do
 
   def node_changeset(node) do
     Node.changeset(node)
+  end
+
+  def get_node_tags_string(node) do
+    node =
+      node
+      |> Repo.preload(:tags)
+
+    node.tags |> Enum.map(fn t -> t.name end) |> Enum.sort() |> Enum.join(" ")
   end
 
   def node_create_changeset() do

@@ -101,6 +101,7 @@ defmodule VegaWeb.PageController do
     render(conn, "show_node.html",
       changeset: node_changeset,
       node: node,
+      node_tags: Site.get_node_tags_string(node),
       type: type,
       content: content
     )
