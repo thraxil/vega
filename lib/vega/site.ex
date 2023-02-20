@@ -29,13 +29,6 @@ defmodule Vega.Site do
     Repo.all(from u in User, order_by: [asc: u.fullname])
   end
 
-  defp created_str(year, month, day) do
-    (year |> Integer.to_string() |> String.pad_leading(4, "0")) <>
-      "-" <>
-      (month |> Integer.to_string() |> String.pad_leading(2, "0")) <>
-      "-" <> (day |> Integer.to_string() |> String.pad_leading(2, "0"))
-  end
-
   def get_node_by_id!(node_id) do
     Repo.get!(Node, node_id)
   end
