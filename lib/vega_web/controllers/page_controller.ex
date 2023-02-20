@@ -152,8 +152,13 @@ defmodule VegaWeb.PageController do
   def user_type_year_index(conn, %{"username" => username, "type" => type, "year" => year}) do
     user = Site.get_user!(username)
     type = String.replace_suffix(type, "s", "")
-    months = Site.user_type_year_months(user, type, year)
-    render(conn, "user_type_year_index.html", user: user, type: type, year: year, months: months)
+    case type do
+      _t when type in ["post", "bookmark", "image"] ->
+        months = Site.user_type_year_months(user, type, year)
+        render(conn, "user_type_year_index.html", user: user, type: type, year: year, months: months)
+      _ ->
+        conn |> send_resp(:not_found, "invalid type") |> halt()
+    end
   end
 
   def user_type_year_month_index(conn, %{

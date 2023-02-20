@@ -71,5 +71,13 @@ defmodule VegaWeb.PageControllerTest do
       assert response =~ "tagone"
       assert response =~ "tagtwo"
     end
+
+    test "invalid type doesn't cause server error", %{conn: conn, user: user} do
+      # requests for /users/anders/feeds/atom.xml was being
+      # misinterpreted as a 'feed' type and breaking
+      conn = get(conn, "/users/" <> user.username <> "/feeds/atom.xml")
+      response = response(conn, 404)
+      assert response =~ "invalid type"
+    end
   end
 end
