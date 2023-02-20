@@ -145,4 +145,73 @@ defmodule VegaWeb.PageControllerTest do
       assert response =~ "invalid type"
     end
   end
+
+  describe "authenticated views" do
+    setup [:register_and_log_in_user, :with_post]
+
+    test "add post form", %{conn: conn} do
+      conn = get(conn, Routes.page_path(conn, :new_post))
+      response = html_response(conn, 200)
+      assert response =~ "<form"
+      assert response =~ "<textarea"
+    end
+
+    test "add post", %{conn: conn} do
+      conn =
+        post(conn, Routes.page_path(conn, :create_post),
+          node: %{title: "new title", body: "new body", node_tags: "tag1 tag0 tag0"}
+        )
+
+      # should redirect to edit page upon creation
+      assert %{id: id} = redirected_params(conn)
+      assert redirected_to(conn) == Routes.page_path(conn, :show_node, id)
+      assert get_flash(conn, :info) =~ "created"
+
+      node_from_db = Vega.Repo.get(Vega.Node, id)
+
+      assert node_from_db.title == "new title"
+      assert node_from_db.type == "post"
+      assert node_from_db.status == "Publish"
+
+      content = Vega.Site.get_node_content!(node_from_db)
+      assert content.body == "new body"
+      assert content.body_html == "<p>\nnew body</p>\n"
+
+      tags = Vega.Site.get_node_tags_string(node_from_db)
+      assert tags == "tag0 tag1"
+    end
+
+    test "edit post form", %{conn: conn, node: node} do
+      conn = get(conn, Routes.page_path(conn, :show_node, node.id))
+      response = html_response(conn, 200)
+      assert response =~ "<form"
+      assert response =~ "<textarea"
+      assert response =~ "value=\"" <> node.title <> "\""
+    end
+
+    test "edit post", %{conn: conn, node: node} do
+      conn =
+        put(conn, Routes.page_path(conn, :edit_node, node.id),
+          node: %{title: "new title", body: "new body", tags: "tag1 tag0 tag0"}
+        )
+
+      # should redirect to edit page upon creation
+      assert %{id: id} = redirected_params(conn)
+      assert redirected_to(conn) == Routes.page_path(conn, :show_node, id)
+      assert get_flash(conn, :info) =~ "updated"
+
+      node_from_db = Vega.Repo.get(Vega.Node, id)
+
+      assert node_from_db.title == "new title"
+      assert node_from_db.type == "post"
+      assert node_from_db.status == "Publish"
+
+      content = Vega.Site.get_node_content!(node_from_db)
+      assert content.body == "new body"
+      assert content.body_html == "<p>\nnew body</p>\n"
+
+      tags = Vega.Site.get_node_tags_string(node_from_db)
+      assert tags == "tag0 tag1"
+    end
+  end
 end

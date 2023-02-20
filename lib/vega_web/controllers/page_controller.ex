@@ -62,7 +62,9 @@ defmodule VegaWeb.PageController do
   def create_post(conn, %{"node" => node_params}) do
     case Site.add_post(node_params["title"], node_params["body"], node_params["node_tags"]) do
       {:ok, node} ->
-        redirect(conn, to: Routes.page_path(conn, :show_node, node.id))
+        conn
+        |> put_flash(:info, "new post created")
+        |> redirect(to: Routes.page_path(conn, :show_node, node.id))
 
       {:error, changeset} ->
         render(conn, "new_post.html", changeset: changeset)
