@@ -3,7 +3,6 @@ defmodule Vega.Site do
   The Site context.
   """
 
-  import Ecto.Changeset, only: [change: 2]
   import Ecto.Query, warn: false
   require OpenTelemetry.Tracer, as: Tracer
 
@@ -26,7 +25,9 @@ defmodule Vega.Site do
   end
 
   def list_users() do
-    Repo.all(from u in User, order_by: [asc: u.fullname])
+    User
+    |> order_by([u], asc: u.fullname)
+    |> Repo.all()
   end
 
   def get_node_by_id!(node_id) do
@@ -103,16 +104,14 @@ defmodule Vega.Site do
       day: String.to_integer(day)
     }
 
-    q =
-      from n in Node,
-        where:
-          n.user_id == ^user.id and
-            n.type == ^type and
-            n.slug == ^slug and
-            n.status == "Publish" and
-            fragment("?::date", n.created) == ^created
-
-    Repo.one!(first(q))
+    Node
+    |> Node.by_user(user)
+    |> Node.by_type(type)
+    |> Node.published()
+    |> Node.by_slug(slug)
+    |> Node.by_date(created)
+    |> first()
+    |> Repo.one!()
     |> Repo.preload(:user)
     |> Repo.preload(:comments)
     |> Repo.preload(:tags)
@@ -120,13 +119,11 @@ defmodule Vega.Site do
   end
 
   defp _get_node_c!(node, c) do
-    q =
-      from p in c,
-        where: p.node_id == ^node.id,
-        order_by: [desc: :version],
-        limit: 1
-
-    Repo.one!(q)
+    c
+    |> where([p], p.node_id == ^node.id)
+    |> order_by([p], desc: p.version)
+    |> limit(1)
+    |> Repo.one!()
   end
 
   def get_node_content!(node = %Node{:type => "post"}) do
@@ -152,26 +149,28 @@ defmodule Vega.Site do
   end
 
   def list_tags() do
-    Repo.all(from t in Tag, order_by: [asc: t.name])
+    Tag
+    |> order_by([t], asc: t.name)
+    |> Repo.all()
   end
 
   def newest_nodes() do
-    Repo.all(
-      from n in Node,
-        where: n.type == "post" and n.status == "Publish",
-        order_by: [desc: n.created],
-        limit: 10
-    )
+    Node
+    |> Node.by_type("post")
+    |> Node.published()
+    |> order_by([n], desc: n.created)
+    |> limit(10)
+    |> Repo.all()
     |> Repo.preload(:user)
     |> Repo.preload(:comments)
   end
 
   def count_posts() do
-    Repo.one(
-      from n in Node,
-        select: count(n.id),
-        where: n.type == "post" and n.status == "Publish"
-    )
+    Node
+    |> Node.by_type("post")
+    |> Node.published()
+    |> select([n], count(n.id))
+    |> Repo.one()
   end
 
   def user_count_posts(user) do
@@ -179,11 +178,12 @@ defmodule Vega.Site do
       Tracer.set_attributes([{:username, user.username}])
       Tracer.set_attributes([{:user_id, user.id}])
 
-      Repo.one(
-        from n in Node,
-          select: count(n.id),
-          where: n.user_id == ^user.id and n.type == "post" and n.status == "Publish"
-      )
+      Node
+      |> Node.by_user(user)
+      |> Node.by_type("post")
+      |> Node.published()
+      |> select([n], count(n.id))
+      |> Repo.one()
     end
   end
 
@@ -254,9 +254,14 @@ defmodule Vega.Site do
   end
 
   def user_type_years(user, type) do
+    nodes =
+      Node
+      |> Node.by_user(user)
+      |> Node.by_type(type)
+      |> Node.published()
+
     Repo.all(
-      from n in Node,
-        where: n.user_id == ^user.id and n.type == ^type and n.status == "Publish",
+      from n in nodes,
         group_by: [fragment("year")],
         select: %{
           year: fragment("date_part('YEAR', ?) as year", n.created),
@@ -269,13 +274,15 @@ defmodule Vega.Site do
   def user_type_year_months(user, type, year) do
     year = String.to_integer(year)
 
+    nodes =
+      Node
+      |> Node.by_user(user)
+      |> Node.by_type(type)
+      |> Node.published()
+      |> Node.by_year(year)
+
     Repo.all(
-      from n in Node,
-        where:
-          n.user_id == ^user.id and
-            n.type == ^type and
-            n.status == "Publish" and
-            fragment("date_part('YEAR', ?)", n.created) == ^year,
+      from n in nodes,
         group_by: [fragment("month")],
         select: %{
           month: fragment("date_part('MONTH', ?) as month", n.created),
@@ -289,14 +296,16 @@ defmodule Vega.Site do
     year = String.to_integer(year)
     month = String.to_integer(month)
 
+    nodes =
+      Node
+      |> Node.by_user(user)
+      |> Node.by_type(type)
+      |> Node.published()
+      |> Node.by_year(year)
+      |> Node.by_month(month)
+
     Repo.all(
-      from n in Node,
-        where:
-          n.user_id == ^user.id and
-            n.type == ^type and
-            n.status == "Publish" and
-            fragment("date_part('YEAR', ?)", n.created) == ^year and
-            fragment("date_part('MONTH', ?)", n.created) == ^month,
+      from n in nodes,
         group_by: [fragment("day")],
         select: %{
           day: fragment("date_part('DAY', ?) as day", n.created),
@@ -311,17 +320,15 @@ defmodule Vega.Site do
     month = String.to_integer(month)
     day = String.to_integer(day)
 
-    Repo.all(
-      from n in Node,
-        where:
-          n.user_id == ^user.id and
-            n.type == ^type and
-            n.status == "Publish" and
-            fragment("date_part('YEAR', ?)", n.created) == ^year and
-            fragment("date_part('MONTH', ?)", n.created) == ^month and
-            fragment("date_part('DAY', ?)", n.created) == ^day,
-        order_by: n.created
-    )
+    Node
+    |> Node.by_user(user)
+    |> Node.by_type(type)
+    |> Node.published()
+    |> Node.by_year(year)
+    |> Node.by_month(month)
+    |> Node.by_day(day)
+    |> order_by([n], n.created)
+    |> Repo.all()
     |> Repo.preload(:user)
   end
 

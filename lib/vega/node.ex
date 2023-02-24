@@ -1,6 +1,7 @@
 defmodule Vega.Node do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
 
   schema "node" do
     field :comments_allowed, :boolean, default: false
@@ -52,5 +53,37 @@ defmodule Vega.Node do
         :slug => slugify(String.downcase(s))
       }
     end)
+  end
+
+  def by_user(query \\ Vega.Node, user) do
+    where(query, [n], n.user_id == ^user.id)
+  end
+
+  def by_type(query \\ Vega.Node, type) do
+    where(query, [n], n.type == ^type)
+  end
+
+  def published(query \\ Vega.Node) do
+    where(query, [n], n.status == "Publish")
+  end
+
+  def by_year(query \\ Vega.Node, year) do
+    where(query, [n], fragment("date_part('YEAR', ?)", n.created) == ^year)
+  end
+
+  def by_month(query \\ Vega.Node, month) do
+    where(query, [n], fragment("date_part('MONTH', ?)", n.created) == ^month)
+  end
+
+  def by_day(query \\ Vega.Node, day) do
+    where(query, [n], fragment("date_part('DAY', ?)", n.created) == ^day)
+  end
+
+  def by_slug(query \\ Vega.Node, slug) do
+    where(query, [n], n.slug == ^slug)
+  end
+
+  def by_date(query \\ Vega.Node, created) do
+    where(query, [n], fragment("?::date", n.created) == ^created)
   end
 end
