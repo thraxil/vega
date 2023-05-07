@@ -23,7 +23,8 @@ defmodule VegaWeb.PageController do
           prev_page: max(page - 1, 1),
           has_prev: page > 1,
           next_page: page + 1,
-          has_next: has_next
+          has_next: has_next,
+          page_title: "Thraxil.org"
         )
       end
     end
@@ -50,7 +51,8 @@ defmodule VegaWeb.PageController do
       month: month,
       day: day,
       slug: slug,
-      content: content
+      content: content,
+      page_title: node.title
     )
   end
 
@@ -111,12 +113,12 @@ defmodule VegaWeb.PageController do
 
   def tag_detail(conn, %{"slug" => slug}) do
     tag = Site.get_tag!(slug)
-    render(conn, "tag_detail.html", tag: tag)
+    render(conn, "tag_detail.html", tag: tag, page_title: "Tag: #{tag.name}")
   end
 
   def tag_index(conn, _params) do
     tags = Site.list_tags()
-    render(conn, "tag_index.html", tags: tags)
+    render(conn, "tag_index.html", tags: tags, page_title: "Tags")
   end
 
   def user_detail(conn, %{"username" => username}) do
@@ -228,7 +230,7 @@ defmodule VegaWeb.PageController do
 
   def user_index(conn, _params) do
     users = Site.list_users()
-    render(conn, "user_index.html", users: users)
+    render(conn, "user_index.html", users: users, page_title: "Users")
   end
 
   def search_results(conn, _params) do
@@ -236,6 +238,6 @@ defmodule VegaWeb.PageController do
     params = Map.merge(defaults, conn.query_params)
     q = params["q"]
     nodes = Site.search(q)
-    render(conn, "search_results.html", nodes: nodes, q: q)
+    render(conn, "search_results.html", nodes: nodes, q: q, page_title: "Search Results: " <> q)
   end
 end

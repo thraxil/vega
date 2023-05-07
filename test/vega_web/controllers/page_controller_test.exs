@@ -31,6 +31,7 @@ defmodule VegaWeb.PageControllerTest do
       response = html_response(conn, 200)
       assert response =~ "thraxil.org"
       assert response =~ node.title
+      assert response =~ "<title>Thraxil.org</title>"
       assert response =~ "<p>\ntest body</p>"
     end
 
@@ -106,6 +107,7 @@ defmodule VegaWeb.PageControllerTest do
       response = html_response(conn, 200)
       assert response =~ user.fullname
       assert response =~ node.title
+      assert response =~ "<title>Search Results: test</title>"
     end
 
     test "node detail page", %{conn: conn, node: node, user: user} do
@@ -115,6 +117,7 @@ defmodule VegaWeb.PageControllerTest do
       response = html_response(conn, 200)
       assert response =~ user.fullname
       assert response =~ node.title
+      assert response =~ "<title>" <> node.title <> "</title>"
       assert response =~ "<p>\ntest body</p>"
     end
 
@@ -122,6 +125,7 @@ defmodule VegaWeb.PageControllerTest do
       conn = get(conn, Routes.page_path(conn, :tag_detail, "tagone"))
       response = html_response(conn, 200)
       assert response =~ node.title
+      assert response =~ "<title>Tag: tagone</title>"
     end
 
     test "tag index has expected entries", %{conn: conn} do
@@ -129,12 +133,14 @@ defmodule VegaWeb.PageControllerTest do
       response = html_response(conn, 200)
       assert response =~ "tagone"
       assert response =~ "tagtwo"
+      assert response =~ "<title>Tags</title>"
     end
 
     test "user index has expected user", %{conn: conn, user: user} do
       conn = get(conn, Routes.page_path(conn, :user_index))
       response = html_response(conn, 200)
       assert response =~ user.fullname
+      assert response =~ "<title>Users</title>"
     end
 
     test "invalid type doesn't cause server error", %{conn: conn, user: user} do
