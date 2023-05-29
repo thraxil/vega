@@ -26,9 +26,7 @@
     <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %>
     <% end %>
     <div>
-      <form action="/search" method="get">
-        <input type="text" name="q" class="input-xs text-slate-900" /><input type="submit" value="search" class="btn input-xs btn-xs"/>
-      </form>
+      <.search></.search>
       <%= render "_user_menu.html", assigns %>
     </div>
       </div>
@@ -37,6 +35,6 @@
     
     <div class="container mx-auto">
         <%= @inner_content %>
-      </div>
+    </div>
   </body>
 </html>

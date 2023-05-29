@@ -6,8 +6,7 @@
 
 <%= for node <- @nodes do %>
     <article class="prose my-10 shadow-md prose-lg text-slate-900 ">
-<h2 class="bg-slate-300 my-0 "><%= link(node.title, to: node_path(node),
-                             class: "no-underline text-slate-900 ") %></h2>
+      <.node_title node={node}></.node_title>
 
 <p class="bg-slate-100 my-0">By <%= link(node.user.fullname, to:
         Routes.page_path(@conn, :user_detail, node.user.username),
