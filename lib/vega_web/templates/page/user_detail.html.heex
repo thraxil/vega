@@ -1,13 +1,7 @@
-<div class="breadcrumbs">
-  <ul>
-
-  <li>// <%= link("thraxil.org", to: Routes.page_path(@conn, :index)) %></li>
-  <li>
-  <%= link("users", to: Routes.page_path(@conn, :user_index)) %></li>
-  <li>
-    <%= @user.username  %></li>
-  </ul>
-</div>
+<.breadcrumbs>
+  <.breadcrumb_users></.breadcrumb_users>
+  <li><%= @user.username  %></li>
+</.breadcrumbs>
 
     <article class="prose my-10 shadow-md prose-lg bg-gray-300 p-5 text-slate-900">
 

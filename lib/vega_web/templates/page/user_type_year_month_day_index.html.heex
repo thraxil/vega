@@ -1,21 +1,7 @@
-<div class="breadcrumbs">
-  <ul>
-
-  <li>// <%= link("thraxil.org", to: Routes.page_path(@conn, :index)) %></li>
-  <li>
-  <%= link("users", to: Routes.page_path(@conn, :user_index)) %></li>
-  <li>
-  <%= link(@user.username, to: Routes.page_path(@conn, :user_detail, @user.username)) %></li>
-  <li>
-  <%= link(@type <> "s", to: Routes.page_path(@conn, :user_type_index, @user.username, @type <> "s")) %></li>
-  <li>
-  <%= link(@year, to: Routes.page_path(@conn, :user_type_year_index, @user.username, @type <> "s", @year)) %></li>
-  <li>
-  <%= link(@month, to: Routes.page_path(@conn, :user_type_year_month_index, @user.username, @type <> "s", @year, @month)) %></li>
-  <li>
-  <%= @day %></li>
-  </ul>
-</div>
+<.breadcrumbs>
+  <.breadcrumb user={@user} type={@type} year={@year} month={@month}></.breadcrumb>
+  <li><%= @day %></li>
+</.breadcrumbs>
 
 <.article>
 <ul>
