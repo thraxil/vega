@@ -10,11 +10,6 @@
     </.article>
 <% end %>
 
-
-<div class="btn-group flex justify-center">
-  <%= if @has_prev do %>
-  <button class="btn"><%= link "<< prev", to: Routes.page_path(@conn, :index, page: @prev_page) %></button>
-  <% else %><button class="btn btn-disabled">&lt;&lt; prev</button><% end %>
-  <button class="btn btn-disabled">page <%= @page %></button>
-  <%= if @has_next do %><button class="btn"><%= link "next >>", to: Routes.page_path(@conn, :index, page: @next_page) %></button><% else %><button class="btn btn-disabled">next &gt;&gt;</button><% end %>
-</div>
+<.pagination has_prev={@has_prev} has_next={@has_next}
+             prev_page={@prev_page} next_page={@next_page}
+             page={@page} />

@@ -97,7 +97,7 @@ defmodule VegaWeb do
 
       import VegaWeb.ErrorHelpers
       import VegaWeb.Gettext
-      import VegaWeb.Components.{Search, Node, Breadcrumbs}
+      import VegaWeb.Components.{Search, Node, Breadcrumbs, Pagination}
       alias VegaWeb.Router.Helpers, as: Routes
     end
   end

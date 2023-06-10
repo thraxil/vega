@@ -1,5 +1,5 @@
 <.breadcrumbs>
-  <.breadcrumb user={@user} type={@type} year={@year} month={@month} day={@day}></.breadcrumb>
+  <.breadcrumb user={@user} type={@type} year={@year} month={@month} day={@day} />
 </.breadcrumbs>
 
 <%= if @current_user do %>
@@ -8,12 +8,12 @@
 
 
 <.article>
-  <.node_title node={@node}></.node_title>
-  <.byline node={@node}></.byline>
+  <.node_title node={@node} />
+  <.byline node={@node} />
 
-  <.node_content node={@node} content={@content}></.node_content>
+  <.node_content node={@node} content={@content} />
 
-  <.node_tags node={@node}></.node_tags>
+  <.node_tags node={@node} />
 
 <%= if length(@node.comments) > 0 do %>
 <h3>Comments</h3>
