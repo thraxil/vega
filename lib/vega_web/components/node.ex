@@ -7,6 +7,12 @@ defmodule VegaWeb.Components.Node do
   import Phoenix.HTML.{Link, Tag}
   import Phoenix.HTML
 
+  def node_link(%{node: node} = assigns) do
+    ~H"""
+    <%= link(node.title, to: VegaWeb.PageView.node_path(node), class: "text-slate-900") %>
+    """
+  end
+
   def node_title(%{node: node} = assigns) do
     ~H"""
     <h2 class="bg-slate-300 my-0 "><%= link(node.title, to: VegaWeb.PageView.node_path(node),

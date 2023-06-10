@@ -6,9 +6,7 @@
 <.article>
 <ul>
 <%= for node <- @nodes do %>
-<li><%= link(node.title, to: node_path(node), class: "text-slate-900") %>
-  <.inline_byline node={node} />
-</li>
+<li><.node_link node={node} /> <.inline_byline node={node} /></li>
 <% end %>
 </ul>
 </.article>
