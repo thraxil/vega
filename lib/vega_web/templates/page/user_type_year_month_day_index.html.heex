@@ -1,15 +1,13 @@
 <.breadcrumbs>
-  <.breadcrumb user={@user} type={@type} year={@year} month={@month}></.breadcrumb>
+  <.breadcrumb user={@user} type={@type} year={@year} month={@month} />
   <li><%= @day %></li>
 </.breadcrumbs>
 
 <.article>
 <ul>
 <%= for node <- @nodes do %>
-<li><%= link(node.title, to: node_path(node), class: "text-slate-900") %> by
-  <%= node.user.username %>
-  -
-  <%= dformat(node.created) %>
+<li><%= link(node.title, to: node_path(node), class: "text-slate-900") %>
+  <.inline_byline node={node} />
 </li>
 <% end %>
 </ul>

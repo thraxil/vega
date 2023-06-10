@@ -8,10 +8,9 @@
 <ul>
   <%= for node <- @tag.nodes do %>
 <li>
-        <%= link(node.title, to: node_path(node), class: "text-slate-900") %>
-        by <%= link(node.user.fullname, to:
-        Routes.page_path(@conn, :user_detail, node.user.username),
-        class: "text-slate-900") %> <%= dformat(node.created) %>
+        <%= link(node.title, to: node_path(node), class:
+            "text-slate-900") %>
+        <.inline_byline node={node} />
 </li>
       <% end %>
 </ul>

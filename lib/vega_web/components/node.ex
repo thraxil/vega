@@ -37,7 +37,7 @@ defmodule VegaWeb.Components.Node do
     12 => "Dec"
   }
 
-  def dformat_node(timestamp) do
+  defp dformat_node(timestamp) do
     '~2..0B ~ts ~4..0B'
     |> :io_lib.format([timestamp.day, @months[timestamp.month], timestamp.year])
     |> List.to_string()
@@ -48,6 +48,14 @@ defmodule VegaWeb.Components.Node do
     <p class="bg-slate-100 my-0">By <%= link(node.user.fullname, to:
     Routes.page_path(VegaWeb.Endpoint, :user_detail, node.user.username),
     class: "text-slate-900") %> <%= dformat_node(node.created) %></p>
+    """
+  end
+
+  def inline_byline(%{node: node} = assigns) do
+    ~H"""
+    By <%= link(node.user.fullname, to:
+    Routes.page_path(VegaWeb.Endpoint, :user_detail, node.user.username),
+    class: "text-slate-900") %> <%= dformat_node(node.created) %>
     """
   end
 
