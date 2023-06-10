@@ -33,14 +33,7 @@
 <%= raw Earmark.as_html!(@content.description) %>
 <% end %>
 
-<%= if length(@node.tags) > 0 do %>
-<p>Tags: 
-<%= for tag <- @node.tags do %>
-<%= link(tag.name, to: Routes.page_path(@conn, :tag_detail, tag.slug),
-    class: "badge") %>
-   <% end %>
-</p>
-<% end %>
+<.node_tags node={@node}></.node_tags>
 
 <%= if length(@node.comments) > 0 do %>
 <h3>Comments</h3>

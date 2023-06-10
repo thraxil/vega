@@ -50,4 +50,17 @@ defmodule VegaWeb.Components.Node do
     class: "text-slate-900") %> <%= dformat_node(node.created) %></p>
     """
   end
+
+  def node_tags(%{node: node} = assigns) do
+    ~H"""
+    <%= if length(node.tags) > 0 do %>
+    <p>Tags: 
+    <%= for tag <- node.tags do %>
+    <%= link(tag.name, to: Routes.page_path(VegaWeb.Endpoint, :tag_detail, tag.slug), class: "badge") %>
+    <% end %>
+    </p>
+    <% end %>
+    """
+    end
+
 end
