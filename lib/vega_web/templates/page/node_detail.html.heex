@@ -22,8 +22,8 @@
 <% end %>
 
 
-    <.article>
-<h2 class="bg-slate-300 my-0 text-slate-900"><%= @node.title %></h2>
+<.article>
+  <.node_title node={@node}></.node_title>
 <p class="bg-slate-100 my-0">By <%= link(@node.user.fullname, to:
                                     Routes.page_path(@conn,
                                     :user_detail,
