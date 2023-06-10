@@ -11,4 +11,12 @@ defmodule VegaWeb.Components.Node do
     class: "no-underline text-slate-900 ") %></h2>
     """
   end
+
+  def article(assigns) do
+    ~H"""
+    <article class="prose my-10 shadow-md prose-lg text-slate-900 ">
+      <%= render_slot(@inner_block) %>
+    </article>
+    """
+  end
 end

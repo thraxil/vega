@@ -5,14 +5,14 @@
 </div>
 
 <%= for node <- @nodes do %>
-    <article class="prose my-10 shadow-md prose-lg text-slate-900 ">
+    <.article>
       <.node_title node={node}></.node_title>
 
-<p class="bg-slate-100 my-0">By <%= link(node.user.fullname, to:
-        Routes.page_path(@conn, :user_detail, node.user.username),
-        class: "text-slate-900") %> <%= dformat(node.created) %></p>
-<%= raw node.body_html %>
-</article>
+      <p class="bg-slate-100 my-0">By <%= link(node.user.fullname, to:
+                                          Routes.page_path(@conn, :user_detail, node.user.username),
+                                          class: "text-slate-900") %> <%= dformat(node.created) %></p>
+      <%= raw node.body_html %>
+    </.article>
 <% end %>
 
 
