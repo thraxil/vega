@@ -11,29 +11,9 @@
   <.node_title node={@node}></.node_title>
   <.byline node={@node}></.byline>
 
-<%= if @node.type == "post" do %>
-<%= raw @content.body_html %>
-<% end %>
+  <.node_content node={@node} content={@content}></.node_content>
 
-<%= if @node.type == "image" do %>
-<%= if @content.rhash && @content.ext do %>
-<%= img_tag("https://d2f33fmhbh7cs9.cloudfront.net/image/" <>
-    @content.rhash <> "/960w/" <> to_string(@node.id) <> "." <>
-    @content.ext,
-    title: @node.title
-    ) %>
-<% else %>
-<p>[missing]</p>
-<% end %>
-<%= raw Earmark.as_html!(@content.description) %>
-<% end %>
-
-<%= if @node.type == "bookmark" do %>
-<p><%= link(@node.title, to: @content.url) %></p>
-<%= raw Earmark.as_html!(@content.description) %>
-<% end %>
-
-<.node_tags node={@node}></.node_tags>
+  <.node_tags node={@node}></.node_tags>
 
 <%= if length(@node.comments) > 0 do %>
 <h3>Comments</h3>

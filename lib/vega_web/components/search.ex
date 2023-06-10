@@ -3,7 +3,7 @@ defmodule VegaWeb.Components.Search do
   Search Form
   """
   use Phoenix.Component
-    
+
   def search(assigns) do
     ~H"""
     <form action="/search" method="get">
@@ -11,4 +11,4 @@ defmodule VegaWeb.Components.Search do
     </form>
     """
   end
-end      
+end

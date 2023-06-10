@@ -4,8 +4,9 @@ defmodule VegaWeb.Components.Node do
   """
   use Phoenix.Component
   alias VegaWeb.Router.Helpers, as: Routes
-  import Phoenix.HTML.{Link}
-    
+  import Phoenix.HTML.{Link, Tag}
+  import Phoenix.HTML
+
   def node_title(%{node: node} = assigns) do
     ~H"""
     <h2 class="bg-slate-300 my-0 "><%= link(node.title, to: VegaWeb.PageView.node_path(node),
@@ -41,9 +42,8 @@ defmodule VegaWeb.Components.Node do
     |> :io_lib.format([timestamp.day, @months[timestamp.month], timestamp.year])
     |> List.to_string()
   end
-  
-  def byline(%{node: node} = assigns) do
 
+  def byline(%{node: node} = assigns) do
     ~H"""
     <p class="bg-slate-100 my-0">By <%= link(node.user.fullname, to:
     Routes.page_path(VegaWeb.Endpoint, :user_detail, node.user.username),
@@ -61,6 +61,33 @@ defmodule VegaWeb.Components.Node do
     </p>
     <% end %>
     """
-    end
+  end
 
+  def node_content(%{node: %{type: "post"}, content: content} = assigns) do
+    ~H"""
+    <%= raw content.body_html %>
+    """
+  end
+
+  def node_content(%{node: %{type: "image"} = node, content: content} = assigns) do
+    ~H"""
+    <%= if content.rhash && content.ext do %>
+    <%= img_tag("https://d2f33fmhbh7cs9.cloudfront.net/image/" <>
+    content.rhash <> "/960w/" <> to_string(node.id) <> "." <>
+    content.ext,
+    title: node.title
+    ) %>
+    <% else %>
+    <p>[missing]</p>
+    <% end %>
+    <%= raw Earmark.as_html!(content.description) %>
+    """
+  end
+
+  def node_content(%{node: %{type: "bookmark"} = node, content: content} = assigns) do
+    ~H"""
+    <p><%= link(node.title, to: content.url) %></p>
+    <%= raw Earmark.as_html!(content.description) %>
+    """
+  end
 end

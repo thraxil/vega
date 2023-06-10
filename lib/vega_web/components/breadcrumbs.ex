@@ -15,7 +15,7 @@ defmodule VegaWeb.Components.Breadcrumbs do
     </div>
     """
   end
-  
+
   def breadcrumb_root(assigns) do
     ~H"""
     <li>// <%= link("thraxil.org", to: Routes.page_path(VegaWeb.Endpoint, :index)) %></li>
@@ -63,6 +63,4 @@ defmodule VegaWeb.Components.Breadcrumbs do
     <li><%= link(user.username, to: Routes.page_path(VegaWeb.Endpoint, :user_detail, user.username)) %></li>
     """
   end
-
-
 end
