@@ -9,7 +9,7 @@ defmodule VegaWeb.Components.Node do
 
   def node_link(%{node: node} = assigns) do
     ~H"""
-    <%= link(node.title, to: VegaWeb.PageView.node_path(node), class: "text-slate-900") %>
+    <.link navigate={VegaWeb.PageView.node_path(node)} class="text-slate-900"><%= node.title %></.link>
     """
   end
 
@@ -98,10 +98,10 @@ defmodule VegaWeb.Components.Node do
     """
   end
 
-  def node_content(%{node: %{type: "bookmark"} = node, content: content} = assigns) do
+  def node_content(%{node: %{type: "bookmark"} = _node, content: content} = assigns) do
     ~H"""
-    <p><%= link(node.title, to: content.url) %></p>
-    <%= raw Earmark.as_html!(content.description) %>
+    <p><.link navigate={@content.url}><%= @node.title %></.link></p>
+    <%= raw Earmark.as_html!(@content.description) %>
     """
   end
 end
