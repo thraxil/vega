@@ -29,38 +29,38 @@ defmodule VegaWeb.Components.Breadcrumbs do
     """
   end
 
-  def breadcrumb(%{user: user, type: type, year: year, month: month, day: day} = assigns) do
+  def breadcrumb(%{user: _user, type: _type, year: _year, month: _month, day: _day} = assigns) do
     ~H"""
-    <.breadcrumb user={user} type={type} year={year} month={month}></.breadcrumb>
-    <li><%= link(day, to: Routes.page_path(VegaWeb.Endpoint, :user_type_year_month_day_index, user.username, type <> "s", year, month, day)) %></li>
+    <.breadcrumb user={@user} type={@type} year={@year} month={@month}></.breadcrumb>
+    <li><%= link(@day, to: Routes.page_path(VegaWeb.Endpoint, :user_type_year_month_day_index, @user.username, @type <> "s", @year, @month, @day)) %></li>
     """
   end
 
-  def breadcrumb(%{user: user, type: type, year: year, month: month} = assigns) do
+  def breadcrumb(%{user: _user, type: _type, year: _year, month: _month} = assigns) do
     ~H"""
-    <.breadcrumb user={user} type={type} year={year}></.breadcrumb>
-    <li><%= link(month, to: Routes.page_path(VegaWeb.Endpoint, :user_type_year_month_index, user.username, type <> "s", year, month)) %></li>
+    <.breadcrumb user={@user} type={@type} year={@year}></.breadcrumb>
+    <li><%= link(@month, to: Routes.page_path(VegaWeb.Endpoint, :user_type_year_month_index, @user.username, @type <> "s", @year, @month)) %></li>
     """
   end
 
-  def breadcrumb(%{user: user, type: type, year: year} = assigns) do
+  def breadcrumb(%{user: _user, type: _type, year: _year} = assigns) do
     ~H"""
-    <.breadcrumb user={user} type={type}></.breadcrumb>
-    <li><%= link(year, to: Routes.page_path(VegaWeb.Endpoint, :user_type_year_index, user.username, type <> "s", year)) %></li>
+    <.breadcrumb user={@user} type={@type}></.breadcrumb>
+    <li><%= link(@year, to: Routes.page_path(VegaWeb.Endpoint, :user_type_year_index, @user.username, @type <> "s", @year)) %></li>
     """
   end
 
-  def breadcrumb(%{user: user, type: type} = assigns) do
+  def breadcrumb(%{user: _user, type: _type} = assigns) do
     ~H"""
-    <.breadcrumb user={user}></.breadcrumb>
-    <li><%= link(type <> "s", to: Routes.page_path(VegaWeb.Endpoint, :user_type_index, user.username, type <> "s")) %></li>
+    <.breadcrumb user={@user}></.breadcrumb>
+    <li><%= link(@type <> "s", to: Routes.page_path(VegaWeb.Endpoint, :user_type_index, @user.username, @type <> "s")) %></li>
     """
   end
 
-  def breadcrumb(%{user: user} = assigns) do
+  def breadcrumb(%{user: _user} = assigns) do
     ~H"""
     <.breadcrumb_users></.breadcrumb_users>
-    <li><%= link(user.username, to: Routes.page_path(VegaWeb.Endpoint, :user_detail, user.username)) %></li>
+    <li><%= link(@user.username, to: Routes.page_path(VegaWeb.Endpoint, :user_detail, @user.username)) %></li>
     """
   end
 end
