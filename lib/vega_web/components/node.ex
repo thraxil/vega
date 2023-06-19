@@ -15,8 +15,7 @@ defmodule VegaWeb.Components.Node do
 
   def node_title(assigns) do
     ~H"""
-    <h2 class="bg-slate-300 my-0 "><%= link(@node.title, to: VegaWeb.PageView.node_path(@node),
-    class: "no-underline text-slate-900 ") %></h2>
+    <h2 class="bg-slate-300 my-0 "><.link navigate={VegaWeb.PageView.node_path(@node)} class="no-underline text-slate-900"><%= @node.title %></.link></h2>
     """
   end
 
