@@ -4,7 +4,7 @@ defmodule VegaWeb.Components.Node do
   """
   use Phoenix.Component
   alias VegaWeb.Router.Helpers, as: Routes
-  import Phoenix.HTML.{Link, Tag}
+  import Phoenix.HTML.{Tag}
   import Phoenix.HTML
 
   def node_link(assigns) do
@@ -50,17 +50,15 @@ defmodule VegaWeb.Components.Node do
 
   def byline(assigns) do
     ~H"""
-    <p class="bg-slate-100 my-0">By <%= link(@node.user.fullname, to:
-    Routes.page_path(VegaWeb.Endpoint, :user_detail, @node.user.username),
-    class: "text-slate-900") %> <%= dformat_node(@node.created) %></p>
+    <p class="bg-slate-100 my-0">By <.link navigate={Routes.page_path(VegaWeb.Endpoint, :user_detail, @node.user.username)}
+    class="text-slate-900"><%= @node.user.fullname %></.link> <%= dformat_node(@node.created) %></p>
     """
   end
 
   def inline_byline(assigns) do
     ~H"""
-    By <%= link(@node.user.fullname, to:
-    Routes.page_path(VegaWeb.Endpoint, :user_detail, @node.user.username),
-    class: "text-slate-900") %> <%= dformat_node(@node.created) %>
+    By <.link navigate={Routes.page_path(VegaWeb.Endpoint, :user_detail, @node.user.username)}
+    class="text-slate-900" ><%= @node.user.fullname %></.link> <%= dformat_node(@node.created) %>
     """
   end
 
@@ -69,7 +67,7 @@ defmodule VegaWeb.Components.Node do
     <%= if length(@node.tags) > 0 do %>
     <p>Tags: 
     <%= for tag <- @node.tags do %>
-    <%= link(tag.name, to: Routes.page_path(VegaWeb.Endpoint, :tag_detail, tag.slug), class: "badge") %>
+    <.link navigate={Routes.page_path(VegaWeb.Endpoint, :tag_detail, tag.slug)} class="badge"><%= tag.name %></.link>
     <% end %>
     </p>
     <% end %>
