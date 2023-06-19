@@ -9,9 +9,9 @@ defmodule Vega.User do
     field :username, :string
 
     has_many :nodes, Vega.Node
-    has_many :posts, Vega.Post
-    has_many :bookmarks, Vega.Bookmark
-    has_many :images, Vega.Image
+    has_many :posts, through: [:nodes, :posts]
+    has_many :bookmarks, through: [:nodes, :bookmarks]
+    has_many :images, through: [:nodes, :images]
   end
 
   @doc false
