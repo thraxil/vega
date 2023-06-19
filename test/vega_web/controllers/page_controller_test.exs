@@ -171,7 +171,7 @@ defmodule VegaWeb.PageControllerTest do
       # should redirect to edit page upon creation
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.page_path(conn, :show_node, id)
-      assert get_flash(conn, :info) =~ "created"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "created"
 
       node_from_db = Vega.Repo.get(Vega.Node, id)
 
@@ -204,7 +204,7 @@ defmodule VegaWeb.PageControllerTest do
       # should redirect to edit page upon creation
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.page_path(conn, :show_node, id)
-      assert get_flash(conn, :info) =~ "updated"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "updated"
 
       node_from_db = Vega.Repo.get(Vega.Node, id)
 

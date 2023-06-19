@@ -3,13 +3,17 @@
 </.breadcrumbs>
 
 <%= for node <- @nodes do %>
-    <.article>
-      <.node_title node={node}></.node_title>
-      <.byline node={node}></.byline>
-      <%= raw node.body_html %>
-    </.article>
+  <.article>
+    <.node_title node={node}></.node_title>
+    <.byline node={node}></.byline>
+    <%= raw(node.body_html) %>
+  </.article>
 <% end %>
 
-<.pagination has_prev={@has_prev} has_next={@has_next}
-             prev_page={@prev_page} next_page={@next_page}
-             page={@page} />
+<.pagination
+  has_prev={@has_prev}
+  has_next={@has_next}
+  prev_page={@prev_page}
+  next_page={@next_page}
+  page={@page}
+/>

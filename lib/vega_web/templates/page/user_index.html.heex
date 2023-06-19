@@ -1,12 +1,14 @@
-<.breadcrumbs>    
+<.breadcrumbs>
   <.breadcrumb_root></.breadcrumb_root>
   <li>users</li>
 </.breadcrumbs>
 
 <div class="prose">
-<ul>
-<%= for user <- @users do %>
-<li><%= link(user.fullname, to: Routes.page_path(@conn, :user_detail, user.username)) %></li>
-<% end %>
-</ul>
+  <ul>
+    <%= for user <- @users do %>
+      <li>
+        <%= link(user.fullname, to: Routes.page_path(@conn, :user_detail, user.username)) %>
+      </li>
+    <% end %>
+  </ul>
 </div>

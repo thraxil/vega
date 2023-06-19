@@ -5,9 +5,9 @@
 </.breadcrumbs>
 
 <div class="prose text-slate-900">
-<ul>
-  <%= for node <- @tag.nodes do %>
+  <ul>
+    <%= for node <- @tag.nodes do %>
       <li><.node_link node={node} /> <.inline_byline node={node} /></li>
-  <% end %>
-</ul>
+    <% end %>
+  </ul>
 </div>

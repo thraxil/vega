@@ -7,7 +7,11 @@ defmodule VegaWeb.Components.Search do
   def search(assigns) do
     ~H"""
     <form action="/search" method="get">
-    <input type="text" name="q" class="input-xs text-slate-900" /><input type="submit" value="search" class="btn input-xs btn-xs"/>
+      <input type="text" name="q" class="input-xs text-slate-900" /><input
+        type="submit"
+        value="search"
+        class="btn input-xs btn-xs"
+      />
     </form>
     """
   end

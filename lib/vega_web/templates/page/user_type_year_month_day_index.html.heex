@@ -4,9 +4,9 @@
 </.breadcrumbs>
 
 <.article>
-<ul>
-<%= for node <- @nodes do %>
-<li><.node_link node={node} /> <.inline_byline node={node} /></li>
-<% end %>
-</ul>
+  <ul>
+    <%= for node <- @nodes do %>
+      <li><.node_link node={node} /> <.inline_byline node={node} /></li>
+    <% end %>
+  </ul>
 </.article>

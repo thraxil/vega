@@ -1,27 +1,34 @@
 <.breadcrumbs>
   <.breadcrumb_users />
-  <li><%= @user.username  %></li>
+  <li><%= @user.username %></li>
 </.breadcrumbs>
 
-    <article class="prose my-10 shadow-md prose-lg bg-gray-300 p-5 text-slate-900">
-      <%= raw Earmark.as_html!(@user.bio) %>
-    </article>
-    
+<article class="prose my-10 shadow-md prose-lg bg-gray-300 p-5 text-slate-900">
+  <%= raw(Earmark.as_html!(@user.bio)) %>
+</article>
 
 <p>
-<%= link("posts", to: Routes.page_path(@conn, :user_type_index, @user.username, "posts")) %>
-| <%= link("images", to: Routes.page_path(@conn, :user_type_index, @user.username, "images")) %>
-| <%= link("bookmarks", to: Routes.page_path(@conn, :user_type_index, @user.username, "bookmarks")) %>
+  <%= link("posts", to: Routes.page_path(@conn, :user_type_index, @user.username, "posts")) %> | <%= link(
+    "images",
+    to: Routes.page_path(@conn, :user_type_index, @user.username, "images")
+  ) %> | <%= link("bookmarks",
+    to: Routes.page_path(@conn, :user_type_index, @user.username, "bookmarks")
+  ) %>
 </p>
 
 <%= for node <- @nodes do %>
-    <.article>
-      <.node_title node={node}></.node_title>
-      <.byline node={node}></.byline>
-      <%= raw node.body_html %>
-    </.article>
+  <.article>
+    <.node_title node={node}></.node_title>
+    <.byline node={node}></.byline>
+    <%= raw(node.body_html) %>
+  </.article>
 <% end %>
 
-<.pagination user={@user} has_prev={@has_prev} has_next={@has_next}
-             prev_page={@prev_page} next_page={@next_page}
-             page={@page} />
+<.pagination
+  user={@user}
+  has_prev={@has_prev}
+  has_next={@has_next}
+  prev_page={@prev_page}
+  next_page={@next_page}
+  page={@page}
+/>

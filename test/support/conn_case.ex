@@ -28,6 +28,8 @@ defmodule VegaWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint VegaWeb.Endpoint
+
+      use VegaWeb, :verified_routes
     end
   end
 
