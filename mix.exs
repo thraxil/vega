@@ -10,7 +10,8 @@ defmodule Vega.MixProject do
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      xref: [exclude: [Phoenix.VerifiedRoutes]],
     ]
   end
 
