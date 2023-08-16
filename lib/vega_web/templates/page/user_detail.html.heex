@@ -3,10 +3,6 @@
   <li><%= @user.username %></li>
 </.breadcrumbs>
 
-<article class="prose my-10 shadow-md prose-lg bg-gray-300 p-5 text-slate-900">
-  <%= raw(Earmark.as_html!(@user.bio)) %>
-</article>
-
 <p>
   <%= link("posts", to: Routes.page_path(@conn, :user_type_index, @user.username, "posts")) %> | <%= link(
     "images",
