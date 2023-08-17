@@ -15,6 +15,10 @@ processes = []
 [experimental]
   auto_rollback = true
 
+[[statics]]
+  guest_path = "/app/assets"
+  url_prefix = "/assets"
+
 [[services]]
   http_checks = []
   internal_port = 8080
