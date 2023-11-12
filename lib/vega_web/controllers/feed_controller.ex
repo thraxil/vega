@@ -30,7 +30,7 @@ defmodule VegaWeb.RssController do
 
   defp get_entry(_conn, node) do
     Entry.new(
-      VegaWeb.PageView.node_path(node),
+      @base <> VegaWeb.PageView.node_path(node),
       DateTime.from_naive!(node.created, "Etc/UTC"),
       node.title
     )
