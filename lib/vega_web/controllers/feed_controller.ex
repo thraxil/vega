@@ -15,7 +15,7 @@ defmodule VegaWeb.RssController do
     feed = build_feed(@base, @title, @author, @email, link, posts, conn)
 
     conn
-    |> put_resp_content_type("text/xml")
+    |> put_resp_content_type("application/atom+xml")
     |> send_resp(200, feed)
   end
 
@@ -34,7 +34,7 @@ defmodule VegaWeb.RssController do
       DateTime.from_naive!(node.created, "Etc/UTC"),
       node.title
     )
-    |> Entry.link(VegaWeb.PageView.node_path(node))
+    |> Entry.link(@base <> VegaWeb.PageView.node_path(node))
     |> Entry.author(@author)
     |> Entry.content(node.body_html, type: "html")
     |> Entry.build()
