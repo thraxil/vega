@@ -121,6 +121,20 @@ defmodule VegaWeb.PageControllerTest do
       assert response =~ "<p>\ntest body</p>"
     end
 
+    test "node detail page 404", %{conn: conn, node: _node, user: user} do
+      path = "/users/" <> user.username <> "/posts/2018/01/01/blah"
+      assert_error_sent 404, fn ->
+        get(conn, path)
+      end
+    end
+
+    test "node detail page missing user 404", %{conn: conn, node: _node, user: _user} do
+      path = "/users/notarealuser/posts/2018/01/01/blah"
+      assert_error_sent 404, fn ->
+        get(conn, path)
+      end
+    end
+
     test "node shows up in tag page", %{conn: conn, node: node} do
       conn = get(conn, Routes.page_path(conn, :tag_detail, "tagone"))
       response = html_response(conn, 200)
