@@ -222,16 +222,35 @@ defmodule VegaWeb.PageController do
       }) do
     user = Site.get_user!(username)
     type = String.replace_suffix(type, "s", "")
-    nodes = Site.user_type_year_month_day(user, type, year, month, day)
 
-    render(conn, "user_type_year_month_day_index.html",
-      user: user,
-      type: type,
-      year: year,
-      month: month,
-      day: day,
-      nodes: nodes
-    )
+    case Integer.parse(year) do
+      :error ->
+        conn |> send_resp(:not_found, "invalid year") |> halt()
+
+      _ ->
+        case Integer.parse(month) do
+          :error ->
+            conn |> send_resp(:not_found, "invalid month") |> halt()
+
+          _ ->
+            case Integer.parse(day) do
+              :error ->
+                conn |> send_resp(:not_found, "invalid day") |> halt()
+
+              _ ->
+                nodes = Site.user_type_year_month_day(user, type, year, month, day)
+
+                render(conn, "user_type_year_month_day_index.html",
+                  user: user,
+                  type: type,
+                  year: year,
+                  month: month,
+                  day: day,
+                  nodes: nodes
+                )
+            end
+        end
+    end
   end
 
   def user_index(conn, _params) do

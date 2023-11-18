@@ -112,6 +112,75 @@ defmodule VegaWeb.PageControllerTest do
       assert response =~ "<li>"
     end
 
+    test "user type year month day index invalid year", %{conn: conn, node: node, user: user} do
+      year = "notvalid"
+      month = VegaWeb.PageView.node_month(node)
+      day = VegaWeb.PageView.node_day(node)
+
+      conn =
+        get(
+          conn,
+          Routes.page_path(
+            conn,
+            :user_type_year_month_day_index,
+            user.username,
+            "posts",
+            year,
+            month,
+            day
+          )
+        )
+
+      response = response(conn, 404)
+      assert response =~ "invalid year"
+    end
+
+    test "user type year month day index invalid month", %{conn: conn, node: node, user: user} do
+      year = VegaWeb.PageView.node_year(node)
+      month = "notvalid"
+      day = VegaWeb.PageView.node_day(node)
+
+      conn =
+        get(
+          conn,
+          Routes.page_path(
+            conn,
+            :user_type_year_month_day_index,
+            user.username,
+            "posts",
+            year,
+            month,
+            day
+          )
+        )
+
+      response = response(conn, 404)
+      assert response =~ "invalid month"
+    end
+
+    test "user type year month day index invalid day", %{conn: conn, node: node, user: user} do
+      year = VegaWeb.PageView.node_year(node)
+      month = VegaWeb.PageView.node_month(node)
+      day = "notvalid"
+
+      conn =
+        get(
+          conn,
+          Routes.page_path(
+            conn,
+            :user_type_year_month_day_index,
+            user.username,
+            "posts",
+            year,
+            month,
+            day
+          )
+        )
+
+      response = response(conn, 404)
+      assert response =~ "invalid day"
+    end
+
     test "node shows up in search results", %{conn: conn, node: node, user: user} do
       conn = get(conn, Routes.page_path(conn, :search_results, %{q: "test"}))
       response = html_response(conn, 200)
