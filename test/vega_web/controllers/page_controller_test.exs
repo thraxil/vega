@@ -65,6 +65,16 @@ defmodule VegaWeb.PageControllerTest do
       assert response =~ "<li>"
     end
 
+    test "invalid year in user type year index", %{conn: conn, node: _node, user: user} do
+      year = "notreallyayear"
+
+      conn =
+        get(conn, Routes.page_path(conn, :user_type_year_index, user.username, "posts", year))
+
+      response = response(conn, 404)
+      assert response =~ "invalid year"
+    end
+
     test "node shows up in user type year month index", %{conn: conn, node: node, user: user} do
       year = VegaWeb.PageView.node_year(node)
       month = VegaWeb.PageView.node_month(node)
@@ -123,6 +133,7 @@ defmodule VegaWeb.PageControllerTest do
 
     test "node detail page 404", %{conn: conn, node: _node, user: user} do
       path = "/users/" <> user.username <> "/posts/2018/01/01/blah"
+
       assert_error_sent 404, fn ->
         get(conn, path)
       end
@@ -130,6 +141,7 @@ defmodule VegaWeb.PageControllerTest do
 
     test "node detail page missing user 404", %{conn: conn, node: _node, user: _user} do
       path = "/users/notarealuser/posts/2018/01/01/blah"
+
       assert_error_sent 404, fn ->
         get(conn, path)
       end

@@ -11,7 +11,7 @@ defmodule Vega.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      xref: [exclude: [Phoenix.VerifiedRoutes]],
+      xref: [exclude: [Phoenix.VerifiedRoutes]]
     ]
   end
 

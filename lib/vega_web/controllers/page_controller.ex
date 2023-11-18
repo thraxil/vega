@@ -174,14 +174,20 @@ defmodule VegaWeb.PageController do
 
     case type do
       _t when type in ["post", "bookmark", "image"] ->
-        months = Site.user_type_year_months(user, type, year)
+        case Integer.parse(year) do
+          :error ->
+            conn |> send_resp(:not_found, "invalid year") |> halt()
 
-        render(conn, "user_type_year_index.html",
-          user: user,
-          type: type,
-          year: year,
-          months: months
-        )
+          _ ->
+            months = Site.user_type_year_months(user, type, year)
+
+            render(conn, "user_type_year_index.html",
+              user: user,
+              type: type,
+              year: year,
+              months: months
+            )
+        end
 
       _ ->
         conn |> send_resp(:not_found, "invalid type") |> halt()

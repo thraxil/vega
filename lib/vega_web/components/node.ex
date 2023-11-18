@@ -63,7 +63,8 @@ defmodule VegaWeb.Components.Node do
         class="text-slate-900"
       >
         <%= @node.user.fullname %>
-      </.link> <%= dformat_node(@node.created) %>
+      </.link>
+       <%= dformat_node(@node.created) %>
     </p>
     """
   end
