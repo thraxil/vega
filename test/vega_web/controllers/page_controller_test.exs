@@ -216,6 +216,29 @@ defmodule VegaWeb.PageControllerTest do
       end
     end
 
+    test "node detail page invalid year", %{conn: conn, node: _node, user: user} do
+      path = "/users/" <> user.username <> "/posts/invalid/01/01/blah"
+      conn = get(conn, path)
+      response = response(conn, 404)
+      assert response =~ "invalid year"
+    end
+
+    test "node detail page invalid month", %{conn: conn, node: _node, user: user} do
+      path = "/users/" <> user.username <> "/posts/2023/invalid/01/blah"
+
+      conn = get(conn, path)
+      response = response(conn, 404)
+      assert response =~ "invalid month"
+    end
+
+    test "node detail page invalid day", %{conn: conn, node: _node, user: user} do
+      path = "/users/" <> user.username <> "/posts/2023/01/invalid/blah"
+
+      conn = get(conn, path)
+      response = response(conn, 404)
+      assert response =~ "invalid day"
+    end
+
     test "node shows up in tag page", %{conn: conn, node: node} do
       conn = get(conn, Routes.page_path(conn, :tag_detail, "tagone"))
       response = html_response(conn, 200)

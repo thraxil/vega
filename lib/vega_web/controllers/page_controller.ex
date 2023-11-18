@@ -40,20 +40,39 @@ defmodule VegaWeb.PageController do
       }) do
     user = Site.get_user!(username)
     type = String.replace_suffix(type, "s", "")
-    node = Site.get_node!(user, type, year, month, day, slug)
-    content = Site.get_node_content!(node)
 
-    render(conn, "node_detail.html",
-      user: user,
-      node: node,
-      type: type,
-      year: year,
-      month: month,
-      day: day,
-      slug: slug,
-      content: content,
-      page_title: node.title
-    )
+    case Integer.parse(year) do
+      :error ->
+        conn |> send_resp(:not_found, "invalid year") |> halt()
+
+      _ ->
+        case Integer.parse(month) do
+          :error ->
+            conn |> send_resp(:not_found, "invalid month") |> halt()
+
+          _ ->
+            case Integer.parse(day) do
+              :error ->
+                conn |> send_resp(:not_found, "invalid day") |> halt()
+
+              _ ->
+                node = Site.get_node!(user, type, year, month, day, slug)
+                content = Site.get_node_content!(node)
+
+                render(conn, "node_detail.html",
+                  user: user,
+                  node: node,
+                  type: type,
+                  year: year,
+                  month: month,
+                  day: day,
+                  slug: slug,
+                  content: content,
+                  page_title: node.title
+                )
+            end
+        end
+    end
   end
 
   def new_post(conn, _params) do
