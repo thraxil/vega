@@ -205,15 +205,24 @@ defmodule VegaWeb.PageController do
       }) do
     user = Site.get_user!(username)
     type = String.replace_suffix(type, "s", "")
-    days = Site.user_type_year_month_days(user, type, year, month)
 
-    render(conn, "user_type_year_month_index.html",
-      user: user,
-      type: type,
-      year: year,
-      month: month,
-      days: days
-    )
+    with true <- valid_node_type(type),
+         {_year, ""} <- Integer.parse(year),
+         {_month, ""} <- Integer.parse(month) do
+
+      days = Site.user_type_year_month_days(user, type, year, month)
+
+      render(conn, "user_type_year_month_index.html",
+        user: user,
+        type: type,
+        year: year,
+        month: month,
+        days: days
+      )
+    else
+        _ ->
+          conn |> send_resp(:not_found, "not found") |> halt()
+    end
   end
 
   def user_type_year_month_day_index(conn, %{
