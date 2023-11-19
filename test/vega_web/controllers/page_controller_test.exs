@@ -220,7 +220,7 @@ defmodule VegaWeb.PageControllerTest do
       path = "/users/" <> user.username <> "/posts/invalid/01/01/blah"
       conn = get(conn, path)
       response = response(conn, 404)
-      assert response =~ "invalid year"
+      assert response =~ "invalid date"
     end
 
     test "node detail page invalid month", %{conn: conn, node: _node, user: user} do
@@ -228,7 +228,7 @@ defmodule VegaWeb.PageControllerTest do
 
       conn = get(conn, path)
       response = response(conn, 404)
-      assert response =~ "invalid month"
+      assert response =~ "invalid date"
     end
 
     test "node detail page invalid day", %{conn: conn, node: _node, user: user} do
@@ -236,7 +236,7 @@ defmodule VegaWeb.PageControllerTest do
 
       conn = get(conn, path)
       response = response(conn, 404)
-      assert response =~ "invalid day"
+      assert response =~ "invalid date"
     end
 
     test "node shows up in tag page", %{conn: conn, node: node} do

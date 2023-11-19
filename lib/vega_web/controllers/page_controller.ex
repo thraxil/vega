@@ -41,24 +41,13 @@ defmodule VegaWeb.PageController do
     user = Site.get_user!(username)
     type = String.replace_suffix(type, "s", "")
 
-    case Integer.parse(year) do
-      :error ->
-        conn |> send_resp(:not_found, "invalid year") |> halt()
-
+    with {_year, ""} <- Integer.parse(year),
+         {_month, ""} <- Integer.parse(month),
+         {_day, ""} <- Integer.parse(day) do
+      render_node_detail(conn, user, type, year, month, day, slug)
+    else
       _ ->
-        case Integer.parse(month) do
-          :error ->
-            conn |> send_resp(:not_found, "invalid month") |> halt()
-
-          _ ->
-            case Integer.parse(day) do
-              :error ->
-                conn |> send_resp(:not_found, "invalid day") |> halt()
-
-              _ ->
-                render_node_detail(conn, user, type, year, month, day, slug)
-            end
-        end
+        conn |> send_resp(:not_found, "invalid date") |> halt()
     end
   end
 
