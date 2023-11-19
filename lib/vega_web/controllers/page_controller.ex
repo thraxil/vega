@@ -184,27 +184,28 @@ defmodule VegaWeb.PageController do
     user = Site.get_user!(username)
     type = String.replace_suffix(type, "s", "")
 
-    case type do
-      _t when type in ["post", "bookmark", "image"] ->
-        case Integer.parse(year) do
-          :error ->
-            conn |> send_resp(:not_found, "invalid year") |> halt()
+    with true <- valid_node_type(type),
+         {_year, ""} <- Integer.parse(year)
+      do
+      months = Site.user_type_year_months(user, type, year)
 
-          _ ->
-            months = Site.user_type_year_months(user, type, year)
+      render(conn, "user_type_year_index.html",
+        user: user,
+        type: type,
+        year: year,
+        months: months
+      )
+      else
+        _ ->
+          conn |> send_resp(:not_found, "not found") |> halt()
 
-            render(conn, "user_type_year_index.html",
-              user: user,
-              type: type,
-              year: year,
-              months: months
-            )
-        end
-
-      _ ->
-        conn |> send_resp(:not_found, "invalid type") |> halt()
     end
   end
+
+  defp valid_node_type("post"), do: true
+  defp valid_node_type("bookmark"), do: true
+  defp valid_node_type("image"), do: true
+  defp valid_node_type(_), do: false
 
   def user_type_year_month_index(conn, %{
         "username" => username,

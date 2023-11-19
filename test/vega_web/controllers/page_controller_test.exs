@@ -72,7 +72,7 @@ defmodule VegaWeb.PageControllerTest do
         get(conn, Routes.page_path(conn, :user_type_year_index, user.username, "posts", year))
 
       response = response(conn, 404)
-      assert response =~ "invalid year"
+      assert response =~ "not found"
     end
 
     test "node shows up in user type year month index", %{conn: conn, node: node, user: user} do
@@ -266,7 +266,7 @@ defmodule VegaWeb.PageControllerTest do
       # misinterpreted as a 'feed' type and breaking
       conn = get(conn, "/users/" <> user.username <> "/feeds/atom.xml")
       response = response(conn, 404)
-      assert response =~ "invalid type"
+      assert response =~ "not found"
     end
   end
 
