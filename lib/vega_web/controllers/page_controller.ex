@@ -41,7 +41,8 @@ defmodule VegaWeb.PageController do
     user = Site.get_user!(username)
     type = String.replace_suffix(type, "s", "")
 
-    with {_year, ""} <- Integer.parse(year),
+    with true <- valid_node_type(type),
+         {_year, ""} <- Integer.parse(year),
          {_month, ""} <- Integer.parse(month),
          {_day, ""} <- Integer.parse(day) do
       render_node_detail(conn, user, type, year, month, day, slug)
@@ -225,7 +226,8 @@ defmodule VegaWeb.PageController do
     user = Site.get_user!(username)
     type = String.replace_suffix(type, "s", "")
 
-    with {_year, ""} <- Integer.parse(year),
+    with true <- valid_node_type(type),
+         {_year, ""} <- Integer.parse(year),
          {_month, ""} <- Integer.parse(month),
          {_day, ""} <- Integer.parse(day) do
       nodes = Site.user_type_year_month_day(user, type, year, month, day)
