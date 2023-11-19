@@ -185,8 +185,7 @@ defmodule VegaWeb.PageController do
     type = String.replace_suffix(type, "s", "")
 
     with true <- valid_node_type(type),
-         {_year, ""} <- Integer.parse(year)
-      do
+         {_year, ""} <- Integer.parse(year) do
       months = Site.user_type_year_months(user, type, year)
 
       render(conn, "user_type_year_index.html",
@@ -195,10 +194,9 @@ defmodule VegaWeb.PageController do
         year: year,
         months: months
       )
-      else
-        _ ->
-          conn |> send_resp(:not_found, "not found") |> halt()
-
+    else
+      _ ->
+        conn |> send_resp(:not_found, "not found") |> halt()
     end
   end
 
@@ -236,33 +234,22 @@ defmodule VegaWeb.PageController do
     user = Site.get_user!(username)
     type = String.replace_suffix(type, "s", "")
 
-    case Integer.parse(year) do
-      :error ->
-        conn |> send_resp(:not_found, "invalid year") |> halt()
+    with {_year, ""} <- Integer.parse(year),
+         {_month, ""} <- Integer.parse(month),
+         {_day, ""} <- Integer.parse(day) do
+      nodes = Site.user_type_year_month_day(user, type, year, month, day)
 
+      render(conn, "user_type_year_month_day_index.html",
+        user: user,
+        type: type,
+        year: year,
+        month: month,
+        day: day,
+        nodes: nodes
+      )
+    else
       _ ->
-        case Integer.parse(month) do
-          :error ->
-            conn |> send_resp(:not_found, "invalid month") |> halt()
-
-          _ ->
-            case Integer.parse(day) do
-              :error ->
-                conn |> send_resp(:not_found, "invalid day") |> halt()
-
-              _ ->
-                nodes = Site.user_type_year_month_day(user, type, year, month, day)
-
-                render(conn, "user_type_year_month_day_index.html",
-                  user: user,
-                  type: type,
-                  year: year,
-                  month: month,
-                  day: day,
-                  nodes: nodes
-                )
-            end
-        end
+        conn |> send_resp(:not_found, "not found") |> halt()
     end
   end
 

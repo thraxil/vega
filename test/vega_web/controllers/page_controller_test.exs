@@ -132,7 +132,7 @@ defmodule VegaWeb.PageControllerTest do
         )
 
       response = response(conn, 404)
-      assert response =~ "invalid year"
+      assert response =~ "not found"
     end
 
     test "user type year month day index invalid month", %{conn: conn, node: node, user: user} do
@@ -155,7 +155,7 @@ defmodule VegaWeb.PageControllerTest do
         )
 
       response = response(conn, 404)
-      assert response =~ "invalid month"
+      assert response =~ "not found"
     end
 
     test "user type year month day index invalid day", %{conn: conn, node: node, user: user} do
@@ -178,7 +178,7 @@ defmodule VegaWeb.PageControllerTest do
         )
 
       response = response(conn, 404)
-      assert response =~ "invalid day"
+      assert response =~ "not found"
     end
 
     test "node shows up in search results", %{conn: conn, node: node, user: user} do
