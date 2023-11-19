@@ -158,26 +158,22 @@ defmodule VegaWeb.PageController do
     )
   end
 
-  defp _user_type_index(conn, %{"username" => username, "type" => type}) do
+  defp valid_node_type("post"), do: true
+  defp valid_node_type("bookmark"), do: true
+  defp valid_node_type("image"), do: true
+  defp valid_node_type(_), do: false
+
+  def user_type_index(conn, %{"username" => username, "type" => type}) do
     user = Site.get_user!(username)
-    years = Site.user_type_years(user, type)
-    render(conn, "user_type_index.html", user: user, type: type, years: years)
-  end
+    type = String.replace_suffix(type, "s", "")
 
-  def user_type_index(conn, %{"username" => username, "type" => "posts"}) do
-    _user_type_index(conn, %{"username" => username, "type" => "post"})
-  end
-
-  def user_type_index(conn, %{"username" => username, "type" => "images"}) do
-    _user_type_index(conn, %{"username" => username, "type" => "image"})
-  end
-
-  def user_type_index(conn, %{"username" => username, "type" => "bookmarks"}) do
-    _user_type_index(conn, %{"username" => username, "type" => "bookmark"})
-  end
-
-  def user_type_index(conn, %{"type" => _}) do
-    conn |> send_resp(:not_found, "invalid type") |> halt()
+    with true <- valid_node_type(type) do
+      years = Site.user_type_years(user, type)
+      render(conn, "user_type_index.html", user: user, type: type, years: years)
+    else
+      _ ->
+        conn |> send_resp(:not_found, "invalid type") |> halt()
+    end
   end
 
   def user_type_year_index(conn, %{"username" => username, "type" => type, "year" => year}) do
@@ -199,11 +195,6 @@ defmodule VegaWeb.PageController do
         conn |> send_resp(:not_found, "not found") |> halt()
     end
   end
-
-  defp valid_node_type("post"), do: true
-  defp valid_node_type("bookmark"), do: true
-  defp valid_node_type("image"), do: true
-  defp valid_node_type(_), do: false
 
   def user_type_year_month_index(conn, %{
         "username" => username,
