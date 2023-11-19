@@ -56,23 +56,27 @@ defmodule VegaWeb.PageController do
                 conn |> send_resp(:not_found, "invalid day") |> halt()
 
               _ ->
-                node = Site.get_node!(user, type, year, month, day, slug)
-                content = Site.get_node_content!(node)
-
-                render(conn, "node_detail.html",
-                  user: user,
-                  node: node,
-                  type: type,
-                  year: year,
-                  month: month,
-                  day: day,
-                  slug: slug,
-                  content: content,
-                  page_title: node.title
-                )
+                render_node_detail(conn, user, type, year, month, day, slug)
             end
         end
     end
+  end
+
+  defp render_node_detail(conn, user, type, year, month, day, slug) do
+    node = Site.get_node!(user, type, year, month, day, slug)
+    content = Site.get_node_content!(node)
+
+    render(conn, "node_detail.html",
+      user: user,
+      node: node,
+      type: type,
+      year: year,
+      month: month,
+      day: day,
+      slug: slug,
+      content: content,
+      page_title: node.title
+    )
   end
 
   def new_post(conn, _params) do
