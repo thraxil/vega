@@ -15,7 +15,7 @@ defmodule VegaWeb.Endpoint do
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
-  plug PromEx.Plug, prom_ex_module: Garrulus.PromEx
+  plug PromEx.Plug, prom_ex_module: Vega.PromEx
 
   # Serve at "/" the static files from "priv/static" directory.
   #
