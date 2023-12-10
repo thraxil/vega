@@ -61,11 +61,11 @@ defmodule Vega.PromEx do
     [
       # PromEx built in plugins
       Plugins.Application,
-      Plugins.Beam
-      # {Plugins.Phoenix, router: VegaWeb.Router, endpoint: VegaWeb.Endpoint},
-      # Plugins.Ecto,
+      Plugins.Beam,
+      {Plugins.Phoenix, router: VegaWeb.Router, endpoint: VegaWeb.Endpoint},
+      Plugins.Ecto,
       # Plugins.Oban,
-      # Plugins.PhoenixLiveView,
+      Plugins.PhoenixLiveView,
       # Plugins.Absinthe,
       # Plugins.Broadway,
 
