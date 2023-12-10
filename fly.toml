@@ -19,6 +19,10 @@ processes = []
   guest_path = "/app/assets"
   url_prefix = "/assets"
 
+[metrics]
+  port = 8080
+  path = "/metrics"
+
 [[services]]
   http_checks = []
   internal_port = 8080

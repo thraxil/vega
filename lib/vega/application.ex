@@ -11,6 +11,7 @@ defmodule Vega.Application do
     OpentelemetryEcto.setup([:vega, :repo])
 
     children = [
+      Vega.PromEx,
       # Start the Ecto repository
       Vega.Repo,
       # Start the Telemetry supervisor
