@@ -11,7 +11,6 @@ defmodule Vega.Application do
     OpentelemetryEcto.setup([:vega, :repo])
 
     children = [
-      Vega.PromEx,
       # Start the Ecto repository
       Vega.Repo,
       # Start the Telemetry supervisor
@@ -19,7 +18,8 @@ defmodule Vega.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Vega.PubSub},
       # Start the Endpoint (http/https)
-      VegaWeb.Endpoint
+      VegaWeb.Endpoint,
+      Vega.PromEx
       # Start a worker by calling: Vega.Worker.start_link(arg)
       # {Vega.Worker, arg}
     ]

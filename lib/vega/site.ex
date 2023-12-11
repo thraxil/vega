@@ -173,6 +173,12 @@ defmodule Vega.Site do
     |> Repo.one()
   end
 
+  def count_users() do
+    User
+    |> select([u], count(u.id))
+    |> Repo.one()
+  end
+
   def user_count_posts(user) do
     Tracer.with_span "Site.user_count_posts/1" do
       Tracer.set_attributes([{:username, user.username}])

@@ -70,7 +70,7 @@ defmodule Vega.PromEx do
       # Plugins.Broadway,
 
       # Add your own PromEx metrics plugins
-      # Vega.Users.PromExPlugin
+      Vega.PromExPlugin
     ]
   end
 
@@ -98,5 +98,60 @@ defmodule Vega.PromEx do
       # Add your dashboard definitions here with the format: {:otp_app, "path_in_priv"}
       # {:vega, "/grafana_dashboards/user_metrics.json"}
     ]
+  end
+end
+
+defmodule Vega.PromExPlugin do
+  use PromEx.Plugin
+  alias Vega.Site
+
+  @impl true
+  def polling_metrics(opts) do
+    otp_app = Keyword.fetch!(opts, :otp_app)
+    poll_rate = Keyword.get(opts, :poll_rate, 61_000)
+    metric_prefix = Keyword.get(opts, :metric_prefix, PromEx.metric_prefix(otp_app, :site))
+
+    [
+      Polling.build(
+        :site_posts_count,
+        poll_rate,
+        {__MODULE__, :posts_count, []},
+        [
+          last_value(
+            metric_prefix ++ [:posts, :total],
+            event_name: [:prom_ex, :plugin, :site, :posts, :count],
+            description: "Total number of posts",
+            measurement: :count,
+            unit: :count
+          )
+        ]
+      ),
+      Polling.build(
+        :site_metrics,
+        poll_rate,
+        {__MODULE__, :users_count, []},
+        [
+          last_value(
+            metric_prefix ++ [:users, :total],
+            event_name: [:prom_ex, :plugin, :site, :users, :count],
+            description: "Total number of users",
+            measurement: :count,
+            unit: :count
+          )
+        ]
+      )
+    ]
+  end
+
+  @doc false
+  def posts_count do
+    cnt = Site.count_posts()
+    :telemetry.execute([:prom_ex, :plugin, :site, :posts, :count], %{count: cnt})
+  end
+
+  @doc false
+  def users_count do
+    cnt = Site.count_users()
+    :telemetry.execute([:prom_ex, :plugin, :site, :users, :count], %{count: cnt})
   end
 end
