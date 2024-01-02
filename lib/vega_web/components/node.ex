@@ -4,7 +4,6 @@ defmodule VegaWeb.Components.Node do
   """
   use Phoenix.Component
   alias VegaWeb.Router.Helpers, as: Routes
-  import Phoenix.HTML.{Tag}
   import Phoenix.HTML
 
   def node_link(assigns) do
@@ -105,15 +104,8 @@ defmodule VegaWeb.Components.Node do
   def node_content(%{node: %{type: "image"} = _node, content: _content} = assigns) do
     ~H"""
     <%= if @content.rhash && @content.ext do %>
-      <%= img_tag(
-        "https://d2f33fmhbh7cs9.cloudfront.net/image/" <>
-          @content.rhash <>
-          "/960w/" <>
-          to_string(@node.id) <>
-          "." <>
-          @content.ext,
-        title: @node.title
-      ) %>
+      <img src={"https://d2f33fmhbh7cs9.cloudfront.net/image/" <> @content.rhash <> "/960w/" <> to_string(@node.id) <> "." <> @content.ext} title={@node.title}
+        width="960" />
     <% else %>
       <p>[missing]</p>
     <% end %>

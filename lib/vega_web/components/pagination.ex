@@ -4,14 +4,11 @@ defmodule VegaWeb.Components.Pagination do
   """
   use Phoenix.Component
   alias VegaWeb.Router.Helpers, as: Routes
-  import Phoenix.HTML.{Link}
 
   def prev_page_button(%{has_prev: true, prev_page: _prev_page, user: _user} = assigns) do
     ~H"""
     <button class="btn">
-      <%= link("<< prev",
-        to: Routes.page_path(VegaWeb.Endpoint, :user_detail, @user.username, page: @prev_page)
-      ) %>
+      <.link navigate={Routes.page_path(VegaWeb.Endpoint, :user_detail, @user.username, page: @prev_page)}>&lt;&lt; prev</.link>
     </button>
     """
   end
@@ -19,7 +16,7 @@ defmodule VegaWeb.Components.Pagination do
   def prev_page_button(%{has_prev: true, prev_page: _prev_page} = assigns) do
     ~H"""
     <button class="btn">
-      <%= link("<< prev", to: Routes.page_path(VegaWeb.Endpoint, :index, page: @prev_page)) %>
+    <.link navigate={Routes.page_path(VegaWeb.Endpoint, :index, page: @prev_page)}>&lt;&lt; prev</.link>
     </button>
     """
   end
@@ -33,9 +30,7 @@ defmodule VegaWeb.Components.Pagination do
   def next_page_button(%{has_next: true, next_page: _next_page, user: _user} = assigns) do
     ~H"""
     <button class="btn">
-      <%= link("next >>",
-        to: Routes.page_path(VegaWeb.Endpoint, :user_detail, @user.username, page: @next_page)
-      ) %>
+    <.link navigate={Routes.page_path(VegaWeb.Endpoint, :user_detail, @user.username, page: @next_page)}>next &gt;&gt;</.link>
     </button>
     """
   end
@@ -43,7 +38,7 @@ defmodule VegaWeb.Components.Pagination do
   def next_page_button(%{has_next: true, next_page: _next_page} = assigns) do
     ~H"""
     <button class="btn">
-      <%= link("next >>", to: Routes.page_path(VegaWeb.Endpoint, :index, page: @next_page)) %>
+      <.link navigate={Routes.page_path(VegaWeb.Endpoint, :index, page: @next_page)}>next &gt;&gt;</.link>
     </button>
     """
   end
