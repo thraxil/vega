@@ -7,9 +7,6 @@ defmodule Vega.Application do
 
   @impl true
   def start(_type, _args) do
-    OpentelemetryPhoenix.setup()
-    OpentelemetryEcto.setup([:vega, :repo])
-
     children = [
       # Start the Ecto repository
       Vega.Repo,

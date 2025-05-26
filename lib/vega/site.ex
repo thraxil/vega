@@ -4,7 +4,6 @@ defmodule Vega.Site do
   """
 
   import Ecto.Query, warn: false
-  require OpenTelemetry.Tracer, as: Tracer
 
   alias Vega.Repo
   alias Vega.User
@@ -180,17 +179,12 @@ defmodule Vega.Site do
   end
 
   def user_count_posts(user) do
-    Tracer.with_span "Site.user_count_posts/1" do
-      Tracer.set_attributes([{:username, user.username}])
-      Tracer.set_attributes([{:user_id, user.id}])
-
-      Node
-      |> Node.by_user(user)
-      |> Node.by_type("post")
-      |> Node.published()
-      |> select([n], count(n.id))
-      |> Repo.one()
-    end
+    Node
+    |> Node.by_user(user)
+    |> Node.by_type("post")
+    |> Node.published()
+    |> select([n], count(n.id))
+    |> Repo.one()
   end
 
   defp post_versions_q() do
@@ -229,34 +223,29 @@ defmodule Vega.Site do
   end
 
   def user_newest_posts(user, per_page \\ 10, page \\ 1) do
-    Tracer.with_span "Site.user_newest_posts/3" do
-      Tracer.set_attributes([{:username, user.username}])
-      Tracer.set_attributes([{:per_page, per_page}])
-      Tracer.set_attributes([{:page, page}])
-      offset = per_page * (page - 1)
+    offset = per_page * (page - 1)
 
-      Repo.all(
-        from p in Post,
-          join: last in subquery(post_versions_q()),
-          on: last.max_version_id == p.id,
-          join: n in assoc(p, :node),
-          join: u in assoc(n, :user),
-          where: n.user_id == ^user.id and n.type == "post" and n.status == "Publish",
-          order_by: [desc: n.created],
-          limit: ^per_page,
-          offset: ^offset,
-          select: %{
-            id: n.id,
-            type: n.type,
-            slug: n.slug,
-            title: n.title,
-            created: n.created,
-            user: u,
-            body: p.body,
-            body_html: p.body_html
-          }
-      )
-    end
+    Repo.all(
+      from p in Post,
+      join: last in subquery(post_versions_q()),
+      on: last.max_version_id == p.id,
+      join: n in assoc(p, :node),
+      join: u in assoc(n, :user),
+      where: n.user_id == ^user.id and n.type == "post" and n.status == "Publish",
+      order_by: [desc: n.created],
+      limit: ^per_page,
+      offset: ^offset,
+      select: %{
+        id: n.id,
+        type: n.type,
+        slug: n.slug,
+        title: n.title,
+        created: n.created,
+        user: u,
+        body: p.body,
+        body_html: p.body_html
+      }
+    )
   end
 
   def user_type_years(user, type) do
