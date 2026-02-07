@@ -31,7 +31,7 @@ You can then visit [`http://localhost:4000`](http://localhost:4000) in your brow
 To run the test suite, use the following command from the project root:
 
 ```bash
-make test
+make
 ```
 
 The CI runs the tests with `mix test --trace --slowest 10`.
