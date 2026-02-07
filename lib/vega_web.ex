@@ -24,7 +24,7 @@ defmodule VegaWeb do
       use Phoenix.Controller, namespace: VegaWeb
 
       import Plug.Conn
-      import VegaWeb.Gettext
+      use Gettext, backend: VegaWeb.Gettext
       alias VegaWeb.Router.Helpers, as: Routes
       unquote(verified_routes())
     end
@@ -83,7 +83,7 @@ defmodule VegaWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import VegaWeb.Gettext
+      use Gettext, backend: VegaWeb.Gettext
     end
   end
 
@@ -102,7 +102,7 @@ defmodule VegaWeb do
       import Phoenix.View
 
       import VegaWeb.ErrorHelpers
-      import VegaWeb.Gettext
+      use Gettext, backend: VegaWeb.Gettext
       import VegaWeb.Components.{Search, Node, Breadcrumbs, Pagination}
       alias VegaWeb.Router.Helpers, as: Routes
       unquote(verified_routes())

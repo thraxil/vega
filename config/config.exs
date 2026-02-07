@@ -40,10 +40,12 @@ config :esbuild,
   ]
 
 # Configures Elixir's Logger
-config :logger,
-  backends: [:console, Sentry.LoggerBackend],
+config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
+
+config :logger,
+  backends: [:console, Sentry.LoggerBackend]
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
@@ -63,11 +65,8 @@ config :sentry,
   dsn: System.get_env("SENTRY_DSN"),
   environment_name: Mix.env(),
   enable_source_code_context: true,
-  root_source_code_paths: [File.cwd!()],
-  tags: %{
-    env: "production"
-  },
-  included_environments: [:prod]
+  root_source_code_paths: [File.cwd!()]
+  
 
 config :vega, Vega.PromEx,
   disabled: false,
