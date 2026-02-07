@@ -5,9 +5,9 @@
 
 <div class="prose">
   <%= for tag <- @tags do %>
-    <%= link(tag.name,
+    {link(tag.name,
       to: Routes.page_path(@conn, :tag_detail, tag.slug),
       class: "badge"
-    ) %>
+    )}
   <% end %>
 </div>

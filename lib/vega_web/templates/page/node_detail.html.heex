@@ -3,7 +3,7 @@
 </.breadcrumbs>
 
 <%= if @current_user do %>
-  <%= link("edit", to: Routes.page_path(@conn, :show_node, @node.id)) %>
+  {link("edit", to: Routes.page_path(@conn, :show_node, @node.id))}
 <% end %>
 
 <.article>
@@ -19,8 +19,8 @@
 
     <%= for comment <- @node.comments do %>
       <div class="comment">
-        <p><i><%= comment.created %></i> - <b><%= comment.author_name %></b></p>
-        <%= raw(Earmark.as_html!(comment.body)) %>
+        <p><i>{comment.created}</i> - <b>{comment.author_name}</b></p>
+        {raw(Earmark.as_html!(comment.body))}
       </div>
     <% end %>
   <% end %>

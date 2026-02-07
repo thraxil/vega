@@ -227,24 +227,24 @@ defmodule Vega.Site do
 
     Repo.all(
       from p in Post,
-      join: last in subquery(post_versions_q()),
-      on: last.max_version_id == p.id,
-      join: n in assoc(p, :node),
-      join: u in assoc(n, :user),
-      where: n.user_id == ^user.id and n.type == "post" and n.status == "Publish",
-      order_by: [desc: n.created],
-      limit: ^per_page,
-      offset: ^offset,
-      select: %{
-        id: n.id,
-        type: n.type,
-        slug: n.slug,
-        title: n.title,
-        created: n.created,
-        user: u,
-        body: p.body,
-        body_html: p.body_html
-      }
+        join: last in subquery(post_versions_q()),
+        on: last.max_version_id == p.id,
+        join: n in assoc(p, :node),
+        join: u in assoc(n, :user),
+        where: n.user_id == ^user.id and n.type == "post" and n.status == "Publish",
+        order_by: [desc: n.created],
+        limit: ^per_page,
+        offset: ^offset,
+        select: %{
+          id: n.id,
+          type: n.type,
+          slug: n.slug,
+          title: n.title,
+          created: n.created,
+          user: u,
+          body: p.body,
+          body_html: p.body_html
+        }
     )
   end
 

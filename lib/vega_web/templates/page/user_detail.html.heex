@@ -1,22 +1,22 @@
 <.breadcrumbs>
   <.breadcrumb_users />
-  <li><%= @user.username %></li>
+  <li>{@user.username}</li>
 </.breadcrumbs>
 
 <p>
-  <%= link("posts", to: Routes.page_path(@conn, :user_type_index, @user.username, "posts")) %> | <%= link(
+  {link("posts", to: Routes.page_path(@conn, :user_type_index, @user.username, "posts"))} | {link(
     "images",
     to: Routes.page_path(@conn, :user_type_index, @user.username, "images")
-  ) %> | <%= link("bookmarks",
+  )} | {link("bookmarks",
     to: Routes.page_path(@conn, :user_type_index, @user.username, "bookmarks")
-  ) %>
+  )}
 </p>
 
 <%= for node <- @nodes do %>
   <.article>
     <.node_title node={node}></.node_title>
     <.byline node={node}></.byline>
-    <%= raw(node.body_html) %>
+    {raw(node.body_html)}
   </.article>
 <% end %>
 

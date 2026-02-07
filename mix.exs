@@ -60,7 +60,7 @@ defmodule Vega.MixProject do
       {:hackney, "~> 1.8"},
       {:certifi, "~> 2.8"},
       {:tls_certificate_check, "~> 1.31.0"},
-      {:prom_ex, "~> 1.9.0"},
+      {:prom_ex, "~> 1.9.0"}
     ]
   end
 

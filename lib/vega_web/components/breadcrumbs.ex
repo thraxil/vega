@@ -9,7 +9,7 @@ defmodule VegaWeb.Components.Breadcrumbs do
     ~H"""
     <div class="breadcrumbs">
       <ul>
-        <%= render_slot(@inner_block) %>
+        {render_slot(@inner_block)}
       </ul>
     </div>
     """
@@ -43,7 +43,7 @@ defmodule VegaWeb.Components.Breadcrumbs do
           @day
         )
       }>
-        <%= @day %>
+        {@day}
       </.link>
     </li>
     """
@@ -63,7 +63,7 @@ defmodule VegaWeb.Components.Breadcrumbs do
           @month
         )
       }>
-        <%= @month %>
+        {@month}
       </.link>
     </li>
     """
@@ -76,7 +76,7 @@ defmodule VegaWeb.Components.Breadcrumbs do
       <.link navigate={
         Routes.page_path(VegaWeb.Endpoint, :user_type_year_index, @user.username, @type <> "s", @year)
       }>
-        <%= @year %>
+        {@year}
       </.link>
     </li>
     """
@@ -89,7 +89,7 @@ defmodule VegaWeb.Components.Breadcrumbs do
       <.link navigate={
         Routes.page_path(VegaWeb.Endpoint, :user_type_index, @user.username, @type <> "s")
       }>
-        <%= @type <> "s" %>
+        {@type <> "s"}
       </.link>
     </li>
     """
@@ -100,7 +100,7 @@ defmodule VegaWeb.Components.Breadcrumbs do
     <.breadcrumb_users></.breadcrumb_users>
     <li>
       <.link navigate={Routes.page_path(VegaWeb.Endpoint, :user_detail, @user.username)}>
-        <%= @user.username %>
+        {@user.username}
       </.link>
     </li>
     """

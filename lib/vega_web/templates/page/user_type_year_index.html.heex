@@ -1,13 +1,13 @@
 <.breadcrumbs>
   <.breadcrumb user={@user} type={@type}></.breadcrumb>
-  <li><%= @year %></li>
+  <li>{@year}</li>
 </.breadcrumbs>
 
 <div class="prose text-slate-900">
   <ul>
     <%= for m <- @months do %>
       <li>
-        <%= link(trunc(m.month),
+        {link(trunc(m.month),
           to:
             Routes.page_path(
               @conn,
@@ -18,7 +18,7 @@
               trunc(m.month)
             ),
           class: "text-slate-900"
-        ) %> (<%= m.count %>)
+        )} ({m.count})
       </li>
     <% end %>
   </ul>

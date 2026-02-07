@@ -1,7 +1,7 @@
 <.breadcrumbs>
   <.breadcrumb_root />
-  <li><%= link("tags", to: Routes.page_path(@conn, :tag_index)) %></li>
-  <li><%= @tag.name %></li>
+  <li>{link("tags", to: Routes.page_path(@conn, :tag_index))}</li>
+  <li>{@tag.name}</li>
 </.breadcrumbs>
 
 <div class="prose text-slate-900">

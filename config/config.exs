@@ -66,7 +66,6 @@ config :sentry,
   environment_name: Mix.env(),
   enable_source_code_context: true,
   root_source_code_paths: [File.cwd!()]
-  
 
 config :vega, Vega.PromEx,
   disabled: false,

@@ -7,7 +7,7 @@
   <ul>
     <%= for user <- @users do %>
       <li>
-        <%= link(user.fullname, to: Routes.page_path(@conn, :user_detail, user.username)) %>
+        {link(user.fullname, to: Routes.page_path(@conn, :user_detail, user.username))}
       </li>
     <% end %>
   </ul>

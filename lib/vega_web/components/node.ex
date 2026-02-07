@@ -9,7 +9,7 @@ defmodule VegaWeb.Components.Node do
   def node_link(assigns) do
     ~H"""
     <.link navigate={VegaWeb.PageView.node_path(@node)} class="text-slate-900">
-      <%= @node.title %>
+      {@node.title}
     </.link>
     """
   end
@@ -18,7 +18,7 @@ defmodule VegaWeb.Components.Node do
     ~H"""
     <h2 class="bg-slate-300 my-0 ">
       <.link navigate={VegaWeb.PageView.node_path(@node)} class="no-underline text-slate-900">
-        <%= @node.title %>
+        {@node.title}
       </.link>
     </h2>
     """
@@ -27,7 +27,7 @@ defmodule VegaWeb.Components.Node do
   def article(assigns) do
     ~H"""
     <article class="prose my-10 shadow-md prose-lg text-slate-900 ">
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </article>
     """
   end
@@ -48,7 +48,7 @@ defmodule VegaWeb.Components.Node do
   }
 
   defp dformat_node(timestamp) do
-    '~2..0B ~ts ~4..0B'
+    ~c"~2..0B ~ts ~4..0B"
     |> :io_lib.format([timestamp.day, @months[timestamp.month], timestamp.year])
     |> List.to_string()
   end
@@ -61,9 +61,9 @@ defmodule VegaWeb.Components.Node do
         navigate={Routes.page_path(VegaWeb.Endpoint, :user_detail, @node.user.username)}
         class="text-slate-900"
       >
-        <%= @node.user.fullname %>
+        {@node.user.fullname}
       </.link>
-      <%= dformat_node(@node.created) %>
+      {dformat_node(@node.created)}
     </p>
     """
   end
@@ -75,8 +75,9 @@ defmodule VegaWeb.Components.Node do
       navigate={Routes.page_path(VegaWeb.Endpoint, :user_detail, @node.user.username)}
       class="text-slate-900"
     >
-      <%= @node.user.fullname %>
-    </.link> <%= dformat_node(@node.created) %>
+      {@node.user.fullname}
+    </.link>
+     {dformat_node(@node.created)}
     """
   end
 
@@ -87,7 +88,7 @@ defmodule VegaWeb.Components.Node do
         Tags:
         <%= for tag <- @node.tags do %>
           <.link navigate={Routes.page_path(VegaWeb.Endpoint, :tag_detail, tag.slug)} class="badge">
-            <%= tag.name %>
+            {tag.name}
           </.link>
         <% end %>
       </p>
@@ -97,26 +98,29 @@ defmodule VegaWeb.Components.Node do
 
   def node_content(%{node: %{type: "post"}, content: _content} = assigns) do
     ~H"""
-    <%= raw(@content.body_html) %>
+    {raw(@content.body_html)}
     """
   end
 
   def node_content(%{node: %{type: "image"} = _node, content: _content} = assigns) do
     ~H"""
     <%= if @content.rhash && @content.ext do %>
-      <img src={"https://d2f33fmhbh7cs9.cloudfront.net/image/" <> @content.rhash <> "/960w/" <> to_string(@node.id) <> "." <> @content.ext} title={@node.title}
-        width="960" />
+      <img
+        src={"https://d2f33fmhbh7cs9.cloudfront.net/image/" <> @content.rhash <> "/960w/" <> to_string(@node.id) <> "." <> @content.ext}
+        title={@node.title}
+        width="960"
+      />
     <% else %>
       <p>[missing]</p>
     <% end %>
-    <%= raw(Earmark.as_html!(@content.description)) %>
+    {raw(Earmark.as_html!(@content.description))}
     """
   end
 
   def node_content(%{node: %{type: "bookmark"} = _node, content: _content} = assigns) do
     ~H"""
-    <p><.link navigate={@content.url}><%= @node.title %></.link></p>
-    <%= raw(Earmark.as_html!(@content.description)) %>
+    <p><.link navigate={@content.url}>{@node.title}</.link></p>
+    {raw(Earmark.as_html!(@content.description))}
     """
   end
 end

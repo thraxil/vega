@@ -1,25 +1,25 @@
 <%= form_for @changeset, Routes.page_path(@conn, :edit_node, @node.id), fn f -> %>
   <label class="label">title</label>
-  <%= text_input(f, :title, placeholder: "title", class: "form-control", size: 100) %>
-  <%= error_tag(f, :title) %>
+  {text_input(f, :title, placeholder: "title", class: "form-control", size: 100)}
+  {error_tag(f, :title)}
 
   <%= if @node.type == "post" do %>
-    <%= textarea(f, :body,
+    {textarea(f, :body,
       value: @content.body,
       class: "form-control textarea",
       cols: 120,
       rows: 15
-    ) %>
+    )}
   <% else %>
     <p>Sorry, only posts can currently be edited</p>
   <% end %>
 
-  <%= text_input(f, :tags,
+  {text_input(f, :tags,
     placeholder: "tags",
     value: @node_tags,
     class: "form-control",
     size: 100
-  ) %>
+  )}
 
-  <%= submit("Save", class: "btn btn-primary") %>
+  {submit("Save", class: "btn btn-primary")}
 <% end %>
