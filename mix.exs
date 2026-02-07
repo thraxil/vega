@@ -59,8 +59,11 @@ defmodule Vega.MixProject do
       {:sentry, "~> 11.0.1"},
       {:hackney, "~> 1.8"},
       {:certifi, "~> 2.8"},
-      {:tls_certificate_check, "~> 1.31.0"},
-      {:prom_ex, "~> 1.9.0"}
+      {:tls_certificate_check, ">= 1.17.4"},
+      {:prom_ex, "~> 1.9.0"},
+      {:opentelemetry, "~> 1.0"},
+      {:opentelemetry_exporter, "~> 1.0"},
+      {:opentelemetry_phoenix, "~> 1.0"}
     ]
   end
 
