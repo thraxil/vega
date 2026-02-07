@@ -1,4 +1,4 @@
-defmodule Vega.Bookmark do
+defmodule Vega.Library.Bookmark do
   use Ecto.Schema
   import Ecto.Changeset
 

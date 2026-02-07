@@ -1,4 +1,4 @@
-defmodule Vega.Post do
+defmodule Vega.Blog.Post do
   use Ecto.Schema
   import Ecto.Changeset
 

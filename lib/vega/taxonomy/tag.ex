@@ -1,4 +1,4 @@
-defmodule Vega.Tag do
+defmodule Vega.Taxonomy.Tag do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -6,7 +6,7 @@ defmodule Vega.Tag do
     field :name, :string
     field :slug, :string
 
-    many_to_many :nodes, Vega.Node, join_through: Vega.NodeTag
+    many_to_many :nodes, Vega.Node, join_through: Vega.Taxonomy.NodeTag
   end
 
   @doc false

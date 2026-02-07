@@ -13,13 +13,13 @@ defmodule Vega.Node do
     field :type, :string
 
     belongs_to :user, Vega.User
-    has_many :posts, Vega.Post
-    has_many :bookmarks, Vega.Bookmark
+    has_many :posts, Vega.Blog.Post
+    has_many :bookmarks, Vega.Library.Bookmark
     has_many :images, Vega.Image
-    has_many :comments, Vega.Comment
+    has_many :comments, Vega.Blog.Comment
     has_many :fields, Vega.MetaField
 
-    many_to_many :tags, Vega.Tag, join_through: Vega.NodeTag, on_replace: :delete
+    many_to_many :tags, Vega.Taxonomy.Tag, join_through: Vega.Taxonomy.NodeTag, on_replace: :delete
   end
 
   @doc false

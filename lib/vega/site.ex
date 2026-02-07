@@ -8,10 +8,11 @@ defmodule Vega.Site do
   alias Vega.Repo
   alias Vega.User
   alias Vega.Node
-  alias Vega.Post
+  alias Vega.Blog.Post
   alias Vega.Image
-  alias Vega.Bookmark
-  alias Vega.Tag
+  alias Vega.Library.Bookmark
+  alias Vega.Taxonomy.Tag
+
 
   def user_create(attrs \\ %{}) do
     %User{}
@@ -90,7 +91,7 @@ defmodule Vega.Site do
 
   # defp get_or_insert_tag(name, slug) do
   #   Repo.insert!(
-  #     %Vega.Tag{name: name, slug: slug},
+  #     %Vega.Taxonomy.Tag{name: name, slug: slug},
   #     on_conflict: [set: [name: name, slug: slug]],
   #     conflict_target: [:name, :slug]
   #   )

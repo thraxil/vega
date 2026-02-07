@@ -1,10 +1,10 @@
-defmodule Vega.NodeTag do
+defmodule Vega.Taxonomy.NodeTag do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "node_tags" do
     belongs_to :node, Vega.Node
-    belongs_to :tag, Vega.Tag
+    belongs_to :tag, Vega.Taxonomy.Tag
   end
 
   @doc false
