@@ -19,7 +19,9 @@ defmodule Vega.Node do
     has_many :comments, Vega.Blog.Comment
     has_many :fields, Vega.MetaField
 
-    many_to_many :tags, Vega.Taxonomy.Tag, join_through: Vega.Taxonomy.NodeTag, on_replace: :delete
+    many_to_many :tags, Vega.Taxonomy.Tag,
+      join_through: Vega.Taxonomy.NodeTag,
+      on_replace: :delete
   end
 
   @doc false

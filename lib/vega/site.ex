@@ -13,7 +13,6 @@ defmodule Vega.Site do
   alias Vega.Library.Bookmark
   alias Vega.Taxonomy.Tag
 
-
   def user_create(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)

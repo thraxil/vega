@@ -77,7 +77,7 @@ defmodule VegaWeb.Components.Node do
     >
       {@node.user.fullname}
     </.link>
-     {dformat_node(@node.created)}
+    {dformat_node(@node.created)}
     """
   end
 
