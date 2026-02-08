@@ -8,10 +8,10 @@ defmodule VegaWeb.Router do
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, {VegaWeb.LayoutView, :root}
+    plug VegaWeb.Plugs.CachePlug
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
-    plug VegaWeb.Plugs.CachePlug
   end
 
   pipeline :api do
