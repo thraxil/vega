@@ -27,10 +27,13 @@ defmodule VegaWeb.Plugs.CachePlug do
 
     if get_req_header(conn, "if-none-match") == ["\"#{etag}\""] do
       conn
+      |> put_resp_header("fly-cache-status", "HIT")
       |> send_resp(304, "")
       |> halt()
     else
-      put_resp_header(conn, "etag", "\"#{etag}\"")
+      conn
+      |> put_resp_header("fly-cache-status", "MISS")
+      |> put_resp_header("etag", "\"#{etag}\"")
     end
   end
 end
