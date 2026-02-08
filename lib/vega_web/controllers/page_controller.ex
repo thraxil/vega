@@ -48,20 +48,118 @@ defmodule VegaWeb.PageController do
 
   defp render_node_detail(conn, user, type, year, month, day, slug) do
     node = Site.get_node!(user, type, year, month, day, slug)
+    node_modified_at = DateTime.from_naive!(node.modified, "Etc/UTC")
+
+    case get_req_header(conn, "if-modified-since") do
+      [if_modified_since] ->
+        case parse_http_date(if_modified_since) do
+          {:ok, if_modified_since_dt} ->
+            if DateTime.compare(node_modified_at, if_modified_since_dt) in [:lt, :eq] do
+              conn
+              |> put_resp_header("fly-cache-status", "HIT")
+              |> send_resp(:not_modified, "")
+              |> halt()
+            else
+              render_with_last_modified(conn, node, node_modified_at)
+            end
+
+          _ ->
+            render_with_last_modified(conn, node, node_modified_at)
+        end
+
+      _ ->
+        render_with_last_modified(conn, node, node_modified_at)
+    end
+  end
+
+  defp render_with_last_modified(conn, node, node_modified_at) do
+    # Manually format to RFC 2822: "Day, DD Mon YYYY HH:MM:SS GMT"
+    day_of_week = Date.day_of_week(DateTime.to_date(node_modified_at))
+
+    last_modified =
+      "#{day_of_week_short_name(day_of_week)}, " <>
+        "#{node_modified_at.day |> to_string |> String.pad_leading(2, "0")} " <>
+        "#{month_short_name(node_modified_at.month)} " <>
+        "#{node_modified_at.year} " <>
+        "#{node_modified_at.hour |> to_string |> String.pad_leading(2, "0")}:" <>
+        "#{node_modified_at.minute |> to_string |> String.pad_leading(2, "0")}:" <>
+        "#{node_modified_at.second |> to_string |> String.pad_leading(2, "0")} GMT"
+
     content = Site.get_node_content!(node)
 
-    render(conn, "node_detail.html",
-      user: user,
+    conn
+    |> put_resp_header("last-modified", last_modified)
+    |> put_resp_header("fly-cache-status", "MISS")
+    |> render("node_detail.html",
+      user: node.user,
       node: node,
-      type: type,
-      year: year,
-      month: month,
-      day: day,
-      slug: slug,
+      type: node.type,
+      year: node.created.year,
+      month: node.created.month,
+      day: node.created.day,
+      slug: node.slug,
       content: content,
       page_title: node.title
     )
   end
+
+  defp day_of_week_short_name(1), do: "Mon"
+  defp day_of_week_short_name(2), do: "Tue"
+  defp day_of_week_short_name(3), do: "Wed"
+  defp day_of_week_short_name(4), do: "Thu"
+  defp day_of_week_short_name(5), do: "Fri"
+  defp day_of_week_short_name(6), do: "Sat"
+  defp day_of_week_short_name(7), do: "Sun"
+
+  defp month_short_name(1), do: "Jan"
+  defp month_short_name(2), do: "Feb"
+  defp month_short_name(3), do: "Mar"
+  defp month_short_name(4), do: "Apr"
+  defp month_short_name(5), do: "May"
+  defp month_short_name(6), do: "Jun"
+  defp month_short_name(7), do: "Jul"
+  defp month_short_name(8), do: "Aug"
+  defp month_short_name(9), do: "Sep"
+  defp month_short_name(10), do: "Oct"
+  defp month_short_name(11), do: "Nov"
+  defp month_short_name(12), do: "Dec"
+
+  # Parses an HTTP date string (RFC 2822) into a DateTime struct.
+  # Example: "Sun, 08 Feb 2026 16:39:05 GMT"
+  defp parse_http_date(date_string) do
+    # This is a simplified parser. For full RFC 2822 compliance, a more robust solution might be needed.
+    # We'll rely on the format being consistent for this use case.
+    with [_weekday, day, month, year, time, "GMT"] <-
+           String.split(date_string, ~r/[ ,:]/, trim: true),
+         {:ok, month_int} <- parse_month(month),
+         {:ok, year_int} <- Integer.parse(year),
+         {:ok, day_int} <- Integer.parse(day),
+         [hour, minute, second] <- String.split(time, ":"),
+         {:ok, hour_int} <- Integer.parse(hour),
+         {:ok, minute_int} <- Integer.parse(minute),
+         {:ok, second_int} <- Integer.parse(second) do
+      case NaiveDateTime.new(year_int, month_int, day_int, hour_int, minute_int, second_int) do
+        {:ok, naive_datetime} -> {:ok, DateTime.from_naive!(naive_datetime, "Etc/UTC")}
+        _ -> :error
+      end
+    else
+      _ -> :error
+    end
+  end
+
+  defp parse_month("Jan"), do: {:ok, 1}
+  defp parse_month("Feb"), do: {:ok, 2}
+  defp parse_month("Mar"), do: {:ok, 3}
+  defp parse_month("Apr"), do: {:ok, 4}
+  defp parse_month("May"), do: {:ok, 5}
+  defp parse_month("Jun"), do: {:ok, 6}
+  defp parse_month("Jul"), do: {:ok, 7}
+  defp parse_month("Aug"), do: {:ok, 8}
+  defp parse_month("Sep"), do: {:ok, 9}
+  defp parse_month("Oct"), do: {:ok, 10}
+  defp parse_month("Nov"), do: {:ok, 11}
+  defp parse_month("Dec"), do: {:ok, 12}
+  defp parse_month(_), do: :error
 
   def new_post(conn, _params) do
     changeset = Site.node_create_changeset()

@@ -22,7 +22,7 @@ defmodule Vega.MixProject do
   def application do
     [
       mod: {Vega.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :inets]
     ]
   end
 
