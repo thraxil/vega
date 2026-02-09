@@ -64,7 +64,7 @@ defmodule Vega.MixProject do
       {:prom_ex, "~> 1.9.0"},
       {:opentelemetry, "~> 1.0"},
       {:opentelemetry_exporter, "~> 1.0"},
-      {:opentelemetry_phoenix, "~> 1.0"}
+      {:opentelemetry_phoenix, "~> 2.0"}
     ]
   end
 
