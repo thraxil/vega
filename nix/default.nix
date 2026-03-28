@@ -7,7 +7,7 @@ with pkgs;
 buildEnv {
   name = "builder";
   paths = [
-    beam.packages.erlangR25.elixir_1_14
+    beam.packages.erlangR27.elixir_1_19
     flyctl
     git
     nodejs
