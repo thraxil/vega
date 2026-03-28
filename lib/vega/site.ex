@@ -38,12 +38,16 @@ defmodule Vega.Site do
 
     node
     |> Node.changeset(node_params)
-    |> Repo.update!()
-    |> node_add_post(node_params["body"])
+    |> Repo.update()
+    |> case do
+      {:ok, node} ->
+        node_add_post(node, node_params["body"])
+        node_add_tags(node, node_params["tags"])
+        {:ok, node}
 
-    node_add_tags(node, node_params["tags"])
-
-    {:ok, node}
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   def node_post_count(node) do
@@ -419,15 +423,18 @@ defmodule Vega.Site do
       :comments_allowed => false
     }
 
-    {:ok, node} =
-      node
-      |> Node.changeset(node_params)
-      |> Ecto.Changeset.put_assoc(:user, user)
-      |> Repo.insert()
+    node
+    |> Node.changeset(node_params)
+    |> Ecto.Changeset.put_assoc(:user, user)
+    |> Repo.insert()
+    |> case do
+      {:ok, node} ->
+        node_add_post(node, body)
+        node_add_tags(node, tags)
+        {:ok, node}
 
-    node_add_post(node, body)
-    node_add_tags(node, tags)
-
-    {:ok, node}
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 end

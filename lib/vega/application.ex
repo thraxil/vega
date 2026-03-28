@@ -7,6 +7,8 @@ defmodule Vega.Application do
 
   @impl true
   def start(_type, _args) do
+    Logger.add_handlers(:vega)
+
     children = [
       # Start the Ecto repository
       Vega.Repo,

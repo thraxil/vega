@@ -44,8 +44,16 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :logger,
-  backends: [:console, Sentry.LoggerBackend]
+config :vega, :logger, [
+  {:handler, :sentry_handler, Sentry.LoggerHandler,
+   %{
+     config: %{
+       metadata: [:request_id],
+       capture_log_messages: true,
+       level: :error
+     }
+   }}
+]
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
