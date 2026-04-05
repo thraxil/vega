@@ -21,7 +21,9 @@ defmodule VegaWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: VegaWeb
+      use Phoenix.Controller,
+        formats: [html: "View", json: "View"],
+        layouts: [html: VegaWeb.LayoutView]
 
       import Plug.Conn
       use Gettext, backend: VegaWeb.Gettext
