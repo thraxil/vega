@@ -1,0 +1,3 @@
+<article class="mb-16 md:mb-24">
+  <%= @inner_block %>
+</article>

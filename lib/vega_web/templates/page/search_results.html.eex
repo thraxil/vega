@@ -1,0 +1,9 @@
+<h2>Search Results for: "<%= @q %>"</h2>
+
+<%= for node <- @nodes do %>
+  <article class="mb-16 md:mb-24">
+    <%= render(VegaWeb.NodeView, "node_title.html", Map.merge(%{conn: @conn}, Map.new([node: node]))) %>
+    <%= render(VegaWeb.NodeView, "byline.html", Map.merge(%{conn: @conn}, Map.new([node: node]))) %>
+    <%= render(VegaWeb.NodeView, "node_tags.html", Map.merge(%{conn: @conn}, Map.new([node: node]))) %>
+  </article>
+<% end %>

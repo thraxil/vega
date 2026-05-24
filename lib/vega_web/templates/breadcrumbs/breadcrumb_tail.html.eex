@@ -1,0 +1,4 @@
+<li class="flex items-center">
+  <svg class="h-4 w-4 text-slate-300 mx-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" /></svg>
+  <span class="text-slate-500" aria-current="page"><%= @title %></span>
+</li>

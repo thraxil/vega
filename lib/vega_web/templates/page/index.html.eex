@@ -1,0 +1,24 @@
+<nav aria-label="Breadcrumb" class="mb-8">
+  <ol role="list" class="flex items-center space-x-2 text-sm text-slate-500">
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb_root.html", assigns) %>
+  </ol>
+</nav>
+
+<div class="mt-8">
+  <%= for node <- @nodes do %>
+    <article class="mb-16 md:mb-24">
+      <%= render(VegaWeb.NodeView, "node_title.html", Map.merge(%{conn: @conn}, Map.new([node: node]))) %>
+      <%= render(VegaWeb.NodeView, "byline.html", Map.merge(%{conn: @conn}, Map.new([node: node]))) %>
+      <div class="prose prose-lg max-w-none mb-4 line-clamp-6">
+        <%= raw(node.body_html) %>
+      </div>
+      <%= link to: VegaWeb.PageView.node_path(node), class: "text-indigo-600 font-medium hover:text-indigo-800" do %>
+        Read more →
+      <% end %>
+    </article>
+  <% end %>
+</div>
+
+<div class="mt-16 border-t border-slate-100 pt-8">
+  <%= render(VegaWeb.PaginationView, "pagination.html", Map.merge(%{conn: @conn}, Map.new([has_prev: @has_prev, has_next: @has_next, prev_page: @prev_page, next_page: @next_page, page: @page]))) %>
+</div>

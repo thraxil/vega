@@ -1,0 +1,8 @@
+<%= if length(@node.tags) > 0 do %>
+  <div class="mt-8 flex flex-wrap gap-2 items-center">
+    <span class="text-sm text-slate-500 mr-2">Tags:</span>
+    <%= for tag <- @node.tags do %>
+      <%= link(tag.name, to: Routes.page_path(VegaWeb.Endpoint, :tag_detail, tag.slug), class: "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors") %>
+    <% end %>
+  </div>
+<% end %>

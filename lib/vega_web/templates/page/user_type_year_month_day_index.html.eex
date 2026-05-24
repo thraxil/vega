@@ -1,0 +1,14 @@
+<nav aria-label="Breadcrumb" class="mb-8">
+  <ol role="list" class="flex items-center space-x-2 text-sm text-slate-500">
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb.html", Map.merge(%{conn: @conn}, Map.new([user: @user, type: @type, year: @year, month: @month]))) %>
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb_tail.html", %{title: @day}) %>
+  </ol>
+</nav>
+
+<article class="mb-16 md:mb-24">
+  <ul>
+    <%= for node <- @nodes do %>
+      <li><%= render(VegaWeb.NodeView, "node_link.html", Map.merge(%{conn: @conn}, Map.new([node: node]))) %> <%= render(VegaWeb.NodeView, "inline_byline.html", Map.merge(%{conn: @conn}, Map.new([node: node]))) %></li>
+    <% end %>
+  </ul>
+</article>

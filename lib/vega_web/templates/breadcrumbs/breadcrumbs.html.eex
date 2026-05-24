@@ -1,0 +1,5 @@
+<nav aria-label="Breadcrumb" class="mb-8">
+  <ol role="list" class="flex items-center space-x-2 text-sm text-slate-500">
+    <%= @inner_block %>
+  </ol>
+</nav>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= assigns[:page_title] || "Thraxil" %></title>
+    <link phx-track-static rel="stylesheet" href=<%= Routes.static_path(@conn, "/assets/app.css") %> />
+    <link
+      href=<%= Routes.rss_url(@conn, :index) %>
+      type="application/atom+xml"
+      rel="alternate"
+      title="Atom feed for thraxil.org"
+    />
+    <script
+      defer
+      phx-track-static
+      type="text/javascript"
+      src=<%= Routes.static_path(@conn, "/assets/app.js") %>
+    >
+    </script>
+    <script
+      async
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    >
+    </script>
+  </head>
+  <body class="bg-white text-slate-900 antialiased font-sans min-h-screen flex flex-col">
+    <header class="w-full border-b border-slate-200 bg-cover bg-center bg-no-repeat bg-[url('/images/banner.jpg')]">
+      <div class="w-full h-full bg-white/60 backdrop-blur-[2px]">
+        <nav class="max-w-3xl mx-auto flex items-center justify-between py-6 px-4 sm:px-6 lg:px-8">
+          <div>
+            <%= link("thraxil.org",
+              to: Routes.page_path(@conn, :index),
+              class:
+                "text-2xl font-black text-slate-900 tracking-tight hover:text-indigo-600 transition-colors drop-shadow-sm"
+            ) %>
+          </div>
+
+          <div class="flex items-center gap-x-6 text-sm font-medium text-slate-800">
+            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+              <%= link("LiveDashboard",
+                to: Routes.live_dashboard_path(@conn, :home),
+                class: "hover:text-indigo-600 transition-colors"
+              ) %>
+            <% end %>
+            <div class="flex items-center gap-x-4">
+              <%= render(VegaWeb.SearchView, "search.html", assigns) %>
+              <%= render("_user_menu.html", assigns) %>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <div class="flex-grow">
+      <%= @inner_content %>
+    </div>
+  </body>
+</html>

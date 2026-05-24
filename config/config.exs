@@ -14,8 +14,7 @@ config :vega,
 config :vega, VegaWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: VegaWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Vega.PubSub,
-  live_view: [signing_salt: "ZwRvvJQa"]
+  pubsub_server: Vega.PubSub
 
 # Configures the mailer
 #

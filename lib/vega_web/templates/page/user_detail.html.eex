@@ -1,0 +1,25 @@
+<nav aria-label="Breadcrumb" class="mb-8">
+  <ol role="list" class="flex items-center space-x-2 text-sm text-slate-500">
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb_users.html", assigns) %>
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb_tail.html", %{title: @user.username}) %>
+  </ol>
+</nav>
+
+<p>
+  <%= link("posts", to: Routes.page_path(@conn, :user_type_index, @user.username, "posts")) %> | <%= link(
+    "images",
+    to: Routes.page_path(@conn, :user_type_index, @user.username, "images")
+  ) %> | <%= link("bookmarks",
+    to: Routes.page_path(@conn, :user_type_index, @user.username, "bookmarks")
+  ) %>
+</p>
+
+<%= for node <- @nodes do %>
+  <article class="mb-16 md:mb-24">
+    <%= render(VegaWeb.NodeView, "node_title.html", Map.merge(%{conn: @conn}, Map.new([node: node]))) %>
+    <%= render(VegaWeb.NodeView, "byline.html", Map.merge(%{conn: @conn}, Map.new([node: node]))) %>
+    <%= raw(node.body_html) %>
+  </article>
+<% end %>
+
+<%= render(VegaWeb.PaginationView, "pagination.html", Map.merge(%{conn: @conn}, Map.new([user: @user, has_prev: @has_prev, has_next: @has_next, prev_page: @prev_page, next_page: @next_page, page: @page]))) %>

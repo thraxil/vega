@@ -1,0 +1,15 @@
+<nav aria-label="Breadcrumb" class="mb-8">
+  <ol role="list" class="flex items-center space-x-2 text-sm text-slate-500">
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb_root.html", assigns) %>
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb_link.html", %{title: "tags", to: Routes.page_path(@conn, :tag_index)}) %>
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb_tail.html", %{title: @tag.name}) %>
+  </ol>
+</nav>
+
+<div class="prose text-slate-900">
+  <ul>
+    <%= for node <- @tag.nodes do %>
+      <li><%= render(VegaWeb.NodeView, "node_link.html", Map.merge(%{conn: @conn}, Map.new([node: node]))) %> <%= render(VegaWeb.NodeView, "inline_byline.html", Map.merge(%{conn: @conn}, Map.new([node: node]))) %></li>
+    <% end %>
+  </ul>
+</div>

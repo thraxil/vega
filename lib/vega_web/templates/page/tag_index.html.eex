@@ -1,0 +1,15 @@
+<nav aria-label="Breadcrumb" class="mb-8">
+  <ol role="list" class="flex items-center space-x-2 text-sm text-slate-500">
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb_root.html", assigns) %>
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb_tail.html", %{title: "tags"}) %>
+  </ol>
+</nav>
+
+<div class="prose">
+  <%= for tag <- @tags do %>
+    <%= link(tag.name,
+      to: Routes.page_path(@conn, :tag_detail, tag.slug),
+      class: "badge"
+    ) %>
+  <% end %>
+</div>

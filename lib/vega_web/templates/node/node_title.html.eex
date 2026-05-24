@@ -1,0 +1,3 @@
+<h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 mb-2 mt-12 first:mt-0">
+  <%= link(@node.title, to: VegaWeb.PageView.node_path(@node), class: "hover:text-indigo-600 transition-colors") %>
+</h2>

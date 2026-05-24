@@ -6,7 +6,8 @@ defmodule VegaWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_live_flash
+    plug :fetch_flash
+
     plug :put_root_layout, {VegaWeb.LayoutView, :root}
     plug VegaWeb.Plugs.CachePlug
     plug :protect_from_forgery
@@ -66,12 +67,8 @@ defmodule VegaWeb.Router do
   # you can use Plug.BasicAuth to set up some basic authentication
   # as long as you are also using SSL (which you should anyway).
   if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
-
     scope "/" do
       pipe_through :browser
-
-      live_dashboard "/dashboard", metrics: VegaWeb.Telemetry
     end
   end
 

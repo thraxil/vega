@@ -13,8 +13,6 @@ defmodule VegaWeb.Endpoint do
     signing_salt: "AXsB9b9S"
   ]
 
-  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
-
   plug PromEx.Plug, prom_ex_module: Vega.PromEx
 
   # Serve at "/" the static files from "priv/static" directory.
@@ -35,10 +33,6 @@ defmodule VegaWeb.Endpoint do
     plug Phoenix.CodeReloader
     plug Phoenix.Ecto.CheckRepoStatus, otp_app: :vega
   end
-
-  plug Phoenix.LiveDashboard.RequestLogger,
-    param_key: "request_logger",
-    cookie_key: "request_logger"
 
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]

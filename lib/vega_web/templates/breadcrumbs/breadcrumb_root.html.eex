@@ -1,0 +1,3 @@
+<li>
+  <%= link("thraxil.org", to: Routes.page_path(VegaWeb.Endpoint, :index), class: "hover:text-slate-900 transition-colors") %>
+</li>

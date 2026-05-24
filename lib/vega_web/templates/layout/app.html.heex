@@ -1,9 +1,0 @@
-<main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 md:pt-10 md:pb-16">
-  <%= if Phoenix.Flash.get(@flash, :info) || Phoenix.Flash.get(@flash, :error) do %>
-    <div class="mb-8">
-      <p class="alert alert-info" role="alert">{Phoenix.Flash.get(@flash, :info)}</p>
-      <p class="alert alert-danger" role="alert">{Phoenix.Flash.get(@flash, :error)}</p>
-    </div>
-  <% end %>
-  {@inner_content}
-</main>

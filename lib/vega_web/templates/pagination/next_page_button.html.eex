@@ -1,0 +1,11 @@
+<%= if @has_next do %>
+  <%= if Map.has_key?(assigns, :user) do %>
+    <%= link("Next →", to: Routes.page_path(VegaWeb.Endpoint, :user_detail, @user.username, page: @next_page), class: "inline-flex items-center px-4 py-2 border border-slate-300 shadow-sm text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500") %>
+  <% else %>
+    <%= link("Next →", to: Routes.page_path(VegaWeb.Endpoint, :index, page: @next_page), class: "inline-flex items-center px-4 py-2 border border-slate-300 shadow-sm text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500") %>
+  <% end %>
+<% else %>
+  <span class="inline-flex items-center px-4 py-2 border border-slate-200 text-sm font-medium rounded-md text-slate-400 bg-slate-50 cursor-not-allowed">
+    Next &rarr;
+  </span>
+<% end %>

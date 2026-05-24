@@ -1,0 +1,27 @@
+<nav aria-label="Breadcrumb" class="mb-8">
+  <ol role="list" class="flex items-center space-x-2 text-sm text-slate-500">
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb.html", Map.merge(%{conn: @conn}, Map.new([user: @user, type: @type]))) %>
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb_tail.html", %{title: @year}) %>
+  </ol>
+</nav>
+
+<div class="prose text-slate-900">
+  <ul>
+    <%= for m <- @months do %>
+      <li>
+        <%= link(trunc(m.month),
+          to:
+            Routes.page_path(
+              @conn,
+              :user_type_year_month_index,
+              @user.username,
+              @type <> "s",
+              @year,
+              trunc(m.month)
+            ),
+          class: "text-slate-900"
+        ) %> (<%= m.count %>)
+      </li>
+    <% end %>
+  </ul>
+</div>

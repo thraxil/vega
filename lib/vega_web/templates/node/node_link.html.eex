@@ -1,0 +1,1 @@
+<%= link(@node.title, to: VegaWeb.PageView.node_path(@node), class: "text-slate-900") %>

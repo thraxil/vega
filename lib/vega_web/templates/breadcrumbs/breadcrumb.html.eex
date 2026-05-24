@@ -1,0 +1,37 @@
+<%= if Map.has_key?(assigns, :day) do %>
+  <%= render("breadcrumb.html", Map.delete(assigns, :day)) %>
+  <li class="flex items-center">
+    <svg class="h-4 w-4 text-slate-300 mx-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" /></svg>
+    <%= link(String.pad_leading(to_string(@day), 2, "0"), to: Routes.page_path(VegaWeb.Endpoint, :user_type_year_month_day_index, @user.username, @type <> "s", @year, @month, @day), class: "hover:text-slate-900 transition-colors") %>
+  </li>
+<% else %>
+  <%= if Map.has_key?(assigns, :month) do %>
+    <%= render("breadcrumb.html", Map.delete(assigns, :month)) %>
+    <li class="flex items-center">
+      <svg class="h-4 w-4 text-slate-300 mx-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" /></svg>
+      <%= link(String.pad_leading(to_string(@month), 2, "0"), to: Routes.page_path(VegaWeb.Endpoint, :user_type_year_month_index, @user.username, @type <> "s", @year, @month), class: "hover:text-slate-900 transition-colors") %>
+    </li>
+  <% else %>
+    <%= if Map.has_key?(assigns, :year) do %>
+      <%= render("breadcrumb.html", Map.delete(assigns, :year)) %>
+      <li class="flex items-center">
+        <svg class="h-4 w-4 text-slate-300 mx-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" /></svg>
+        <%= link(@year, to: Routes.page_path(VegaWeb.Endpoint, :user_type_year_index, @user.username, @type <> "s", @year), class: "hover:text-slate-900 transition-colors") %>
+      </li>
+    <% else %>
+      <%= if Map.has_key?(assigns, :type) do %>
+        <%= render("breadcrumb.html", Map.delete(assigns, :type)) %>
+        <li class="flex items-center">
+          <svg class="h-4 w-4 text-slate-300 mx-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" /></svg>
+          <%= link(@type <> "s", to: Routes.page_path(VegaWeb.Endpoint, :user_type_index, @user.username, @type <> "s"), class: "hover:text-slate-900 transition-colors") %>
+        </li>
+      <% else %>
+        <%= render("breadcrumb_users.html", assigns) %>
+        <li class="flex items-center">
+          <svg class="h-4 w-4 text-slate-300 mx-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" /></svg>
+          <%= link(@user.username, to: Routes.page_path(VegaWeb.Endpoint, :user_detail, @user.username), class: "hover:text-slate-900 transition-colors") %>
+        </li>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,17 @@
+<nav class="flex items-center justify-between">
+  <div class="flex-1 flex justify-between sm:hidden">
+    <%= render("prev_page_button.html", assigns) %>
+    <%= render("next_page_button.html", assigns) %>
+  </div>
+  <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+    <div>
+      <p class="text-sm text-slate-700">
+        Page <span class="font-medium"><%= @page %></span>
+      </p>
+    </div>
+    <div class="flex gap-2">
+      <%= render("prev_page_button.html", assigns) %>
+      <%= render("next_page_button.html", assigns) %>
+    </div>
+  </div>
+</nav>

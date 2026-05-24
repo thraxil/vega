@@ -1,0 +1,16 @@
+<nav aria-label="Breadcrumb" class="mb-8">
+  <ol role="list" class="flex items-center space-x-2 text-sm text-slate-500">
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb_root.html", assigns) %>
+  <%= render(VegaWeb.BreadcrumbsView, "breadcrumb_tail.html", %{title: "users"}) %>
+  </ol>
+</nav>
+
+<div class="prose">
+  <ul>
+    <%= for user <- @users do %>
+      <li>
+        <%= link(user.fullname, to: Routes.page_path(@conn, :user_detail, user.username)) %>
+      </li>
+    <% end %>
+  </ul>
+</div>
