@@ -2,18 +2,30 @@
   <.breadcrumb_root></.breadcrumb_root>
 </.breadcrumbs>
 
-<%= for node <- @nodes do %>
-  <.article>
-    <.node_title node={node}></.node_title>
-    <.byline node={node}></.byline>
-    {raw(node.body_html)}
-  </.article>
-<% end %>
+<div class="mt-8">
+  <%= for node <- @nodes do %>
+    <.article>
+      <.node_title node={node}></.node_title>
+      <.byline node={node}></.byline>
+      <div class="prose prose-lg max-w-none mb-4 line-clamp-6">
+        {raw(node.body_html)}
+      </div>
+      <.link
+        navigate={VegaWeb.PageView.node_path(node)}
+        class="text-indigo-600 font-medium hover:text-indigo-800"
+      >
+        Read more →
+      </.link>
+    </.article>
+  <% end %>
+</div>
 
-<.pagination
-  has_prev={@has_prev}
-  has_next={@has_next}
-  prev_page={@prev_page}
-  next_page={@next_page}
-  page={@page}
-/>
+<div class="mt-16 border-t border-slate-100 pt-8">
+  <.pagination
+    has_prev={@has_prev}
+    has_next={@has_next}
+    prev_page={@prev_page}
+    next_page={@next_page}
+    page={@page}
+  />
+</div>

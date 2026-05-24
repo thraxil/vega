@@ -10,7 +10,35 @@ module.exports = {
     '../lib/*_web/**/*.*ex'
   ],
   theme: {
-    extend: {},
+    extend: {
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            color: theme('colors.slate.900'),
+            a: {
+              color: theme('colors.indigo.600'),
+              '&:hover': {
+                color: theme('colors.indigo.800'),
+              },
+            },
+            h1: { color: theme('colors.slate.900') },
+            h2: { color: theme('colors.slate.900') },
+            h3: { color: theme('colors.slate.900') },
+            h4: { color: theme('colors.slate.900') },
+            strong: { color: theme('colors.slate.900') },
+            blockquote: { 
+              color: theme('colors.slate.900'),
+              borderLeftColor: theme('colors.slate.300')
+            },
+            code: { color: theme('colors.slate.900') },
+            pre: {
+              color: theme('colors.slate.100'),
+              backgroundColor: theme('colors.slate.800'),
+            },
+          },
+        },
+      }),
+    },
   },
     plugins: [
         require('@tailwindcss/forms'),
