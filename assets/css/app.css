@@ -2,6 +2,18 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@layer base {
+  body {
+    @apply font-sans;
+  }
+  h1, h2 {
+    @apply font-serif;
+  }
+  h3, h4, h5, h6 {
+    @apply font-sans;
+  }
+}
+
 /* This file is for your main application CSS */
 
 /* Alerts and form errors used by phx.new */

@@ -11,20 +11,26 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+        serif: ['"Palatino Linotype"', 'Palatino', 'Garamond', 'Georgia', 'serif'],
+        headline: ['Cambria', '"Hoefler Text"', 'Times', '"Times New Roman"', 'serif'],
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
             color: theme('colors.slate.900'),
+            fontFamily: theme('fontFamily.sans').join(', '),
             a: {
               color: theme('colors.indigo.600'),
               '&:hover': {
                 color: theme('colors.indigo.800'),
               },
             },
-            h1: { color: theme('colors.slate.900') },
-            h2: { color: theme('colors.slate.900') },
-            h3: { color: theme('colors.slate.900') },
-            h4: { color: theme('colors.slate.900') },
+            h1: { color: theme('colors.slate.900'), fontFamily: theme('fontFamily.serif').join(', ') },
+            h2: { color: theme('colors.slate.900'), fontFamily: theme('fontFamily.serif').join(', ') },
+            h3: { color: theme('colors.slate.900'), fontFamily: theme('fontFamily.sans').join(', ') },
+            h4: { color: theme('colors.slate.900'), fontFamily: theme('fontFamily.sans').join(', ') },
             strong: { color: theme('colors.slate.900') },
             blockquote: { 
               color: theme('colors.slate.900'),
