@@ -55,7 +55,7 @@ defmodule Vega.MixProject do
       {:earmark, "~> 1.4.36"},
       {:atomex, "0.5.1"},
       {:tailwind, "~> 0.4.0", runtime: Mix.env() == :dev},
-      {:sentry, "~> 13.0.0"},
+      {:sentry, "~> 13.1.0"},
       {:hackney, "~> 1.8"},
       {:certifi, "~> 2.8"},
       {:tls_certificate_check, ">= 1.17.4"},
