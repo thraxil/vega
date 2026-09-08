@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         elixir: ['1.19.0']
-        otp: ['27.2.1']
+        otp: ['27.3.4.16']
     steps:
       - name: Checkout Github repo
         uses: actions/checkout@v6
@@ -46,7 +46,7 @@ jobs:
     strategy:
       matrix:
         elixir: ['1.19.0']
-        otp: ['27.2.1']
+        otp: ['27.3.4.16']
     services:
       db:
         image: postgres:latest
